@@ -518,10 +518,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#what-it-solves" class="md-nav__link">
+  <a href="#lead-engine" class="md-nav__link">
     <span class="md-ellipsis">
       
-        What it solves
+        Lead Engine
       
     </span>
   </a>
@@ -529,10 +529,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#value-proposition" class="md-nav__link">
+  <a href="#call-tracker" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Value proposition
+        Call Tracker
       
     </span>
   </a>
@@ -540,21 +540,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#who-its-built-for" class="md-nav__link">
+  <a href="#pre-underwriting-gate-check" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Who it's built for
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#out-of-scope" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Out of scope
+        Pre-Underwriting / Gate Check
       
     </span>
   </a>
@@ -881,85 +870,46 @@
 
 
 <h1 id="product-overview">Product Overview<a class="headerlink" href="#product-overview" title="Permanent link">&para;</a></h1>
-<h2 id="what-it-solves">What it solves<a class="headerlink" href="#what-it-solves" title="Permanent link">&para;</a></h2>
-<p>Commission Express franchise owners need a steady inflow of two kinds
-of work:</p>
-<ol>
-<li><strong>Outbound leads</strong> — real-estate agents whose listings just went
-   <em>Active Under Contract</em> are the textbook commission-advance
-   prospect. They have a deal in flight; they're waiting on a
-   60–90-day settlement; cashflow is the leverage. The hard part is
-   finding them before they go to someone else, with current
-   information, and reaching out fast.</li>
-<li><strong>Inbound applications</strong> — agents who do submit an advance
-   request arrive via a Gravity Forms application that produces a
-   long, multi-page email. Reviewing that by hand — pulling out the
-   numbers, opening every attached PDF, deciding whether the deal
-   is fundable — takes 20-40 minutes per file. Most of that work
-   is mechanical.</li>
-</ol>
-<p>CE FranchiseOwner attacks both ends. The <strong>Lead Engine</strong> finds and
-emails the outbound side; the <strong>Pre-Underwriting</strong> module
-processes the inbound applications and produces a score the
-franchise owner can act on in under a minute per file.</p>
-<h2 id="value-proposition">Value proposition<a class="headerlink" href="#value-proposition" title="Permanent link">&para;</a></h2>
-<table>
-<thead>
-<tr>
-<th>Without CE FranchiseOwner</th>
-<th>With CE FranchiseOwner</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Manual PropStream pulls, county by county, weekly</td>
-<td>Saved searches loop automatically; results land in one screen</td>
-</tr>
-<tr>
-<td>Agent name vs. MLS name reconciled by eye</td>
-<td>Fuzzy match + a human verification queue with a Golden Record workflow</td>
-</tr>
-<tr>
-<td>Email blasts from a generic SMTP tool, no per-agent context</td>
-<td>Personalised drip with the agent's actual listings inserted into the body</td>
-</tr>
-<tr>
-<td>Inbox manually scanned for "stop", "unsubscribe"</td>
-<td>IMAP poller checks twice a day and suppresses automatically</td>
-</tr>
-<tr>
-<td>Application emails reviewed by hand, PDFs opened one at a time</td>
-<td>Email parsed into encrypted fields; PDFs classified and scanned by LLM; 12-question gate check returns a verdict</td>
-</tr>
-<tr>
-<td>No record of which DB you sent from, or when</td>
-<td>Every send and every app start logged with environment + DB name</td>
-</tr>
-<tr>
-<td>Backups by hand, when remembered</td>
-<td>Auto-backup on every production startup, plus manual button</td>
-</tr>
-</tbody>
-</table>
-<h2 id="who-its-built-for">Who it's built for<a class="headerlink" href="#who-its-built-for" title="Permanent link">&para;</a></h2>
-<ul>
-<li><strong>A franchise owner running CE in South Carolina.</strong> Familiar with
-  Excel, less so with Python or databases. Wants buttons, not
-  command lines.</li>
-<li><strong>A small ops team</strong> (1-3 people) who share one prod machine.</li>
-<li><strong>An engineer maintaining the system part-time</strong> — code is
-  organised so business logic is separable from the tkinter GUI so
-  a future Qt or web rewrite doesn't have to touch the DB or email
-  layer.</li>
-</ul>
-<h2 id="out-of-scope">Out of scope<a class="headerlink" href="#out-of-scope" title="Permanent link">&para;</a></h2>
-<ul>
-<li>Multi-tenant SaaS. The app assumes one franchise, one machine.</li>
-<li>Cloud database. Everything runs against an embedded MariaDB on
-  localhost, by design — keeps PII on the franchise owner's hardware.</li>
-<li>Mobile / web app. There is no browser UI; the only web-facing
-  surface is this documentation site.</li>
-</ul>
+<p>CE FranchiseOwner is three tools on one platform: a lead-generation engine for outbound agent outreach, a call tracker for previous-client follow-up, and a pre-underwriting gate check that scores inbound application emails before you spend time on them.</p>
+<h2 id="lead-engine">Lead Engine<a class="headerlink" href="#lead-engine" title="Permanent link">&para;</a></h2>
+<p><strong>Automated targeted outreach to active real estate agents — on your schedule, under your control.</strong></p>
+<p>Every day the app finds real estate agents whose deals just went Active Under Contract in South Carolina. It matches them to licensed agents, then sends a personalised email sequence on your behalf — the right message, to the right agent, at the right time. You decide who gets emails, what they say, how many times they are sent, and how often.</p>
+<details>
+<summary>How it works (technical)</summary>
+
+Scrapes PropStream across all South Carolina counties for Active Under Contract listings, fuzzy-matches listing agents against a master roster of licensed SC real-estate agents, then sends a personalised drip-email sequence through Rackspace SMTP. Every email is logged to a single email_log source of truth.
+
+</details>
+
+<blockquote>
+<p>Targeted marketing giving you full control of where, how, and when to reach agents — no manual work, no missed opportunities.</p>
+</blockquote>
+<h2 id="call-tracker">Call Tracker<a class="headerlink" href="#call-tracker" title="Permanent link">&para;</a></h2>
+<p><strong>A smart call logger that keeps your previous client relationships alive.</strong></p>
+<p>Tracks every call made to previous or inactive clients — who you called, what they said, and when to follow up. The app gives you a daily call list so nothing falls through the cracks. You log outcomes (Interested, Call me back, Left voicemail, Not interested, Do not call, Converted) and set follow-up dates with one click.</p>
+<details>
+<summary>How it works (technical)</summary>
+
+Imports a Previous Clients Excel file, counts deals per agent, fuzzy-matches against the master list, lets you approve or reject each match, then drives a daily call worksheet with outcome tracking and follow-up scheduling.
+
+</details>
+
+<blockquote>
+<p>Targeted call marketing with built-in scripts, tracker, and logger — turning inactive clients into active revenue.</p>
+</blockquote>
+<h2 id="pre-underwriting-gate-check">Pre-Underwriting / Gate Check<a class="headerlink" href="#pre-underwriting-gate-check" title="Permanent link">&para;</a></h2>
+<p><strong>Know if a deal is worth your time before you spend a minute on it.</strong></p>
+<p>Every application email that arrives in your inbox gets automatically scored against 12 key criteria. You get a clear traffic-light verdict — Worth It, Not Worth It, or Cannot Decide — before you open a single document. Stop wasting hours on deals that will never close.</p>
+<details>
+<summary>How it works (technical)</summary>
+
+Reads incoming application emails via IMAP, parses attached PDFs (purchase contract, MLS sheet, pre-qual letter, etc.), and runs a 12-question gate check. Two questions (Q4 open contingencies, Q8 pre-approval / proof of funds) use AI document analysis. Results are encrypted and stored per application.
+
+</details>
+
+<blockquote>
+<p>Fully automated pre-screening that traffic-lights every deal — so you only underwrite the ones worth your time.</p>
+</blockquote>
 
 
 
