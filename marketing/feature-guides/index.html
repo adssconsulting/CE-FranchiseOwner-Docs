@@ -554,6 +554,45 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="Lead Engine">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#what-it-does" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What it does
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#how-to-use-it" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How to use it
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#key-settings" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Key settings
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
         <li class="md-nav__item">
@@ -565,104 +604,94 @@
     </span>
   </a>
   
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#gate-check-pre-underwriting" class="md-nav__link">
+    <nav class="md-nav" aria-label="Call Tracker">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#what-it-does_1" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Gate Check (Pre-Underwriting)
+        What it does
       
     </span>
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
-  <a href="#email-smtp" class="md-nav__link">
+        
+          <li class="md-nav__item">
+  <a href="#how-to-use-it_1" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Email / SMTP
+        How to use it
       
     </span>
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
-  <a href="#templates" class="md-nav__link">
+        
+          <li class="md-nav__item">
+  <a href="#key-settings_1" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Templates
+        Key settings
       
     </span>
   </a>
   
 </li>
+        
+      </ul>
+    </nav>
+  
+</li>
       
         <li class="md-nav__item">
-  <a href="#saved-searches" class="md-nav__link">
+  <a href="#pre-underwriting-gate-check" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Saved Searches
+        Pre-Underwriting / Gate Check
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Pre-Underwriting / Gate Check">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#what-it-does_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What it does
       
     </span>
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
-  <a href="#master-list" class="md-nav__link">
+        
+          <li class="md-nav__item">
+  <a href="#how-to-use-it_2" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Master List
+        How to use it
       
     </span>
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
-  <a href="#send-utility" class="md-nav__link">
+        
+          <li class="md-nav__item">
+  <a href="#key-settings_2" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Send Utility
+        Key settings
       
     </span>
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
-  <a href="#backup-restore" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Backup &amp; Restore
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#db-migrations-dev-only" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        DB Migrations (dev only)
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#docs-engine" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Docs Engine
-      
-    </span>
-  </a>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -958,189 +987,236 @@
 
 
 <h1 id="feature-guides">Feature Guides<a class="headerlink" href="#feature-guides" title="Permanent link">&para;</a></h1>
-<p>Each section below describes one feature: what it does, how to use
-it, and which settings matter. Written for the franchise owner who's
-using the app, not building it.</p>
+<p>This page documents the three products inside CE FranchiseOwner.
+Each section covers what the product does, how to use it day-to-day,
+and which settings matter. Written for the franchise owner using
+the app, not the developer maintaining it.</p>
 <hr />
 <h2 id="lead-engine">Lead Engine<a class="headerlink" href="#lead-engine" title="Permanent link">&para;</a></h2>
-<p><strong>What it does.</strong> Loops through your saved PropStream searches,
-extracts every Active Under Contract listing across the date range
-you pick, matches each listing's agent against your master agent
-list, and queues the matched agents for a personalised email send.</p>
-<p><strong>How to use it.</strong></p>
+<h3 id="what-it-does">What it does<a class="headerlink" href="#what-it-does" title="Permanent link">&para;</a></h3>
+<p>The Lead Engine finds real-estate agents whose listings just went
+Active Under Contract and emails them a personalised drip
+sequence. It runs in four stages:</p>
 <ol>
-<li><strong>Home → Lead Engine</strong> to open the main window.</li>
-<li><strong>Run Daily Job</strong> (sidebar): pick a <em>From</em> date and a <em>To</em> date,
-   or click a preset (Last Week / Last 3 Days / Last 7 Days / This
-   Month). Click <strong>Start Job</strong>. The right panel shows live activity
-   per county as the scrape runs.</li>
-<li><strong>Email Queue</strong> (sidebar): once data is loaded, pick an
-   <strong>AUC bucket</strong> (the agent's number of currently-active listings
-   on the left rail), then a <strong>Days to Close</strong> range, then review
-   the agents that appear. Type in the <strong>Search agent</strong> box on the
-   table to filter by name. Run <strong>Send test email</strong> to a single
-   address before unlocking the <strong>Start Batch</strong> button.</li>
+<li><strong>Scrape</strong> — Selenium drives Chrome against PropStream using
+   your saved searches (one per county). Login is automatic via a
+   persistent Chrome profile, with human-paced typing if the
+   session has expired.</li>
+<li><strong>Load</strong> — scraped rows land in the <code>raw_scrapes</code> table, then
+   are normalised into <code>property_loads</code> with one row per listing.</li>
+<li><strong>Match</strong> — <code>rapidfuzz</code> compares each listing's
+   <code>mls_agent_name</code> against your <code>master_list</code> of licensed SC
+   agents. Auto-matches over 85% confidence are written to
+   <code>agent_match_with_master</code> with <code>match_status='PENDING'</code>.
+   High-confidence matches (100% and 90-99%) can be bulk-approved;
+   the 80-89% band is reviewed through an Excel round-trip
+   (download, mark Y/N, upload).</li>
+<li><strong>Send</strong> — the Email Queue groups verified agents by number of
+   active listings (the AUC bucket) and days to settlement, lets
+   you pick a template and send a test to yourself, and then
+   sends to the whole batch through Rackspace SMTP. Every send
+   writes one row to <code>email_log</code>.</li>
 </ol>
-<p><strong>Key settings.</strong></p>
+<h3 id="how-to-use-it">How to use it<a class="headerlink" href="#how-to-use-it" title="Permanent link">&para;</a></h3>
+<p>From the landing page click <strong>Lead Engine</strong> to open the main
+window with its sidebar.</p>
+<ol>
+<li><strong>Run Daily Job</strong> — pick a <em>From</em> and <em>To</em> date (or use a
+   preset: Last Week / Last 3 Days / Last 7 Days / This Month).
+   Click <strong>Start Job</strong>. The right panel shows live activity per
+   county as the scrape runs.</li>
+<li><strong>Initial Load → Property Data</strong> — one-time import of an
+   exported PropStream CSV per county. The pre-checks phase
+   validates that every required column is present before
+   anything is inserted.</li>
+<li><strong>Initial Load → Agent Matching → Review Matches</strong> — the
+   Excel round-trip: click <strong>Download Review File</strong> to export a
+   3-sheet workbook (100%, 90-99%, 80-89%). The first two are
+   pre-filled with <code>Y</code> (Same); the 80-89% sheet is empty. Type
+   <code>Y</code> or <code>N</code> next to every row, save, and click <strong>Upload &amp;
+   Apply Decisions</strong>. The upload runs two batched UPDATE
+   statements (one for approves, one for rejects) and refreshes
+   the top counter bar.</li>
+<li><strong>Email Queue</strong> — pick an AUC bucket on the left rail, then
+   a Days to Close range, then a template. Use the <strong>Search
+   agent</strong> box to filter by name. Click <strong>Send test email</strong> to
+   your own address. After a successful test, <strong>Start Batch</strong>
+   unlocks.</li>
+<li><strong>Sent History</strong> — chronological view of every send from
+   <code>email_log</code>. Filter by status, by template, or by template
+   version.</li>
+</ol>
+<h3 id="key-settings">Key settings<a class="headerlink" href="#key-settings" title="Permanent link">&para;</a></h3>
+<p>Configured in <strong>Admin</strong>:</p>
 <ul>
-<li><code>app_settings.smtp.*</code> — outgoing email host, port, sender name and
-  email, base-64-encoded password, signature.</li>
-<li><code>saved_searches</code> table — one row per PropStream saved search; loop
-  order controlled by <code>sort_order</code>.</li>
-<li><code>master_list</code> — the SC agent roster used for fuzzy matching.</li>
+<li><strong>Email / SMTP</strong> — sender name, sender email, SMTP host
+  (<code>secure.emailsrvr.com</code>), port (<code>587</code>), username, password,
+  signature. Save is gated on a successful test email.</li>
+<li><strong>Templates</strong> — 10 single-AUC templates plus 10 multi-AUC
+  templates. Each save snapshots a version row in
+  <code>email_template_history</code>.</li>
+<li><strong>Saved Searches</strong> — one row per PropStream saved-search name
+  with a <code>sort_order</code> for the loop.</li>
+<li><strong>Master List</strong> — Excel import of the SC agent master list
+  (with phone). Old rows soft-deleted; new rows get a new
+  <code>load_batch_id</code>.</li>
+<li><strong>Unsubscribe</strong> — view the suppression list and re-add removed
+  agents. The list is populated automatically by the IMAP
+  unsubscribe poller (12:00 and 16:30 local each day).</li>
 </ul>
 <hr />
 <h2 id="call-tracker">Call Tracker<a class="headerlink" href="#call-tracker" title="Permanent link">&para;</a></h2>
-<p><strong>What it does.</strong> Separate top-level screen for the cold-call follow-
-up workflow. Tabs are: <em>Agent Matching for Calling</em>, <em>Review Call
-Matches</em>, <em>Call Log</em>, and <em>Add / Re-add</em>.</p>
+<h3 id="what-it-does_1">What it does<a class="headerlink" href="#what-it-does_1" title="Permanent link">&para;</a></h3>
+<p>Manages the cold-call follow-up workflow for agents you've
+previously contacted but who haven't converted. The Call Tracker
+is a separate top-level window with four tabs.</p>
+<p><strong>Agent Matching for Calling</strong> imports a "Previous Clients"
+Excel file (one row per past deal), counts deals per agent, and
+fuzzy-matches each unique agent against your master list using
+the same rapidfuzz engine the Lead Engine uses. Results are
+staged in <code>cold_call_matches</code> with <code>match_status='PENDING'</code> for
+human review.</p>
+<p><strong>Review Call Matches</strong> is the human-review queue. Pending,
+Approved, and Rejected tabs paginated 50 rows at a time. Per-row
+or bulk Approve and Reject. On approve, the agent's phone (from
+the master list where available, falling back to the phone in
+the imported file) is written to the <code>cold_call_log</code> table —
+either inserting a new row or updating the existing one by
+agent name.</p>
+<p><strong>Call Log</strong> is the daily call worksheet. One row per approved
+agent. Each row tracks:</p>
 <ul>
-<li><strong>Agent Matching for Calling</strong> imports a list of agents-to-call
-  (typically pulled from MLS exports), fuzzy-matches them against
-  the master list, and stages results.</li>
-<li><strong>Review Call Matches</strong> lets the owner approve or reject each
-  staged match. Approved agents land in the call list.</li>
-<li><strong>Call Log</strong> is the daily call worksheet — name, phone, status
-  (Not called / Called / Voicemail / Bad number / Not interested /
-  Interested / Closed), notes, follow-up date.</li>
-<li><strong>Add / Re-add</strong> brings parked (rejected) agents back into the
-  call list when one of them reaches out unprompted. Requires a
-  short reason for the audit trail.</li>
+<li><code>call_status</code> — Not called by default; flips to Called once
+  the franchise owner clicks the row's call button.</li>
+<li><code>outcome</code> — picked from a dropdown: Interested, Converted,
+  Call me back, Left voicemail, Not interested, Do not call.
+  Each outcome paints the row a different soft colour so the
+  call list reads at a glance.</li>
+<li><code>notes</code> — free-form text.</li>
+<li><code>followup_date</code> — sets a callback date; overdue follow-ups
+  are highlighted.</li>
 </ul>
-<p><strong>Key settings.</strong> None. Driven entirely by the staged data.</p>
-<hr />
-<h2 id="gate-check-pre-underwriting">Gate Check (Pre-Underwriting)<a class="headerlink" href="#gate-check-pre-underwriting" title="Permanent link">&para;</a></h2>
-<p><strong>What it does.</strong> Reads completed CE application emails out of a
-dedicated IMAP mailbox, parses the HTML body into structured DB
-fields, encrypts every PII column, classifies and scans each
-attached PDF, and runs the 12-question gate check to produce a
-verdict.</p>
-<p><strong>12 questions, knockout-style.</strong> Q1 (deal history), Q3
-(under-contract status), Q4 (open contingencies on the purchase
-contract), Q5 (bankruptcy), Q6 (UCC-1), Q7 (down-payment ratio),
-Q8 (pre-approval / proof of funds), Q9 (deal type), Q10–12
-(pipeline, listings, income). Any score ≤ –50 is a <em>knockout</em> — the
-application is auto-flagged "Reject — knockout."</p>
-<p><strong>How to use it.</strong></p>
+<p><strong>Add / Re-add</strong> lists agents whose match was Rejected
+(parked) so you can put them back into the call list when one
+of them reaches out unprompted. Clicking <em>Re-add</em> prompts for
+a short reason (audit trail) via a one-field dialog with
+default text "Agent reached out", then flips the
+<code>match_status</code> back to <code>APPROVED</code>, stamps <code>readded_by</code>,
+<code>readded_at</code>, and <code>readded_reason</code>, and re-inserts the agent
+into <code>cold_call_log</code>.</p>
+<h3 id="how-to-use-it_1">How to use it<a class="headerlink" href="#how-to-use-it_1" title="Permanent link">&para;</a></h3>
+<p>From the landing page click <strong>Call Tracker</strong> to open its
+window.</p>
 <ol>
-<li>Open <strong>Pre-Underwriting</strong> from the main window.</li>
-<li><strong>New Applications</strong> tab — Step 1 pulls fresh emails from the
-   inbox and inserts parsed rows. Step 2 runs the LLM scans (Q4 and
-   Q8) against the application's PDFs.</li>
-<li>Inline 4-column grid shows Q1–Q12 scores plus the verdict. Click
-   any row to expand and override individual answers.</li>
-<li><strong>Reviewed</strong> tab shows all applications where a verdict has been
-   saved.</li>
+<li><strong>Agent Matching for Calling</strong> — click <strong>Import Previous
+   Clients Excel</strong> and pick the <code>.xlsx</code>. The matcher runs
+   and you'll see counts of new pending matches.</li>
+<li><strong>Review Call Matches</strong> — open the Pending tab. For each
+   match either click the green check (Approve) or the red X
+   (Reject). Or use the bulk <strong>Approve All Selected</strong> /
+   <strong>Reject All Selected</strong> buttons after ticking the
+   checkboxes.</li>
+<li><strong>Call Log</strong> — work the list top to bottom. Pick up the
+   phone for each agent, change the outcome dropdown to the
+   appropriate value, type notes, set a follow-up date if
+   needed.</li>
+<li><strong>Add / Re-add</strong> — review the parked list periodically.
+   When an agent calls you, find them here and click <strong>Re-add
+   →</strong>, type a reason (or accept the default "Agent reached
+   out"), confirm. They drop straight back into the Call Log
+   with <code>call_status='Not called'</code>.</li>
 </ol>
-<p><strong>Key settings.</strong></p>
+<h3 id="key-settings_1">Key settings<a class="headerlink" href="#key-settings_1" title="Permanent link">&para;</a></h3>
+<p>The Call Tracker has no Admin-tab settings of its own. Its
+data sources are:</p>
 <ul>
-<li><code>app_settings.imap.*</code> — application-email mailbox credentials.</li>
-<li><code>app_settings.anthropic_api_key</code> — Claude API key. If missing,
-  Q4 and Q8 return <code>NO_API_KEY</code> without making a network call.</li>
-<li><code>pii_encryption_key</code> — Fernet key, auto-generated on first run.</li>
+<li><strong><code>master_list</code></strong> — populated through Admin → Master List.
+  Drives the fuzzy match and supplies the phone number used
+  on approval.</li>
+<li><strong><code>cold_call_matches</code></strong> — staged matches awaiting review.
+  Approve/Reject/Re-add audit columns
+  (<code>reviewed_by</code>, <code>reviewed_at</code>, <code>readded_by</code>, <code>readded_at</code>,
+  <code>readded_reason</code>) are kept indefinitely.</li>
+<li><strong><code>cold_call_log</code></strong> — the active call list. Unique key on
+  <code>agent_name</code>; duplicate imports update in place rather than
+  creating new rows.</li>
 </ul>
 <hr />
-<h2 id="email-smtp">Email / SMTP<a class="headerlink" href="#email-smtp" title="Permanent link">&para;</a></h2>
-<p><strong>What it does.</strong> Centralised configuration for outgoing email.
-Validates connectivity by sending a real test email before the save
-button unlocks.</p>
-<p><strong>How to use it.</strong> Admin → Email / SMTP. Enter sender name, sender
-address, host (<code>secure.emailsrvr.com</code>), port (<code>587</code>), username,
-password, delay between sends, signature. Click <strong>Send test email</strong>.
-After a successful test the <strong>Save</strong> button enables.</p>
-<p><strong>Key settings.</strong> All <code>app_settings.smtp.*</code> keys. Password is
-base64-encoded at rest.</p>
-<hr />
-<h2 id="templates">Templates<a class="headerlink" href="#templates" title="Permanent link">&para;</a></h2>
-<p><strong>What it does.</strong> 10 single-AUC drip templates plus 10 multi-AUC
-templates (used when an agent has 2+ active listings). Each template
-has a subject, a per-step opening line, and a shared body. Versions
-are tracked: every save snapshots a row in <code>email_template_history</code>.</p>
-<p><strong>How to use it.</strong> Admin → Templates. Pick the template number, edit
-subject/opening/body, click <strong>Save</strong>. The version increments
-automatically.</p>
-<p><strong>Key tags inside templates.</strong></p>
+<h2 id="pre-underwriting-gate-check">Pre-Underwriting / Gate Check<a class="headerlink" href="#pre-underwriting-gate-check" title="Permanent link">&para;</a></h2>
+<h3 id="what-it-does_2">What it does<a class="headerlink" href="#what-it-does_2" title="Permanent link">&para;</a></h3>
+<p>Reads completed Commission Express application emails from a
+dedicated IMAP mailbox, parses each one into encrypted
+database rows, classifies and scans the attached PDFs, and
+runs every application through a 12-question gate check that
+returns a fundability verdict.</p>
+<p><strong>Email parsing.</strong> The application form (built on Gravity
+Forms) emits a long HTML email when an agent submits. The
+parser in <code>core/email_parser.py</code> walks the email body
+section-by-section (Agent Information, Company Information,
+Property Contract Identification, Settlement / Title or
+Escrow Company Information, Lender Information, Contract
+Information, Receivable, Other Agent Information, PDF Files)
+and maps each labelled field to a column in
+<code>ce_application_dim</code>. Every PII column (SSN, home address,
+bank routing/account, driver's licence, contact numbers) is
+Fernet-encrypted before insertion using the key in
+<code>app_settings.pii_encryption_key</code>.</p>
+<p><strong>PDF classification.</strong> Each <code>gf-download</code> URL inside the
+application email is parsed by <code>core/pdf_extractor.py</code> and
+classified as one of: <code>mls</code>, <code>purchase</code>, <code>prequal</code>,
+<code>compensation</code>, <code>license</code>, <code>misc</code>, or <code>unknown</code>. License PDFs
+are never downloaded.</p>
+<p><strong>LLM scans.</strong> Two questions use the Anthropic API
+(<code>claude-haiku-4-5</code> with the PDFs beta header) against the
+attached document:</p>
 <ul>
-<li><code>[FirstName]</code>, <code>[AgentName]</code>, <code>[Office]</code></li>
-<li><code>[PropertyAddress]</code> (single-AUC only)</li>
-<li><code>[PropertyTable]</code> (multi-AUC only — replaced with an HTML table of
-  the agent's open listings at send time)</li>
-<li><code>[DaysToClose]</code>, <code>[AvgDaysToClose]</code>, <code>[SenderName]</code></li>
+<li><strong>Q4</strong> — open contingencies in the purchase contract</li>
+<li><strong>Q8</strong> — pre-approval / proof of funds</li>
 </ul>
-<hr />
-<h2 id="saved-searches">Saved Searches<a class="headerlink" href="#saved-searches" title="Permanent link">&para;</a></h2>
-<p><strong>What it does.</strong> One row per PropStream saved-search name, in the
-order you want them looped.</p>
-<p><strong>How to use it.</strong> Admin → Saved Searches. Add a search name (must
-match the saved-search name inside PropStream exactly). Set the
-sort order. The Daily Job loops through them in that order.</p>
-<hr />
-<h2 id="master-list">Master List<a class="headerlink" href="#master-list" title="Permanent link">&para;</a></h2>
-<p><strong>What it does.</strong> Import the SC real-estate agent master list from
-an Excel file. Old rows are soft-deleted (<code>curr_rec_ind='N'</code>); new
-rows get a fresh <code>load_batch_id</code>. Phone numbers are imported so the
-cold-call workflow can use them after approval.</p>
-<p><strong>How to use it.</strong> Admin → Master List. Click <em>Import</em>, pick the
-<code>.xlsx</code>, review the row count, confirm. The previous import stays
-in DB history but is no longer "current."</p>
-<hr />
-<h2 id="send-utility">Send Utility<a class="headerlink" href="#send-utility" title="Permanent link">&para;</a></h2>
-<p><strong>What it does.</strong> Re-send any past email from <code>email_log</code> to an
-override address (your own). Used for verifying a template still
-renders correctly without polluting Sent History.</p>
-<p><strong>How to use it.</strong> Admin → Send Utility. Pick an agent from the
-dropdown (sourced from past sends), enter your test email, click
-<strong>Send Preview</strong>. Subject is prefixed with <code>[PREVIEW]</code> and the row
-is <em>not</em> written to <code>email_log</code>.</p>
-<hr />
-<h2 id="backup-restore">Backup &amp; Restore<a class="headerlink" href="#backup-restore" title="Permanent link">&para;</a></h2>
-<p><strong>What it does.</strong> One-click <code>mysqldump</code> of the entire DB into a
-timestamped <code>.zip</code> under
-<code>Documents\CommissionExpress\Backups\</code>. Auto-runs on production
-startup if no backup has been taken in the last 24 hours. Keeps
-the 30 most recent backups; older ones are pruned automatically.</p>
-<p><strong>How to use it.</strong></p>
-<ul>
-<li><strong>Backup folder</strong> — change with the <em>Browse</em> button. Saved to
-  <code>app_settings.backup_directory</code>.</li>
-<li><strong>Run Backup Now</strong> — manual button, runs in a background thread.</li>
-<li><strong>Backup history</strong> — table of every existing backup with size and
-  date; per-row <em>Restore</em> and <em>Delete</em> buttons. Restore replaces
-  the running database and auto-restarts the app via <code>os.execv</code>.</li>
-</ul>
-<hr />
-<h2 id="db-migrations-dev-only">DB Migrations <em>(dev only)</em><a class="headerlink" href="#db-migrations-dev-only" title="Permanent link">&para;</a></h2>
-<p><strong>What it does.</strong> Compares the live schema of the development
-database against production, generates the <code>ALTER TABLE</code> /
-<code>CREATE TABLE</code> statements needed to bring prod up to date, and
-applies them on confirmation.</p>
-<p><strong>How to use it.</strong> Only visible when <code>APP_ENV=dev</code>. Admin → DB
-Migrations.</p>
+<p>Every API call is logged to <code>ce_application_api_calls</code> with
+tokens in/out and cost in USD. Without an API key configured,
+both questions return <code>NO_API_KEY</code> and the rest of the
+gate check still runs.</p>
+<p><strong>Gate check scoring.</strong> The remaining ten questions are
+scored locally by <code>core/gate_check_engine.py</code> (deal history,
+under-contract status, bankruptcy, UCC-1, down-payment ratio,
+deal type, pipeline pending, active listings, prior-year
+income). Any score <code>&lt;= -50</code> is treated as a <strong>knockout</strong> —
+the application is auto-flagged for rejection regardless of
+the other answers.</p>
+<h3 id="how-to-use-it_2">How to use it<a class="headerlink" href="#how-to-use-it_2" title="Permanent link">&para;</a></h3>
+<p>Open the Pre-Underwriting window from the main app.</p>
 <ol>
-<li>Click <strong>Compare now</strong> — populates the <em>Schema Differences</em> panel
-   per-table.</li>
-<li>Review the generated SQL in the dark code panel.</li>
-<li>Click <strong>Apply all to PROD</strong> to run them — every applied
-   migration is recorded in <code>ce_franchiseowner.db_migration_log</code>.</li>
+<li><strong>New Applications</strong> tab — Step 1 <em>Read inbox</em> pulls
+   unread messages from the application mailbox, parses each
+   one, encrypts PII, and inserts a row into
+   <code>ce_application_dim</code>. New rows appear in the table on
+   the right.</li>
+<li><strong>New Applications</strong> tab — Step 2 <em>Run extractions</em>
+   classifies each attached PDF and fires the Q4 and Q8 LLM
+   scans. The 4-column inline grid (Q1-Q12) populates with
+   the score per question plus a verdict.</li>
+<li>Override any individual answer by clicking its cell and
+   typing a replacement. The verdict recalculates live.</li>
+<li>Click <em>Save verdict</em> to lock the application's status.
+   The row moves to the <strong>Reviewed</strong> tab; the Dashboard tab
+   updates its KPI strip.</li>
 </ol>
-<hr />
-<h2 id="docs-engine">Docs Engine<a class="headerlink" href="#docs-engine" title="Permanent link">&para;</a></h2>
-<p><strong>What it does.</strong> This very documentation site is regenerated by
-copying a prompt from this tab into Claude Code. Claude reads the
-codebase and rewrites every page in <code>CE-FranchiseOwner-Docs</code>.
-GitHub Actions deploys the rebuilt site to GitHub Pages within
-2 minutes of the push.</p>
-<p><strong>How to use it.</strong></p>
-<ol>
-<li>Admin → Docs Engine.</li>
-<li>Click <strong>📋 Copy Prompt</strong>.</li>
-<li>Switch to VS Code with the source repo open; paste the prompt
-   into Claude Code.</li>
-<li>Wait for Claude to finish. The Docs Engine tab will show
-   <em>"Docs are up to date"</em> after the success line is appended to
-   <code>logs/doc_run.log</code>.</li>
-<li><strong>🌐 View Docs Site</strong> opens this site.</li>
-</ol>
+<h3 id="key-settings_2">Key settings<a class="headerlink" href="#key-settings_2" title="Permanent link">&para;</a></h3>
+<p>Configured in <strong>Admin</strong>:</p>
+<ul>
+<li><strong><code>app_settings.imap.application_*</code></strong> — the dedicated
+  mailbox credentials (typically a sub-folder of the
+  Rackspace SMTP account).</li>
+<li><strong><code>app_settings.anthropic_api_key</code></strong> — Claude API key
+  (base-64 at rest). Optional; without it the LLM-driven
+  questions skip cleanly.</li>
+<li><strong><code>pii_encryption_key</code></strong> — Fernet key in <code>app_settings</code>.
+  Auto-generated on first run; never expose this value.</li>
+<li><strong>Reference Data</strong> admin tab — the dim tables for MLS
+  statuses, prequal terms, and pre-approval terms used by the
+  local field parsers in <code>core/field_parsers/</code>.</li>
+</ul>
 
 
 

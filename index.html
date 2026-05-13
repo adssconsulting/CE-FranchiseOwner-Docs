@@ -78,7 +78,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#ce-franchiseowner" class="md-skip">
+        <a href="#ce-franchiseowner-help" class="md-skip">
           Skip to content
         </a>
       
@@ -432,10 +432,60 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#lead-engine" class="md-nav__link">
+  <a href="#three-products" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Lead Engine
+        Three Products
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Three Products">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-lead-engine" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Lead Engine
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-call-tracker" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Call Tracker
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-pre-underwriting" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Pre-Underwriting
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#what-would-you-like-to-do" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What would you like to do?
       
     </span>
   </a>
@@ -443,21 +493,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#pre-underwriting" class="md-nav__link">
+  <a href="#how-this-site-is-maintained" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Pre-Underwriting
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#who-this-site-is-for" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Who this site is for
+        How this site is maintained
       
     </span>
   </a>
@@ -864,81 +903,57 @@
   
 
 
-<h1 id="ce-franchiseowner">CE FranchiseOwner<a class="headerlink" href="#ce-franchiseowner" title="Permanent link">&para;</a></h1>
+<h1 id="ce-franchiseowner-help">CE FranchiseOwner Help<a class="headerlink" href="#ce-franchiseowner-help" title="Permanent link">&para;</a></h1>
 <p>CE FranchiseOwner is the Windows desktop application built for
-<strong>Commission Express of South Carolina</strong>. It is two products under one
-roof, both used daily by a franchise owner:</p>
-<h2 id="lead-engine">Lead Engine<a class="headerlink" href="#lead-engine" title="Permanent link">&para;</a></h2>
-<p>A semi-automated lead pipeline for real-estate agent outreach:</p>
+Commission Express of South Carolina. It runs three products from
+one shared database: a lead-generation engine for outbound agent
+outreach, a cold-call tracker for manual follow-up, and a
+pre-underwriting scorer that reads inbound application emails and
+runs them through a 12-question gate check.</p>
+<h2 id="three-products">Three Products<a class="headerlink" href="#three-products" title="Permanent link">&para;</a></h2>
+<h3 id="1-lead-engine">1. Lead Engine<a class="headerlink" href="#1-lead-engine" title="Permanent link">&para;</a></h3>
+<p>Scrapes PropStream for Active Under Contract listings across South
+Carolina counties, fuzzy-matches the listing agents against a master
+roster of licensed SC real-estate agents, then sends a personalised
+drip-email sequence to each matched agent. Every outgoing email goes
+through Rackspace SMTP and is logged to a single <code>email_log</code> source
+of truth.</p>
+<h3 id="2-call-tracker">2. Call Tracker<a class="headerlink" href="#2-call-tracker" title="Permanent link">&para;</a></h3>
+<p>Manages the cold-call follow-up workflow for agents who were
+previously contacted but not converted. Imports a "Previous Clients"
+Excel file, counts deals per agent, fuzzy-matches them against the
+master list, lets the franchise owner approve or reject each match,
+and then drives a daily call worksheet with outcome tracking
+(Interested, Call me back, Left voicemail, Not interested, Do not
+call, Converted) and a follow-up date per agent.</p>
+<h3 id="3-pre-underwriting">3. Pre-Underwriting<a class="headerlink" href="#3-pre-underwriting" title="Permanent link">&para;</a></h3>
+<p>Receives Commission Express application emails into a dedicated
+IMAP mailbox, parses the HTML body into encrypted database rows,
+classifies and scans each attached PDF (purchase contract, MLS
+sheet, pre-qual letter, etc.), and runs the 12-question gate check
+to return a fundability verdict. Two of the questions (Q4 open
+contingencies, Q8 pre-approval / proof of funds) use Claude Haiku
+4.5 against the attached PDFs; the rest are local scoring.</p>
+<h2 id="what-would-you-like-to-do">What would you like to do?<a class="headerlink" href="#what-would-you-like-to-do" title="Permanent link">&para;</a></h2>
 <ul>
-<li><strong>Scrape</strong> PropStream for <em>Active Under Contract</em> listings across
-  every South Carolina county, using saved searches stored in the app.</li>
-<li><strong>Match</strong> the listing agents on those properties against a master
-  roster of licensed SC real-estate agents (rapidfuzz fuzzy match,
-  human verification workflow).</li>
-<li><strong>Email</strong> the matched agents a personalised drip sequence (10 stops)
-  through Rackspace SMTP, escalating the cadence by contact count, and
-  attaching each agent's open-listing table to the relevant template.</li>
-<li><strong>Track</strong> opens, sends, unsubscribes (polled twice daily from the
-  IMAP inbox), and cold-call follow-ups.</li>
+<li><a href="marketing/product-overview/">📖 User Guide</a> — For franchise owners. Feature walkthroughs and FAQs.</li>
+<li><a href="technical/architecture/">🔧 Technical Docs</a> — Architecture, database schema, deployment guide.</li>
+<li><a href="qa/test-suite/">🧪 QA &amp; Testing</a> — Test suite and how to run tests.</li>
+<li><a href="sprint/log/">📋 Release Notes</a> — Sprint-by-sprint change log.</li>
 </ul>
-<h2 id="pre-underwriting">Pre-Underwriting<a class="headerlink" href="#pre-underwriting" title="Permanent link">&para;</a></h2>
-<p>A scoring engine for the <em>other side</em> of the Commission Express
-business — buying agent commission receivables before settlement:</p>
-<ul>
-<li><strong>Receive</strong> completed application emails into a dedicated IMAP
-  mailbox, parsed automatically into encrypted DB rows (Fernet
-  AES-128 for every PII field).</li>
-<li><strong>Classify and scan</strong> the application's attached PDFs (purchase
-  contract, MLS sheet, pre-qual letter, compensation form, driver's
-  license, misc) using <code>pdfplumber</code> for local text extraction and
-  Claude Haiku 4.5 for two targeted reads:</li>
-<li><strong>Q4</strong> — open contingencies on the purchase contract</li>
-<li><strong>Q8</strong> — mortgage pre-approval / proof of funds</li>
-<li><strong>Score</strong> every application against a 12-question gate check with
-  knockout logic, returning a verdict the franchise owner uses to
-  decide whether to advance funds.</li>
-</ul>
-<h2 id="who-this-site-is-for">Who this site is for<a class="headerlink" href="#who-this-site-is-for" title="Permanent link">&para;</a></h2>
-<div class="grid cards">
-<ul>
-<li>
-<p>:material-account:{ .lg .middle } <strong>User Guide</strong></p>
-<hr />
-<p>Franchise owners running CE FranchiseOwner day to day. Step-by-step
-feature walkthroughs.</p>
-<p><a href="marketing/product-overview/">:octicons-arrow-right-24: Product overview</a></p>
-</li>
-<li>
-<p>:material-cog:{ .lg .middle } <strong>Technical Docs</strong></p>
-<hr />
-<p>Engineers maintaining the codebase. Architecture, DB schema,
-integrations, deployment.</p>
-<p><a href="technical/architecture/">:octicons-arrow-right-24: Architecture</a></p>
-</li>
-<li>
-<p>:material-test-tube:{ .lg .middle } <strong>QA &amp; Testing</strong></p>
-<hr />
-<p>Test approach and how to run the suite locally.</p>
-<p><a href="qa/test-suite/">:octicons-arrow-right-24: Test suite</a></p>
-</li>
-<li>
-<p>:material-calendar-clock:{ .lg .middle } <strong>Release Notes</strong></p>
-<hr />
-<p>Sprint-by-sprint change log.</p>
-<p><a href="sprint/log/">:octicons-arrow-right-24: Log</a></p>
-</li>
-</ul>
-</div>
-<div class="admonition note">
-<p class="admonition-title">How this site is maintained</p>
-<p>Pages on this site are regenerated by the <strong>Docs Engine</strong> tab in the
-app's Admin window. Click <em>Copy Prompt</em>, paste into Claude Code in
-VS Code with the source repo open, and Claude reads the current code
-and pushes new markdown to <code>main</code> of
-<a href="https://github.com/adssconsulting/CE-FranchiseOwner-Docs"><code>CE-FranchiseOwner-Docs</code></a>.
-GitHub Actions auto-publishes within two minutes.</p>
-</div>
+<h2 id="how-this-site-is-maintained">How this site is maintained<a class="headerlink" href="#how-this-site-is-maintained" title="Permanent link">&para;</a></h2>
+<p>This site is regenerated by the Docs Engine tab inside the app's
+Admin window. The operator clicks <strong>Copy Prompt</strong>, pastes the
+prompt into Claude Code in VS Code with the source repository open,
+and Claude reads the current state of the code and overwrites the
+markdown files in the
+<a href="https://github.com/adssconsulting/CE-FranchiseOwner-Docs">CE-FranchiseOwner-Docs</a>
+repository. A GitHub Actions workflow auto-publishes the rebuilt
+site to GitHub Pages within two minutes of every push to <code>main</code>.</p>
+<p>Each successful regeneration appends a line to <code>logs/doc_run.log</code>
+in the source repo; the Docs Engine tab reads that file to set its
+status banner colour (green when up to date, amber while a run is
+in progress, red on failure, grey when never run).</p>
 
 
 
