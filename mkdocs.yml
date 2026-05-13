@@ -1,0 +1,66 @@
+site_name: CE FranchiseOwner Help
+site_url: https://adssconsulting.github.io/CE-FranchiseOwner-Docs
+site_description: >-
+  Help and reference documentation for CE FranchiseOwner — the
+  Commission Express of South Carolina lead-generation desktop app.
+site_author: Commission Express of South Carolina
+copyright: >-
+  &copy; Commission Express of South Carolina
+
+repo_name: adssconsulting/CE-FranchiseOwner-Docs
+repo_url: https://github.com/adssconsulting/CE-FranchiseOwner-Docs
+
+theme:
+  name: material
+  palette:
+    - scheme: default
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/weather-night
+        name: Switch to dark mode
+    - scheme: slate
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/weather-sunny
+        name: Switch to light mode
+  features:
+    - navigation.tabs
+    - navigation.sections
+    - navigation.expand
+    - navigation.top
+    - search.highlight
+    - search.suggest
+    - content.code.copy
+    - toc.integrate
+
+nav:
+  - Home: index.md
+  - User Guide:
+      - Product Overview: marketing/product-overview.md
+      - Feature Guides: marketing/feature-guides.md
+      - FAQs: marketing/faqs.md
+  - Technical Docs:
+      - Architecture: technical/architecture.md
+      - Database Schema: technical/database-schema.md
+      - API & Integrations: technical/api-notes.md
+      - Deployment Guide: technical/deployment.md
+  - QA & Testing: qa/test-suite.md
+  - Release Notes: sprint/log.md
+
+markdown_extensions:
+  - admonition
+  - attr_list
+  - md_in_html
+  - tables
+  - toc:
+      permalink: true
+  - pymdownx.details
+  - pymdownx.superfences
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
