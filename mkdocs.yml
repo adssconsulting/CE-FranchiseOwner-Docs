@@ -1,9 +1,8 @@
 site_name: CE FranchiseOwner Help
 site_url: https://adssconsulting.github.io/CE-FranchiseOwner-Docs
 site_description: >-
-  Help and reference documentation for CE FranchiseOwner — the
-  Commission Express franchise web app for lead generation, call
-  tracking, and commission-advance pre-underwriting.
+  CE FranchiseOwner documentation has moved into the application
+  (Help & Docs). This site is retained only as a placeholder.
 site_author: Commission Express of South Carolina
 copyright: >-
   &copy; Commission Express of South Carolina
@@ -38,17 +37,6 @@ theme:
 
 nav:
   - Home: index.md
-  - User Guide:
-      - Product Overview: marketing/product-overview.md
-      - Feature Guides: marketing/feature-guides.md
-      - FAQs: marketing/faqs.md
-  - Technical Docs:
-      - Architecture: technical/architecture.md
-      - Database Schema: technical/database-schema.md
-      - API & Integrations: technical/api-notes.md
-      - Deployment Guide: technical/deployment.md
-  - QA & Testing: qa/test-suite.md
-  - Release Notes: sprint/log.md
 
 markdown_extensions:
   - admonition
