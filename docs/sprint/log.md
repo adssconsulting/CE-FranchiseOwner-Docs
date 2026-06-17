@@ -5,6 +5,41 @@ to the top of this file.
 
 ---
 
+## 2026-06-17 — Docs ported from desktop to the web app
+
+The product moved from the Windows desktop app to a **web app** (FastAPI +
+React/Vite + PostgreSQL, run as two Docker stacks). This documentation set was
+fully rewritten to match — every page previously described the old desktop app
+(tkinter, MariaDB, `.exe`).
+
+### What changed in the docs
+- **User Guide** rewritten around the live web screens: Dashboard, Properties,
+  Review Matches (Master + No-Master modes), Email Queue, Sent History, Call
+  Tracker, Pre-Underwriting / Gate Check, Update Website, Ops Library, Unsubscribe,
+  and the day-to-day Admin tabs.
+- **Technical** pages rebuilt for the web stack: architecture (FastAPI/React/
+  Postgres, the two Docker stacks, HMAC-token auth, multi-territory Row-Level
+  Security), a full column-level **database schema** for all 36 tables, API &
+  integrations (PropStream, MLS RESO API, SMTP/IMAP, Anthropic), and a Docker-based
+  deployment guide. Technical and QA pages now open with an "internal — for the
+  system administrator" banner.
+- **QA** updated for the backend `pytest` suite (`backend/tests/test_suite.py`,
+  side-effect-free, run live or from the Admin → Test Suite tab).
+
+### What changed in the product (since the desktop docs)
+- **Multi-territory** with Postgres Row-Level Security — each franchise sees only
+  its own data; the national admin sees across branches.
+- Tables renamed to the `{domain}_{name}_{type}` convention (`agentoutreach_*`,
+  `preunderwriting_*`, `calltracker_*`, `admin_*`, `engagement_*`, `system_*`).
+- **Data-driven logins** (`app_login`) with a national-admin **Onboard Franchise**
+  flow and a **Logins** tab for set/reset password.
+- New **Pre-Underwriting / Gate Check** domain (12-question scoring + LLM document
+  extraction), email **bounce** detection, and unified **engagement** tracking.
+- The **Docs Engine** tab's prompt was updated to read the web codebase instead of
+  the old desktop folders.
+
+---
+
 ## 2026-05-13 — Docs Engine first regeneration
 
 First end-to-end run of the Docs Engine workflow. All 9 content pages

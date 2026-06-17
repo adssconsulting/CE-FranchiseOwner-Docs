@@ -1,93 +1,58 @@
 # QA & Testing
 
-## Running the test suite
+!!! warning "Internal — for the system administrator"
+    This page is for the CE FranchiseOwner administrator (the franchise's
+    technical owner). If you're a franchise owner just here to learn the app,
+    head back to the [User Guide](../marketing/feature-guides.md).
 
-```powershell
-# From the project root, with the venv activated
-venv\Scripts\activate
-pytest
+## What it is
+
+The backend test suite (`backend/tests/test_suite.py`, 34 `test_*` functions) runs
+end-to-end against a **live FastAPI backend** using `httpx.Client` — no mocks of the
+app itself. It's designed to run repeatedly against the dev database **without side
+effects**:
+
+- Email sends use `simulate=True` (no real SMTP, no row writes).
+- Every write endpoint round-trips (set → verify → restore).
+- A session fixture captures a baseline row count and calls
+  `/email-queue/_cleanup_test` afterward.
+- Assertions are relational/range-based (e.g. "≥30 tables", ">100k rows") rather
+  than brittle magic numbers, so they survive data evolution.
+
+Each test's docstring is the plain-English "what was tested" line surfaced in the
+Admin → Test Suite view.
+
+## Coverage
+
+- Health / environment and schema scale (table count, row volume)
+- Dashboard and engagement summaries
+- Agent matching and the unmatched-agent workflow
+- Email-queue buckets, templates, stats, and simulated sends
+- Properties / import stats
+- Call tracker
+- Admin settings round-trips
+- Unsubscribe / bounce stats
+- DB-query and row-count endpoints
+
+## How to run
+
+```bash
+# from the repo root
+python -m pytest backend/tests/test_suite.py -v
+
+# inside the backend container
+python -m pytest /app/tests/test_suite.py -v
 ```
 
-`pytest` and `ruff` are both declared in `requirements.txt`.
+Environment:
 
-## Linting
+- `API_BASE` — backend URL (default `http://localhost:8001`)
+- `TEST_AUTH_TOKEN` — a valid bearer token, required because `/api/admin/*` is auth-gated
 
-```powershell
-ruff check .
-```
+## From the Admin UI
 
-## Current state of the suite
+The **Admin → Test Suite** tab runs the same suite in-app:
 
-The `tests/` package is scaffolded (`__init__.py` present) but does
-not yet have implemented test modules in this revision. Two
-concrete priorities for the next sprint:
-
-1. **Gate-check scoring (pure logic, no I/O).** `core/gate_check_engine.py`
-   exports a stable public API (`calculate_q1`,
-   `calculate_q3`–`q12`, `calculate_total`). Every function is a
-   pure transformation over primitive inputs — perfect for table-
-   driven tests. Includes the knockout threshold logic
-   (`KNOCKOUT_THRESHOLD = -50`, `KNOCKOUT_VALUE = -100`) which is
-   critical to get right.
-2. **Email parser regression.** `core/email_parser.py` parses
-   Gravity-Forms application HTML into a flat dict mapped to
-   `ce_application_dim`. The `LABEL_TO_COLUMN` dict has dozens of
-   tolerant string variants. A single fixture-driven test with a
-   real-shape application email locks in the mapping.
-
-## Manual QA checklist (per release)
-
-Until the suite catches up, run this checklist by hand before
-shipping a build:
-
-### Startup
-- [ ] Source mode + `APP_ENV=dev` → app launches cleanly.
-- [ ] Source mode + `APP_ENV=prod` → refuses to start with the
-      "REFUSING TO START" banner unless
-      `CE_ALLOW_PROD_FROM_SOURCE=1` is set.
-- [ ] Frozen `.exe` + `APP_ENV=prod` → launches; audit row
-      appears in `system_logs` with `module='startup'`.
-- [ ] Auto-backup runs on prod startup if last backup older than
-      24 h.
-
-### Lead Engine
-- [ ] **Run Daily Job** scrapes every saved search and writes new
-      `raw_scrapes` rows.
-- [ ] **Email Queue → AUC bucket** filters update agent counts
-      live; **Search agent** narrows the list.
-- [ ] **Send test email** delivers; **Start Batch** unlocks only
-      after a test email succeeds.
-- [ ] Batch send writes one row per send to `email_log` and a
-      `batch_progress` row to `system_logs` after each send.
-- [ ] Navigating away from the Email Queue mid-batch and back
-      restores the orange in-progress banner; the green
-      "complete" banner shows for 10 minutes after the COMPLETE
-      row is written.
-- [ ] Review Matches → Excel round-trip: download → mark Y/N →
-      upload → counters update. Cross-band IDs in the upload
-      are rejected by the band-locked UPDATE.
-
-### Pre-Underwriting
-- [ ] **Step 1 — Read inbox** pulls a new application, encrypts
-      PII, inserts `ce_application_dim` row.
-- [ ] **Step 2 — Run extractions** classifies each attached PDF,
-      writes Q4 and Q8 results to `ce_application_api_calls`.
-- [ ] 12-question grid shows scores; knockout questions are
-      flagged; verdict is computed.
-- [ ] Override on any single question recalculates the verdict.
-
-### Admin
-- [ ] Every tab opens without errors.
-- [ ] `?` help button on every tab opens the correct doc page.
-- [ ] **Docs Engine → Copy Prompt** writes to clipboard; the
-      tooltip "Prompt copied" appears.
-- [ ] **Backup & Restore → Run Backup Now** produces a fresh
-      `.zip` in `Documents\CommissionExpress\Backups\` and rows
-      appear in the *Backup history* table.
-- [ ] **DB Migrations** (dev only) compares dev vs prod schema
-      and the *Apply all to PROD* button runs without errors on
-      an in-sync database.
-
-### Tear-down
-- [ ] App exit calls `mysqladmin shutdown` cleanly (no orphan
-      `mysqld.exe` left running).
+- `POST /api/admin/test-suite/run` — runs it (passing a valid SC token as `TEST_AUTH_TOKEN`)
+- `GET /api/admin/test-suite/list` — lists the tests and their docstrings
+- `GET /api/admin/test-suite/report` — an HTML pass/fail report

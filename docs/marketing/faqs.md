@@ -1,109 +1,89 @@
 # Frequently Asked Questions
 
-## Setup
+## Getting started
 
-### How do I install CE FranchiseOwner on a new machine?
+### How do I sign in?
+Open the app's web address and enter your franchise login and password. Each
+franchise has its own login; the national office has an administrator login that
+can see and manage all branches.
 
-Run the Inno installer (`CE-FranchiseOwner-Setup.exe`). It drops the
-app, the bundled MariaDB binaries, and a complete `.env` into the
-install folder. First launch auto-initialises the local MariaDB
-data directory and creates every table. No external database to
-configure.
+### Do I need to install anything?
+No. CE FranchiseOwner runs entirely in your web browser. There's nothing to
+download or update on your computer.
 
-### What credentials do I need before first run?
+### I forgot my password — what do I do?
+Ask your national administrator. From **Admin → Logins**, they can set or reset
+the password for any franchise login.
 
-Three things, all entered in the **Admin** screen:
+## Leads & email
 
-1. **PropStream** username and password — for the daily scrape.
-2. **Rackspace SMTP** username and password — for outgoing email.
-   The same credentials are reused for IMAP (unsubscribe poller +
-   application inbox).
-3. **Anthropic API key** *(only if you'll use Pre-Underwriting)* —
-   for the Q4 / Q8 PDF scans. The app degrades gracefully without
-   it: those two answers simply return "API key not configured."
+### Where do the property listings come from?
+You import PropStream "Active Under Contract" county exports on the **Properties**
+screen, or pull them from a live MLS data feed. The app loads new listings and
+skips any address it has already seen for that county.
 
-Everything is base-64-encoded at rest (`app_settings` table), plus
-applicant PII is double-protected by per-row Fernet encryption.
+### What is the difference between "Master Agent List Present" and "No-Master" mode?
+If your branch has a master list of agents, **Master** mode matches new listing
+agents against it so you don't duplicate people. New markets without a master list
+use **No-Master** mode, which sorts the raw imported agents into "clean" (ready to
+email) and "email missing" so you can make them emailable directly.
 
-## Daily use
+### How does the app decide which email each agent gets?
+It counts how many times you've already contacted each agent and automatically
+picks the matching step in the sequence (1st Contact, 2nd Contact, and so on).
+Agents with several active listings get a separate "Multi" set of templates. You
+can always override the choice per agent before sending.
 
-### Where does the app find new listings?
+### Will the same agent get emailed twice by mistake?
+No. The Email Queue tracks every send, skips anyone who unsubscribed or bounced,
+and the **New since last email** filter shows only listings loaded since your last
+real send. You also get an approval popup with the exact count before anything goes out.
 
-Through PropStream saved searches you've configured under
-**Admin → Saved Searches**, one row per county. The Daily Job loops
-them in `sort_order`. Selenium drives a persistent Chrome user
-profile so you don't get re-prompted to log in.
+### Can I test an email before sending it for real?
+Yes. Use **Send 1 Test** in the Email Queue to email yourself a sample, or the
+**Send Utility** in Admin to re-send any past email to an address you choose
+(without recording it in your history).
 
-### How often should I run the daily scrape job?
+### How do I edit the wording of my emails?
+In **Admin → Templates**. Each change is saved as a new version, and you can view
+or restore any earlier version. The Opening Line and Subject are unique per
+template; the Shared Body is common to all templates of that type.
 
-Once per business day. Press **▶ Start Job** in *Run Daily Job*
-with a date range that covers since-last-run; you can also use the
-*Last Week* / *Last 3 Days* presets.
+## Calls & applications
 
-### How do I know if an email actually sent?
+### What does the Call Tracker do?
+It turns a spreadsheet of previous clients into a daily call worksheet: it matches
+them to your master list, you approve the matches, then you log call outcomes and
+follow-up dates with call scripts on hand.
 
-Every successful send writes one row to `email_log` with `sent_at`
-set to `NOW()` and `is_test=0`. The **Sent History** screen reads
-from that table. The *Test Runs* tab there shows your preview
-sends (`is_test=1`).
+### What is the Gate Check?
+An automatic pre-screen for commission-advance applications. The app reads new
+application emails, extracts the details, scores them against 12 criteria, and
+gives a verdict — Good to Go, Can't Decide, or Don't Waste Time — so you only
+underwrite the deals worth your time.
 
-## Data
+### Is sensitive applicant information safe?
+Yes. Personal details like Social Security and bank numbers are stored encrypted
+and are never shown on screen.
 
-### How are agent matches verified?
+## Data & branches
 
-Auto matches are produced by `rapidfuzz` token-sort comparison
-against the master list (default threshold 85%). The **Review
-Matches** screen lets you bulk-approve high-confidence buckets
-(100%, 90-99%) and review the others one row at a time, or export
-the whole 80-89% band to Excel, mark Y/N on every row, and re-import.
+### Can one franchise see another franchise's data?
+No. Every branch is isolated — you only ever see your own listings, agents, emails,
+and applications. Only the national administrator can view across branches, and
+even then each branch's private configuration stays its own.
 
-Verified matches are marked `is_verified='Y' is_golden='Y'` —
-that's the canonical "this listing-name maps to this master agent"
-record.
+### How does a new franchise get set up?
+The national administrator uses **Admin → Onboard Franchise** to create the new
+branch's login and copy South Carolina's proven email templates and settings into
+it — ready to go in minutes.
 
-### What happens to an agent who replies "unsubscribe"?
+### Are my records backed up?
+Yes. Use **Admin → Backup & Restore** to run a full backup whenever you like,
+download past backups, or restore from one. Restoring overwrites current data and
+is double-confirmed so it can't happen by accident.
 
-The IMAP unsubscribe poller (`email_engine/unsubscribe_poller.py`)
-runs twice a day (12:00 and 16:30 local). It scans the inbox for
-keywords (`stop`, `unsubscribe`, `remove me`, `opt out`,
-`do not contact`, `do not email`), parses the originating agent
-from the email thread, and inserts a row into `unsubscribe_list`.
-Future drip sends skip any agent whose email appears in that table.
-
-### Can I restore the database from a backup?
-
-Yes. Admin → Backup & Restore → click *Restore* next to a backup.
-You'll get a *Restore this backup?* confirmation that warns
-"this will overwrite ALL current data." After restore the app
-auto-relaunches via `os.execv`.
-
-## Troubleshooting
-
-### The app says "Chrome profile not found." What now?
-
-The PropStream scraper needs a real Chrome user-data directory that
-already has a logged-in PropStream session. Run:
-
-```powershell
-"C:\Program Files\Google\Chrome\Application\chrome.exe" --user-data-dir=C:\ChromeCEProfile
-```
-
-Sign into PropStream in that window, close it, then paste
-`C:\ChromeCEProfile` into **Admin → PropStream → Chrome profile
-path** and save.
-
-### My batch email send stopped midway. Did the rest go out?
-
-The Email Queue screen now writes a row to `system_logs` with
-`module='batch_progress'` after every send. The Email Queue's
-top-of-screen banner (orange while RUNNING, green for 10 min after
-COMPLETE) survives navigation — if you closed the window mid-batch,
-re-open the Email Queue and the banner tells you exactly how far
-the worker got and whether it finished.
-
-### Why does the Pre-Underwriting screen say "API key not configured"?
-
-The two LLM scans (Q4 contingencies, Q8 pre-qual) need an Anthropic
-API key in `app_settings.anthropic_api_key`. Without one the rest of
-the gate check still runs — the affected questions just return
-`NO_API_KEY` and the verdict reflects the questions that *did* run.
+### Who do I contact for help?
+Reach out to your national office. This help site is always available, and the
+underlying technical reference is in the Technical and QA sections (intended for
+the system administrator).

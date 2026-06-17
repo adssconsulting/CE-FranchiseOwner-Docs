@@ -1,107 +1,98 @@
 # Deployment Guide
 
-## Build the Windows executable
+!!! warning "Internal — for the system administrator"
+    This page is for the CE FranchiseOwner administrator (the franchise's
+    technical owner). If you're a franchise owner just here to learn the app,
+    head back to the [User Guide](../marketing/feature-guides.md).
 
-```powershell
-# From the project root, with the venv activated
-venv\Scripts\activate
-pip install -r requirements.txt
-pyinstaller CE-FranchiseOwner.spec
-```
+CE FranchiseOwner is a web app deployed as **two Docker Compose stacks** on one
+machine — development and production — from two git checkouts. There is no
+Windows `.exe`.
 
-The build output lands in `dist/CE-FranchiseOwner/`. The folder
-contains the `.exe`, all bundled DLLs, and the `data/`, `assets/`,
-and `logs/` subfolders.
+## The two stacks
 
-The separate Inno Setup installer (not in this repo) wraps that
-folder, generates a unique install location, and drops a complete
-`.env` next to the `.exe`. Distribute the installer, not the raw
-`dist/` folder.
-
-## MariaDB setup
-
-The app ships with an embedded MariaDB. No external install needed.
-
-1. `data/mariadb/bin/` contains `mysqld.exe`, `mysql.exe`,
-   `mysqldump.exe`, `mysql_install_db.exe`. These are committed
-   inside the source tree (large binaries — make sure Git LFS or a
-   `.gitattributes` setting is configured if you fork the repo).
-2. **First launch.** `core.db_server.start_mariadb()` checks
-   whether `data/mariadb_data/mysql/` exists; if not, it runs
-   `mysql_install_db.exe --datadir=...` to create the system tables.
-3. **Every launch.** `mysqld.exe --port=3307 --bind-address=127.0.0.1
-   --skip-networking=OFF` is spawned as a background process. The
-   `Popen` handle is kept alive for the lifetime of the app; an
-   `atexit` hook calls `mysqladmin.exe shutdown` to stop it cleanly
-   on exit.
-4. **Schema.** `core.database.init_database()` runs
-   `CREATE TABLE IF NOT EXISTS` for every table plus the
-   `_migrate_*` helpers. Safe to call on every boot.
-5. **Auto-backup.** On a production startup, if no
-   `module='backup_manager'` row exists in `system_logs` within the
-   last 24 hours, a daemon thread runs a `mysqldump` of the live DB
-   into the user's `Documents\CommissionExpress\Backups\` folder and
-   prunes anything beyond the 30-most-recent.
-
-## Required `.env` variables
-
-The installer writes a complete `.env` next to the `.exe`. For source
-runs, place a `.env` next to `config.py`. Variables:
-
-| Variable | Default (dev) | Required in prod |
+| | Dev (`C:\Projects\CE-FranchiseOwner-WEB-DEV`) | Prod (`C:\Projects\CE-FranchiseOwner-WEB`) |
 |---|---|---|
-| `APP_ENV` | `dev` | **`prod`** — guards the "refuse to start from source if prod" check |
-| `DB_HOST` | `127.0.0.1` | Same — DB is always local |
-| `DB_PORT` | `3307` | Same — embedded MariaDB |
-| `DB_USER` | `root` | Whatever the installer set |
-| `DB_PASSWORD` | empty | Whatever the installer set; empty is acceptable for an unexposed localhost server |
-| `DB_NAME` | `ce_franchiseowner_dev` | **`ce_franchiseowner`** |
-| `CE_ALLOW_PROD_FROM_SOURCE` | unset | Set to `1` only for emergency maintenance scripts |
+| Git branch | `development` | `main` |
+| `APP_ENV` | `dev` | `prod` |
+| Backend | `http://localhost:8001` | `http://localhost:8002` |
+| Frontend | `http://localhost:5173` | `http://localhost:5174` |
+| Postgres | port 5433 | port 5432 |
+| Database | `ce_franchiseowner_web_dev` | `ce_franchiseowner` |
+| Data | fake demo / multi-branch | real South Carolina data |
 
-## Promoting dev → prod (one-shot setup)
+The same `docker-compose.yml` runs in each folder, parameterized by that folder's
+`.env`; `COMPOSE_PROJECT_NAME` namespaces containers/volumes so both run side by side.
 
-The `tools/setup_prod_db.py` script copies the dev schema and seed
-data into a fresh `ce_franchiseowner` database. Run from the project
-root:
+## Working in dev
 
-```powershell
-python tools/setup_prod_db.py
+- **Backend changes:** the backend is bind-mounted but Uvicorn runs with **no
+  auto-reload** — run `docker compose restart backend` for Python changes to take effect.
+- **Frontend changes:** Vite HMR picks them up live — no restart, no rebuild.
+- **Dependency changes** (`requirements.txt` / `package.json` / a Dockerfile) require
+  a rebuild: `docker compose up -d --build`.
+
+## Releasing to production
+
+Always: **fix in dev → verify → ship to prod.**
+
+```bash
+# 1. push dev work
+git push origin development
+# 2. fast-forward main to match
+git push origin development:main
+# 3. in the PROD folder, run the deploy script
+powershell -NoProfile -ExecutionPolicy Bypass -File "C:/Projects/CE-FranchiseOwner-WEB/deploy.ps1"
 ```
 
-Type `YES` when prompted. It is idempotent — re-running it after
-the first successful run is a no-op for seed data (it only copies
-seed rows into empty tables).
+`deploy.ps1` (refuses to run unless the current branch is `main`):
 
-## Resetting the dev database
+1. `git pull --ff-only origin main`
+2. `docker compose up -d` (reuses images; pass `-Build` only when a dependency/Dockerfile changed)
+3. `docker compose restart backend` (Uvicorn has no auto-reload)
+4. Health-check: polls `http://localhost:8002/health` up to 10× (2s apart) for HTTP 200,
+   then reports the app at `http://localhost:5174`.
 
-```powershell
-python tools/reset_dev_db.py
-```
+## Environment variables
 
-Truncates every transaction table in dependency order
-(`FOREIGN_KEY_CHECKS=0` is flipped briefly as belt-and-braces).
-Leaves dim tables, `app_settings`, `email_templates`, and
-`master_list` alone, so the next launch isn't a blank slate.
+Set in each folder's `.env` (gitignored). Key ones (`.env.example` / `config.py`):
 
-## Distributing the installer
-
-1. Build the `.exe` (above).
-2. Run the Inno Setup script (lives in a sibling repo).
-3. Ship the resulting `CE-FranchiseOwner-Setup.exe` to the operator.
-4. Provide the operator with three credential bundles:
-   - PropStream username + password
-   - Rackspace SMTP / IMAP username + password
-   - Anthropic API key (optional)
-
-On first launch the operator enters those credentials in Admin, the
-app saves them base-64-encoded into `app_settings`, and from then on
-the app is self-contained.
-
-## Logs
-
-| Path | Written by |
+| Var | Purpose |
 |---|---|
-| `logs/` *(app data dir)* | General app logs |
-| `data/logs/email_sends.log` | Flat-file mirror of every email send for offline audit |
-| `logs/doc_run.log` | Docs Engine run history — read by the *Docs Engine* admin tab to colour its status banner |
-| `system_logs` table | All audit events: `startup`, `db_warn`, `backup_manager`, `batch_progress`, `migration`, screen-specific changes |
+| `COMPOSE_PROJECT_NAME` | namespaces containers/volumes per env (`ce-web-dev` / `ce-web`) |
+| `APP_ENV` | `dev` \| `prod`; drives the PROD banner and disables demo logins/admin in prod |
+| `POSTGRES_USER` / `POSTGRES_PASSWORD` / `POSTGRES_DB` / `POSTGRES_HOST_PORT` | Postgres container + host port |
+| `APP_DB_USER` / `APP_DB_PASSWORD` | the non-superuser RLS role (`ce_app` / `ce_app_pw`); compose builds `DATABASE_URL` from these |
+| `DATABASE_URL` | full SQLAlchemy URL (compose composes the real one for the container) |
+| `BACKEND_PORT` / `FRONTEND_PORT` / `VITE_API_BASE` / `CORS_ORIGINS` | ports + frontend/back wiring |
+| `DEMO_TOKEN_SECRET` | HMAC token-signing secret (machine-local, never committed) |
+| `SC_MANAGER_PW_HASH`, `NEWMEXICO_MANAGER_PW_HASH`, `NORTHCAROLINA_MANAGER_PW_HASH` | PBKDF2 hashes for the real `*_manager` accounts |
+| `ANTHROPIC_API_KEY` | Update Website LLM proxy (server-side only) |
+| `UNSUB_POLL_ENABLED` / `UNSUB_POLL_INTERVAL_SECONDS` / `UNSUB_POLL_TERRITORIES` / `CONTRACT_DAYS` | inbox poller (on in prod; default 900s, `SC`, 50 days) |
+
+!!! note
+    SMTP/IMAP credentials are **not** env vars — they live in `admin_app_settings`
+    (`smtp.*`, `imap_*`), set through the Admin UI.
+
+## Schema & migrations
+
+- The base schema is materialized by loading the production dump `seed/ce_pg.sql`
+  (~30 tables) into Postgres. Alembic's `0001_baseline` is a no-op marker so the DB
+  can be `alembic stamp`-ed to a known starting point; future changes build forward.
+- `backend/demo/*.sql` are ordered bootstrap/migration scripts, run by a superuser
+  via `docker exec … psql`:
+
+| Script | Purpose |
+|---|---|
+| `rename_tables.sql` | rename legacy desktop tables to the new convention |
+| `00_prod_init_sc.sql` | prod-only: tag rows `territory='SC'`, give config tables the `(key, territory)` shape, create the national-report table |
+| `01_territory_setup.sql` | demo: add `territory`, mark `SC`, duplicate into `DALLAS`/`VIRGINIA` |
+| `02_rls_setup.sql` | create the `ce_app` non-superuser role, grants, enable RLS + `terr_isolation` |
+| `03_*` / `04_*` | demo data variation + engagement |
+| `05_per_territory_config.sql` / `05_email_bounce.sql` | per-territory config (demo) + bounce table |
+| `06_app_login.sql` | the global, RLS-free `app_login` table (data-driven logins) |
+| `07_config_territory.sql` | prod-safe `terr_config` RLS on the two config tables (no fake-branch duplication) |
+
+Prod rebuild order: `seed/ce_pg.sql` → `rename_tables.sql` → `00` → `02` → `06` → `07`.
+
+Reminder: after any backend code change, `docker compose restart backend`.
