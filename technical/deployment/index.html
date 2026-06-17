@@ -6,7 +6,7 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="Help and reference documentation for CE FranchiseOwner — the Commission Express of South Carolina lead-generation desktop app.">
+        <meta name="description" content="Help and reference documentation for CE FranchiseOwner — the Commission Express franchise web app for lead generation, call tracking, and commission-advance pre-underwriting.">
       
       
         <meta name="author" content="Commission Express of South Carolina">
@@ -747,10 +747,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#build-the-windows-executable" class="md-nav__link">
+  <a href="#the-two-stacks" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Build the Windows executable
+        The two stacks
       
     </span>
   </a>
@@ -758,10 +758,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#mariadb-setup" class="md-nav__link">
+  <a href="#working-in-dev" class="md-nav__link">
     <span class="md-ellipsis">
       
-        MariaDB setup
+        Working in dev
       
     </span>
   </a>
@@ -769,10 +769,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#required-env-variables" class="md-nav__link">
+  <a href="#releasing-to-production" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Required .env variables
+        Releasing to production
       
     </span>
   </a>
@@ -780,10 +780,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#promoting-dev-prod-one-shot-setup" class="md-nav__link">
+  <a href="#environment-variables" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Promoting dev → prod (one-shot setup)
+        Environment variables
       
     </span>
   </a>
@@ -791,32 +791,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#resetting-the-dev-database" class="md-nav__link">
+  <a href="#schema-migrations" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Resetting the dev database
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#distributing-the-installer" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Distributing the installer
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#logs" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Logs
+        Schema &amp; migrations
       
     </span>
   </a>
@@ -914,148 +892,198 @@
 
 
 <h1 id="deployment-guide">Deployment Guide<a class="headerlink" href="#deployment-guide" title="Permanent link">&para;</a></h1>
-<h2 id="build-the-windows-executable">Build the Windows executable<a class="headerlink" href="#build-the-windows-executable" title="Permanent link">&para;</a></h2>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="c"># From the project root, with the venv activated</span>
-<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="n">venv</span><span class="p">\</span><span class="n">Scripts</span><span class="p">\</span><span class="n">activate</span>
-<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="n">pip</span> <span class="n">install</span> <span class="n">-r</span> <span class="n">requirements</span><span class="p">.</span><span class="n">txt</span>
-<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="n">pyinstaller</span> <span class="n">CE-FranchiseOwner</span><span class="p">.</span><span class="n">spec</span>
-</code></pre></div>
-<p>The build output lands in <code>dist/CE-FranchiseOwner/</code>. The folder
-contains the <code>.exe</code>, all bundled DLLs, and the <code>data/</code>, <code>assets/</code>,
-and <code>logs/</code> subfolders.</p>
-<p>The separate Inno Setup installer (not in this repo) wraps that
-folder, generates a unique install location, and drops a complete
-<code>.env</code> next to the <code>.exe</code>. Distribute the installer, not the raw
-<code>dist/</code> folder.</p>
-<h2 id="mariadb-setup">MariaDB setup<a class="headerlink" href="#mariadb-setup" title="Permanent link">&para;</a></h2>
-<p>The app ships with an embedded MariaDB. No external install needed.</p>
-<ol>
-<li><code>data/mariadb/bin/</code> contains <code>mysqld.exe</code>, <code>mysql.exe</code>,
-   <code>mysqldump.exe</code>, <code>mysql_install_db.exe</code>. These are committed
-   inside the source tree (large binaries — make sure Git LFS or a
-   <code>.gitattributes</code> setting is configured if you fork the repo).</li>
-<li><strong>First launch.</strong> <code>core.db_server.start_mariadb()</code> checks
-   whether <code>data/mariadb_data/mysql/</code> exists; if not, it runs
-   <code>mysql_install_db.exe --datadir=...</code> to create the system tables.</li>
-<li><strong>Every launch.</strong> <code>mysqld.exe --port=3307 --bind-address=127.0.0.1
-   --skip-networking=OFF</code> is spawned as a background process. The
-   <code>Popen</code> handle is kept alive for the lifetime of the app; an
-   <code>atexit</code> hook calls <code>mysqladmin.exe shutdown</code> to stop it cleanly
-   on exit.</li>
-<li><strong>Schema.</strong> <code>core.database.init_database()</code> runs
-   <code>CREATE TABLE IF NOT EXISTS</code> for every table plus the
-   <code>_migrate_*</code> helpers. Safe to call on every boot.</li>
-<li><strong>Auto-backup.</strong> On a production startup, if no
-   <code>module='backup_manager'</code> row exists in <code>system_logs</code> within the
-   last 24 hours, a daemon thread runs a <code>mysqldump</code> of the live DB
-   into the user's <code>Documents\CommissionExpress\Backups\</code> folder and
-   prunes anything beyond the 30-most-recent.</li>
-</ol>
-<h2 id="required-env-variables">Required <code>.env</code> variables<a class="headerlink" href="#required-env-variables" title="Permanent link">&para;</a></h2>
-<p>The installer writes a complete <code>.env</code> next to the <code>.exe</code>. For source
-runs, place a <code>.env</code> next to <code>config.py</code>. Variables:</p>
+<div class="admonition warning">
+<p class="admonition-title">Internal — for the system administrator</p>
+<p>This page is for the CE FranchiseOwner administrator (the franchise's
+technical owner). If you're a franchise owner just here to learn the app,
+head back to the <a href="../../marketing/feature-guides/">User Guide</a>.</p>
+</div>
+<p>CE FranchiseOwner is a web app deployed as <strong>two Docker Compose stacks</strong> on one
+machine — development and production — from two git checkouts. There is no
+Windows <code>.exe</code>.</p>
+<h2 id="the-two-stacks">The two stacks<a class="headerlink" href="#the-two-stacks" title="Permanent link">&para;</a></h2>
 <table>
 <thead>
 <tr>
-<th>Variable</th>
-<th>Default (dev)</th>
-<th>Required in prod</th>
+<th></th>
+<th>Dev (<code>C:\Projects\CE-FranchiseOwner-WEB-DEV</code>)</th>
+<th>Prod (<code>C:\Projects\CE-FranchiseOwner-WEB</code>)</th>
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>Git branch</td>
+<td><code>development</code></td>
+<td><code>main</code></td>
+</tr>
 <tr>
 <td><code>APP_ENV</code></td>
 <td><code>dev</code></td>
-<td><strong><code>prod</code></strong> — guards the "refuse to start from source if prod" check</td>
+<td><code>prod</code></td>
 </tr>
 <tr>
-<td><code>DB_HOST</code></td>
-<td><code>127.0.0.1</code></td>
-<td>Same — DB is always local</td>
+<td>Backend</td>
+<td><code>http://localhost:8001</code></td>
+<td><code>http://localhost:8002</code></td>
 </tr>
 <tr>
-<td><code>DB_PORT</code></td>
-<td><code>3307</code></td>
-<td>Same — embedded MariaDB</td>
+<td>Frontend</td>
+<td><code>http://localhost:5173</code></td>
+<td><code>http://localhost:5174</code></td>
 </tr>
 <tr>
-<td><code>DB_USER</code></td>
-<td><code>root</code></td>
-<td>Whatever the installer set</td>
+<td>Postgres</td>
+<td>port 5433</td>
+<td>port 5432</td>
 </tr>
 <tr>
-<td><code>DB_PASSWORD</code></td>
-<td>empty</td>
-<td>Whatever the installer set; empty is acceptable for an unexposed localhost server</td>
+<td>Database</td>
+<td><code>ce_franchiseowner_web_dev</code></td>
+<td><code>ce_franchiseowner</code></td>
 </tr>
 <tr>
-<td><code>DB_NAME</code></td>
-<td><code>ce_franchiseowner_dev</code></td>
-<td><strong><code>ce_franchiseowner</code></strong></td>
-</tr>
-<tr>
-<td><code>CE_ALLOW_PROD_FROM_SOURCE</code></td>
-<td>unset</td>
-<td>Set to <code>1</code> only for emergency maintenance scripts</td>
+<td>Data</td>
+<td>fake demo / multi-branch</td>
+<td>real South Carolina data</td>
 </tr>
 </tbody>
 </table>
-<h2 id="promoting-dev-prod-one-shot-setup">Promoting dev → prod (one-shot setup)<a class="headerlink" href="#promoting-dev-prod-one-shot-setup" title="Permanent link">&para;</a></h2>
-<p>The <code>tools/setup_prod_db.py</code> script copies the dev schema and seed
-data into a fresh <code>ce_franchiseowner</code> database. Run from the project
-root:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="n">python</span> <span class="n">tools</span><span class="p">/</span><span class="n">setup_prod_db</span><span class="p">.</span><span class="n">py</span>
+<p>The same <code>docker-compose.yml</code> runs in each folder, parameterized by that folder's
+<code>.env</code>; <code>COMPOSE_PROJECT_NAME</code> namespaces containers/volumes so both run side by side.</p>
+<h2 id="working-in-dev">Working in dev<a class="headerlink" href="#working-in-dev" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong>Backend changes:</strong> the backend is bind-mounted but Uvicorn runs with <strong>no
+  auto-reload</strong> — run <code>docker compose restart backend</code> for Python changes to take effect.</li>
+<li><strong>Frontend changes:</strong> Vite HMR picks them up live — no restart, no rebuild.</li>
+<li><strong>Dependency changes</strong> (<code>requirements.txt</code> / <code>package.json</code> / a Dockerfile) require
+  a rebuild: <code>docker compose up -d --build</code>.</li>
+</ul>
+<h2 id="releasing-to-production">Releasing to production<a class="headerlink" href="#releasing-to-production" title="Permanent link">&para;</a></h2>
+<p>Always: <strong>fix in dev → verify → ship to prod.</strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="c1"># 1. push dev work</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>git<span class="w"> </span>push<span class="w"> </span>origin<span class="w"> </span>development
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="c1"># 2. fast-forward main to match</span>
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>git<span class="w"> </span>push<span class="w"> </span>origin<span class="w"> </span>development:main
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="c1"># 3. in the PROD folder, run the deploy script</span>
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>powershell<span class="w"> </span>-NoProfile<span class="w"> </span>-ExecutionPolicy<span class="w"> </span>Bypass<span class="w"> </span>-File<span class="w"> </span><span class="s2">&quot;C:/Projects/CE-FranchiseOwner-WEB/deploy.ps1&quot;</span>
 </code></pre></div>
-<p>Type <code>YES</code> when prompted. It is idempotent — re-running it after
-the first successful run is a no-op for seed data (it only copies
-seed rows into empty tables).</p>
-<h2 id="resetting-the-dev-database">Resetting the dev database<a class="headerlink" href="#resetting-the-dev-database" title="Permanent link">&para;</a></h2>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="n">python</span> <span class="n">tools</span><span class="p">/</span><span class="n">reset_dev_db</span><span class="p">.</span><span class="n">py</span>
-</code></pre></div>
-<p>Truncates every transaction table in dependency order
-(<code>FOREIGN_KEY_CHECKS=0</code> is flipped briefly as belt-and-braces).
-Leaves dim tables, <code>app_settings</code>, <code>email_templates</code>, and
-<code>master_list</code> alone, so the next launch isn't a blank slate.</p>
-<h2 id="distributing-the-installer">Distributing the installer<a class="headerlink" href="#distributing-the-installer" title="Permanent link">&para;</a></h2>
+<p><code>deploy.ps1</code> (refuses to run unless the current branch is <code>main</code>):</p>
 <ol>
-<li>Build the <code>.exe</code> (above).</li>
-<li>Run the Inno Setup script (lives in a sibling repo).</li>
-<li>Ship the resulting <code>CE-FranchiseOwner-Setup.exe</code> to the operator.</li>
-<li>Provide the operator with three credential bundles:</li>
-<li>PropStream username + password</li>
-<li>Rackspace SMTP / IMAP username + password</li>
-<li>Anthropic API key (optional)</li>
+<li><code>git pull --ff-only origin main</code></li>
+<li><code>docker compose up -d</code> (reuses images; pass <code>-Build</code> only when a dependency/Dockerfile changed)</li>
+<li><code>docker compose restart backend</code> (Uvicorn has no auto-reload)</li>
+<li>Health-check: polls <code>http://localhost:8002/health</code> up to 10× (2s apart) for HTTP 200,
+   then reports the app at <code>http://localhost:5174</code>.</li>
 </ol>
-<p>On first launch the operator enters those credentials in Admin, the
-app saves them base-64-encoded into <code>app_settings</code>, and from then on
-the app is self-contained.</p>
-<h2 id="logs">Logs<a class="headerlink" href="#logs" title="Permanent link">&para;</a></h2>
+<h2 id="environment-variables">Environment variables<a class="headerlink" href="#environment-variables" title="Permanent link">&para;</a></h2>
+<p>Set in each folder's <code>.env</code> (gitignored). Key ones (<code>.env.example</code> / <code>config.py</code>):</p>
 <table>
 <thead>
 <tr>
-<th>Path</th>
-<th>Written by</th>
+<th>Var</th>
+<th>Purpose</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td><code>logs/</code> <em>(app data dir)</em></td>
-<td>General app logs</td>
+<td><code>COMPOSE_PROJECT_NAME</code></td>
+<td>namespaces containers/volumes per env (<code>ce-web-dev</code> / <code>ce-web</code>)</td>
 </tr>
 <tr>
-<td><code>data/logs/email_sends.log</code></td>
-<td>Flat-file mirror of every email send for offline audit</td>
+<td><code>APP_ENV</code></td>
+<td><code>dev</code> | <code>prod</code>; drives the PROD banner and disables demo logins/admin in prod</td>
 </tr>
 <tr>
-<td><code>logs/doc_run.log</code></td>
-<td>Docs Engine run history — read by the <em>Docs Engine</em> admin tab to colour its status banner</td>
+<td><code>POSTGRES_USER</code> / <code>POSTGRES_PASSWORD</code> / <code>POSTGRES_DB</code> / <code>POSTGRES_HOST_PORT</code></td>
+<td>Postgres container + host port</td>
 </tr>
 <tr>
-<td><code>system_logs</code> table</td>
-<td>All audit events: <code>startup</code>, <code>db_warn</code>, <code>backup_manager</code>, <code>batch_progress</code>, <code>migration</code>, screen-specific changes</td>
+<td><code>APP_DB_USER</code> / <code>APP_DB_PASSWORD</code></td>
+<td>the non-superuser RLS role (<code>ce_app</code> / <code>ce_app_pw</code>); compose builds <code>DATABASE_URL</code> from these</td>
+</tr>
+<tr>
+<td><code>DATABASE_URL</code></td>
+<td>full SQLAlchemy URL (compose composes the real one for the container)</td>
+</tr>
+<tr>
+<td><code>BACKEND_PORT</code> / <code>FRONTEND_PORT</code> / <code>VITE_API_BASE</code> / <code>CORS_ORIGINS</code></td>
+<td>ports + frontend/back wiring</td>
+</tr>
+<tr>
+<td><code>DEMO_TOKEN_SECRET</code></td>
+<td>HMAC token-signing secret (machine-local, never committed)</td>
+</tr>
+<tr>
+<td><code>SC_MANAGER_PW_HASH</code>, <code>NEWMEXICO_MANAGER_PW_HASH</code>, <code>NORTHCAROLINA_MANAGER_PW_HASH</code></td>
+<td>PBKDF2 hashes for the real <code>*_manager</code> accounts</td>
+</tr>
+<tr>
+<td><code>ANTHROPIC_API_KEY</code></td>
+<td>Update Website LLM proxy (server-side only)</td>
+</tr>
+<tr>
+<td><code>UNSUB_POLL_ENABLED</code> / <code>UNSUB_POLL_INTERVAL_SECONDS</code> / <code>UNSUB_POLL_TERRITORIES</code> / <code>CONTRACT_DAYS</code></td>
+<td>inbox poller (on in prod; default 900s, <code>SC</code>, 50 days)</td>
 </tr>
 </tbody>
 </table>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>SMTP/IMAP credentials are <strong>not</strong> env vars — they live in <code>admin_app_settings</code>
+(<code>smtp.*</code>, <code>imap_*</code>), set through the Admin UI.</p>
+</div>
+<h2 id="schema-migrations">Schema &amp; migrations<a class="headerlink" href="#schema-migrations" title="Permanent link">&para;</a></h2>
+<ul>
+<li>The base schema is materialized by loading the production dump <code>seed/ce_pg.sql</code>
+  (~30 tables) into Postgres. Alembic's <code>0001_baseline</code> is a no-op marker so the DB
+  can be <code>alembic stamp</code>-ed to a known starting point; future changes build forward.</li>
+<li><code>backend/demo/*.sql</code> are ordered bootstrap/migration scripts, run by a superuser
+  via <code>docker exec … psql</code>:</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>Script</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>rename_tables.sql</code></td>
+<td>rename legacy desktop tables to the new convention</td>
+</tr>
+<tr>
+<td><code>00_prod_init_sc.sql</code></td>
+<td>prod-only: tag rows <code>territory='SC'</code>, give config tables the <code>(key, territory)</code> shape, create the national-report table</td>
+</tr>
+<tr>
+<td><code>01_territory_setup.sql</code></td>
+<td>demo: add <code>territory</code>, mark <code>SC</code>, duplicate into <code>DALLAS</code>/<code>VIRGINIA</code></td>
+</tr>
+<tr>
+<td><code>02_rls_setup.sql</code></td>
+<td>create the <code>ce_app</code> non-superuser role, grants, enable RLS + <code>terr_isolation</code></td>
+</tr>
+<tr>
+<td><code>03_*</code> / <code>04_*</code></td>
+<td>demo data variation + engagement</td>
+</tr>
+<tr>
+<td><code>05_per_territory_config.sql</code> / <code>05_email_bounce.sql</code></td>
+<td>per-territory config (demo) + bounce table</td>
+</tr>
+<tr>
+<td><code>06_app_login.sql</code></td>
+<td>the global, RLS-free <code>app_login</code> table (data-driven logins)</td>
+</tr>
+<tr>
+<td><code>07_config_territory.sql</code></td>
+<td>prod-safe <code>terr_config</code> RLS on the two config tables (no fake-branch duplication)</td>
+</tr>
+</tbody>
+</table>
+<p>Prod rebuild order: <code>seed/ce_pg.sql</code> → <code>rename_tables.sql</code> → <code>00</code> → <code>02</code> → <code>06</code> → <code>07</code>.</p>
+<p>Reminder: after any backend code change, <code>docker compose restart backend</code>.</p>
 
 
 

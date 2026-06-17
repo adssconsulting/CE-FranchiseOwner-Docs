@@ -6,7 +6,7 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="Help and reference documentation for CE FranchiseOwner — the Commission Express of South Carolina lead-generation desktop app.">
+        <meta name="description" content="Help and reference documentation for CE FranchiseOwner — the Commission Express franchise web app for lead generation, call tracking, and commission-advance pre-underwriting.">
       
       
         <meta name="author" content="Commission Express of South Carolina">
@@ -804,6 +804,45 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#2026-06-17-docs-ported-from-desktop-to-the-web-app" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2026-06-17 — Docs ported from desktop to the web app
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2026-06-17 — Docs ported from desktop to the web app">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#what-changed-in-the-docs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What changed in the docs
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#what-changed-in-the-product-since-the-desktop-docs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What changed in the product (since the desktop docs)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#2026-05-13-docs-engine-first-regeneration" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -939,6 +978,40 @@
 <h1 id="release-notes-sprint-log">Release Notes / Sprint Log<a class="headerlink" href="#release-notes-sprint-log" title="Permanent link">&para;</a></h1>
 <p>Newest entry first. Each Docs Engine run appends a new dated section
 to the top of this file.</p>
+<hr />
+<h2 id="2026-06-17-docs-ported-from-desktop-to-the-web-app">2026-06-17 — Docs ported from desktop to the web app<a class="headerlink" href="#2026-06-17-docs-ported-from-desktop-to-the-web-app" title="Permanent link">&para;</a></h2>
+<p>The product moved from the Windows desktop app to a <strong>web app</strong> (FastAPI +
+React/Vite + PostgreSQL, run as two Docker stacks). This documentation set was
+fully rewritten to match — every page previously described the old desktop app
+(tkinter, MariaDB, <code>.exe</code>).</p>
+<h3 id="what-changed-in-the-docs">What changed in the docs<a class="headerlink" href="#what-changed-in-the-docs" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>User Guide</strong> rewritten around the live web screens: Dashboard, Properties,
+  Review Matches (Master + No-Master modes), Email Queue, Sent History, Call
+  Tracker, Pre-Underwriting / Gate Check, Update Website, Ops Library, Unsubscribe,
+  and the day-to-day Admin tabs.</li>
+<li><strong>Technical</strong> pages rebuilt for the web stack: architecture (FastAPI/React/
+  Postgres, the two Docker stacks, HMAC-token auth, multi-territory Row-Level
+  Security), a full column-level <strong>database schema</strong> for all 36 tables, API &amp;
+  integrations (PropStream, MLS RESO API, SMTP/IMAP, Anthropic), and a Docker-based
+  deployment guide. Technical and QA pages now open with an "internal — for the
+  system administrator" banner.</li>
+<li><strong>QA</strong> updated for the backend <code>pytest</code> suite (<code>backend/tests/test_suite.py</code>,
+  side-effect-free, run live or from the Admin → Test Suite tab).</li>
+</ul>
+<h3 id="what-changed-in-the-product-since-the-desktop-docs">What changed in the product (since the desktop docs)<a class="headerlink" href="#what-changed-in-the-product-since-the-desktop-docs" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Multi-territory</strong> with Postgres Row-Level Security — each franchise sees only
+  its own data; the national admin sees across branches.</li>
+<li>Tables renamed to the <code>{domain}_{name}_{type}</code> convention (<code>agentoutreach_*</code>,
+  <code>preunderwriting_*</code>, <code>calltracker_*</code>, <code>admin_*</code>, <code>engagement_*</code>, <code>system_*</code>).</li>
+<li><strong>Data-driven logins</strong> (<code>app_login</code>) with a national-admin <strong>Onboard Franchise</strong>
+  flow and a <strong>Logins</strong> tab for set/reset password.</li>
+<li>New <strong>Pre-Underwriting / Gate Check</strong> domain (12-question scoring + LLM document
+  extraction), email <strong>bounce</strong> detection, and unified <strong>engagement</strong> tracking.</li>
+<li>The <strong>Docs Engine</strong> tab's prompt was updated to read the web codebase instead of
+  the old desktop folders.</li>
+</ul>
 <hr />
 <h2 id="2026-05-13-docs-engine-first-regeneration">2026-05-13 — Docs Engine first regeneration<a class="headerlink" href="#2026-05-13-docs-engine-first-regeneration" title="Permanent link">&para;</a></h2>
 <p>First end-to-end run of the Docs Engine workflow. All 9 content pages

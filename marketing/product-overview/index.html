@@ -6,7 +6,7 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="Help and reference documentation for CE FranchiseOwner — the Commission Express of South Carolina lead-generation desktop app.">
+        <meta name="description" content="Help and reference documentation for CE FranchiseOwner — the Commission Express franchise web app for lead generation, call tracking, and commission-advance pre-underwriting.">
       
       
         <meta name="author" content="Commission Express of South Carolina">
@@ -518,10 +518,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#lead-engine" class="md-nav__link">
+  <a href="#who-its-for" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Lead Engine
+        Who it's for
       
     </span>
   </a>
@@ -529,10 +529,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#call-tracker" class="md-nav__link">
+  <a href="#what-makes-it-different" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Call Tracker
+        What makes it different
       
     </span>
   </a>
@@ -540,10 +540,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#pre-underwriting-gate-check" class="md-nav__link">
+  <a href="#the-payoff" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Pre-Underwriting / Gate Check
+        The payoff
       
     </span>
   </a>
@@ -870,46 +870,45 @@
 
 
 <h1 id="product-overview">Product Overview<a class="headerlink" href="#product-overview" title="Permanent link">&para;</a></h1>
-<p>CE FranchiseOwner is three tools on one platform: a lead-generation engine for outbound agent outreach, a call tracker for previous-client follow-up, and a pre-underwriting gate check that scores inbound application emails before you spend time on them.</p>
-<h2 id="lead-engine">Lead Engine<a class="headerlink" href="#lead-engine" title="Permanent link">&para;</a></h2>
-<p><strong>Automated targeted outreach to active real estate agents — on your schedule, under your control.</strong></p>
-<p>Every day the app finds real estate agents whose deals just went Active Under Contract in South Carolina. It matches them to licensed agents, then sends a personalised email sequence on your behalf — the right message, to the right agent, at the right time. You decide who gets emails, what they say, how many times they are sent, and how often.</p>
-<details>
-<summary>How it works (technical)</summary>
-
-Scrapes PropStream across all South Carolina counties for Active Under Contract listings, fuzzy-matches listing agents against a master roster of licensed SC real-estate agents, then sends a personalised drip-email sequence through Rackspace SMTP. Every email is logged to a single email_log source of truth.
-
-</details>
-
-<blockquote>
-<p>Targeted marketing giving you full control of where, how, and when to reach agents — no manual work, no missed opportunities.</p>
-</blockquote>
-<h2 id="call-tracker">Call Tracker<a class="headerlink" href="#call-tracker" title="Permanent link">&para;</a></h2>
-<p><strong>A smart call logger that keeps your previous client relationships alive.</strong></p>
-<p>Tracks every call made to previous or inactive clients — who you called, what they said, and when to follow up. The app gives you a daily call list so nothing falls through the cracks. You log outcomes (Interested, Call me back, Left voicemail, Not interested, Do not call, Converted) and set follow-up dates with one click.</p>
-<details>
-<summary>How it works (technical)</summary>
-
-Imports a Previous Clients Excel file, counts deals per agent, fuzzy-matches against the master list, lets you approve or reject each match, then drives a daily call worksheet with outcome tracking and follow-up scheduling.
-
-</details>
-
-<blockquote>
-<p>Targeted call marketing with built-in scripts, tracker, and logger — turning inactive clients into active revenue.</p>
-</blockquote>
-<h2 id="pre-underwriting-gate-check">Pre-Underwriting / Gate Check<a class="headerlink" href="#pre-underwriting-gate-check" title="Permanent link">&para;</a></h2>
-<p><strong>Know if a deal is worth your time before you spend a minute on it.</strong></p>
-<p>Every application email that arrives in your inbox gets automatically scored against 12 key criteria. You get a clear traffic-light verdict — Worth It, Not Worth It, or Cannot Decide — before you open a single document. Stop wasting hours on deals that will never close.</p>
-<details>
-<summary>How it works (technical)</summary>
-
-Reads incoming application emails via IMAP, parses attached PDFs (purchase contract, MLS sheet, pre-qual letter, etc.), and runs a 12-question gate check. Two questions (Q4 open contingencies, Q8 pre-approval / proof of funds) use AI document analysis. Results are encrypted and stored per application.
-
-</details>
-
-<blockquote>
-<p>Fully automated pre-screening that traffic-lights every deal — so you only underwrite the ones worth your time.</p>
-</blockquote>
+<p>CE FranchiseOwner is an all-in-one web app built for Commission Express
+franchise owners. It brings three jobs together on one screen:</p>
+<ol>
+<li><strong>Lead Engine</strong> — automated outbound outreach to real-estate agents whose
+   listings just went Active Under Contract.</li>
+<li><strong>Call Tracker</strong> — a daily call worksheet for previous and inactive clients,
+   so no follow-up slips through the cracks.</li>
+<li><strong>Gate Check</strong> — a pre-underwriting triage that scores inbound
+   commission-advance application emails <em>before</em> you spend time on them.</li>
+</ol>
+<p>It runs in your web browser — nothing to install — and you sign in with your
+own franchise login.</p>
+<h2 id="who-its-for">Who it's for<a class="headerlink" href="#who-its-for" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong>Franchise owners</strong> who want their day-to-day busywork automated: finding
+  fresh agents, emailing them on a schedule, tracking calls, and filtering out
+  applications that aren't worth underwriting.</li>
+<li><strong>The national office</strong>, which can stand up a new franchise's setup in minutes
+  and see network-wide reporting.</li>
+</ul>
+<h2 id="what-makes-it-different">What makes it different<a class="headerlink" href="#what-makes-it-different" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong>Automated, but you stay in control.</strong> The app drafts and queues everything;
+  you decide who gets contacted, what's said, and when it sends. Nothing goes out
+  without your approval.</li>
+<li><strong>One platform, many branches.</strong> Each franchise (South Carolina, Dallas,
+  Virginia, New Mexico, North Carolina, …) sees only its own data. The national
+  admin can onboard a new branch — copying South Carolina's proven templates and
+  settings — in a few clicks.</li>
+<li><strong>Built around real engagement.</strong> The dashboard treats every human response —
+  an application, a reply, even an unsubscribe — as a signal worth tracking,
+  because it means a real person engaged.</li>
+<li><strong>No data left behind.</strong> Listings, agents, emails, calls, and applications are
+  all stored, versioned, and searchable, with full backups you control.</li>
+</ul>
+<h2 id="the-payoff">The payoff<a class="headerlink" href="#the-payoff" title="Permanent link">&para;</a></h2>
+<p>More leads in your pipeline. More past clients converted from calls. And about
+30 minutes saved on every single application you don't have to underwrite by hand.</p>
+<p>Ready for the details? Head to the <a href="../feature-guides/">Feature Guides</a>.</p>
 
 
 

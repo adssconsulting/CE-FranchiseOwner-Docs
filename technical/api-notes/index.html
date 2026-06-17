@@ -6,7 +6,7 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="Help and reference documentation for CE FranchiseOwner — the Commission Express of South Carolina lead-generation desktop app.">
+        <meta name="description" content="Help and reference documentation for CE FranchiseOwner — the Commission Express franchise web app for lead generation, call tracking, and commission-advance pre-underwriting.">
       
       
         <meta name="author" content="Commission Express of South Carolina">
@@ -719,44 +719,22 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#propstream-browser-automation" class="md-nav__link">
+  <a href="#external-integrations" class="md-nav__link">
     <span class="md-ellipsis">
       
-        PropStream (browser automation)
+        External integrations
       
     </span>
   </a>
   
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#smtp-outgoing-email-rackspace" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        SMTP (outgoing email — Rackspace)
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#imap-unsubscribe-poller-application-inbox-rackspace" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        IMAP (unsubscribe poller + application inbox — Rackspace)
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="IMAP (unsubscribe poller + application inbox — Rackspace)">
+    <nav class="md-nav" aria-label="External integrations">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#unsubscribe-poller" class="md-nav__link">
+  <a href="#propstream-property-exports" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Unsubscribe poller
+        PropStream (property exports)
       
     </span>
   </a>
@@ -764,10 +742,43 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#application-email-poller-pre-underwriting" class="md-nav__link">
+  <a href="#mls-reso-web-api-odata" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Application-email poller (Pre-Underwriting)
+        MLS RESO Web API (OData)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#smtp-outbound-email" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        SMTP (outbound email)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#imap-sent-copy-inbox-poller" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        IMAP (Sent copy + inbox poller)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#anthropic-api" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Anthropic API
       
     </span>
   </a>
@@ -780,32 +791,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#anthropic-api-claude-haiku-45" class="md-nav__link">
+  <a href="#main-api-endpoint-groups" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Anthropic API (Claude Haiku 4.5)
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#pdf-download-classification" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        PDF download / classification
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#license-key-activation-disabled" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        License key activation (disabled)
+        Main API endpoint groups
       
     </span>
   </a>
@@ -931,124 +920,127 @@
 
 
 <h1 id="api-integrations">API &amp; Integrations<a class="headerlink" href="#api-integrations" title="Permanent link">&para;</a></h1>
-<p>Every external system the app talks to, where the wire-up lives in
-the code, and which <code>app_settings</code> keys configure it.</p>
-<h2 id="propstream-browser-automation">PropStream (browser automation)<a class="headerlink" href="#propstream-browser-automation" title="Permanent link">&para;</a></h2>
+<div class="admonition warning">
+<p class="admonition-title">Internal — for the system administrator</p>
+<p>This page is for the CE FranchiseOwner administrator (the franchise's
+technical owner). If you're a franchise owner just here to learn the app,
+head back to the <a href="../../marketing/feature-guides/">User Guide</a>.</p>
+</div>
+<p>Every external system the app talks to, and where its config/keys come from. The
+rule throughout: <strong>secrets live server-side</strong> — environment variables or the
+<code>admin_app_settings</code> table — and never reach the browser.</p>
+<h2 id="external-integrations">External integrations<a class="headerlink" href="#external-integrations" title="Permanent link">&para;</a></h2>
+<h3 id="propstream-property-exports">PropStream (property exports)<a class="headerlink" href="#propstream-property-exports" title="Permanent link">&para;</a></h3>
+<p>PropStream Excel exports are the primary property/agent feed. They're imported via
+<code>POST /api/properties/import</code> (openpyxl) into <code>agentoutreach_property_load_fact</code>.
+The <code>mls_agent_name</code> / <code>mls_agent_email</code> / <code>mls_brokerage_*</code> columns drive agent
+matching (rapidfuzz) against the master list. No external API or key — it's a file
+upload. PropStream login credentials for the scraper are stored in
+<code>admin_app_settings</code> (keys <code>propstream.*</code>).</p>
+<h3 id="mls-reso-web-api-odata">MLS RESO Web API (OData)<a class="headerlink" href="#mls-reso-web-api-odata" title="Permanent link">&para;</a></h3>
+<p><code>POST /api/properties/import-api</code> pulls Property records from a RESO/OData feed via
+<code>_fetch_reso_properties</code> (dry-run "Pre-Check" or real import). The base URL comes
+from <code>admin_app_settings</code> key <code>mls_api.base_url</code> (falls back to a default mock feed)
+and is persisted back to settings. This proves live-feed ingestion, not just Excel.</p>
+<h3 id="smtp-outbound-email">SMTP (outbound email)<a class="headerlink" href="#smtp-outbound-email" title="Permanent link">&para;</a></h3>
+<p><code>smtplib</code> sends batch outreach (<code>POST /api/email-queue/send-batch</code>) using settings
+resolved from <code>admin_app_settings</code> via <code>_smtp_cfg</code> (<code>smtp.host</code>, <code>smtp.port</code>,
+<code>smtp.username</code>, <code>smtp.password</code>, <code>smtp.sender_email</code>, <code>smtp.sender_name</code>,
+<code>smtp.signature</code>). If SMTP isn't configured the send refuses rather than silently
+succeeding. Every email gets a STOP-reply unsubscribe footer and URL linkification.
+Test endpoint: <code>POST /api/admin/smtp/test</code>.</p>
+<h3 id="imap-sent-copy-inbox-poller">IMAP (Sent copy + inbox poller)<a class="headerlink" href="#imap-sent-copy-inbox-poller" title="Permanent link">&para;</a></h3>
+<p><code>imaplib</code> is used two ways:</p>
 <ul>
-<li><strong>Module.</strong> <code>scraper/propstream_scraper.py</code> (Selenium, current
-  production path) and <code>scraper/propstream_scraper_playwright.py</code>
-  (Playwright, experimental).</li>
-<li><strong>How.</strong> <code>webdriver-manager</code> resolves the ChromeDriver for the
-  installed Chrome version. Chrome is launched with
-  <code>--user-data-dir=&lt;persistent profile&gt;</code> plus anti-detection flags
-  so PropStream's session cookies survive between scrape runs. If
-  the session has expired, the scraper types the username and
-  password from <code>app_settings</code> with randomised 0.05-0.15s per-key
-  delays.</li>
-<li><strong>Settings keys</strong> (<code>app_settings</code>):</li>
-<li><code>propstream.username</code></li>
-<li><code>propstream.password</code> <em>(base-64 encoded)</em></li>
-<li><code>propstream.profile_path</code> <em>(absolute Windows path to the
-    Chrome user-data directory)</em></li>
-<li><strong>Failure modes.</strong> "Chrome profile not found" if the path
-  doesn't exist; "Session expired, attempting auto-login" if the
-  scraper detects the login page after navigation; otherwise
-  prints PropStream's DOM error verbatim.</li>
+<li>After each send, the message is best-effort APPENDed to the IMAP Sent folder
+  (<code>imap_host</code>/<code>imap_port</code>; defaults <code>secure.emailsrvr.com:993</code>; tries <code>Sent</code>,
+  <code>Sent Items</code>, <code>INBOX.Sent</code>). An IMAP failure never fails a delivered send.</li>
+<li>The background unsubscribe/bounce poller (<code>_poll_unsubscribe_inbox</code>, looped from
+  <code>main.py</code>) scans the inbox for STOP/unsubscribe replies and hard bounces,
+  suppressing those agents. It runs per-territory, scoped via the RLS session vars,
+  and is on by default in prod only. Also a manual button: <code>POST /api/admin/unsubscribe/check</code>.
+  Application intake reads the inbox via <code>/api/applications/scan/read-inbox</code>.
+  Test endpoint: <code>POST /api/admin/imap/test</code>.</li>
 </ul>
-<h2 id="smtp-outgoing-email-rackspace">SMTP (outgoing email — Rackspace)<a class="headerlink" href="#smtp-outgoing-email-rackspace" title="Permanent link">&para;</a></h2>
-<ul>
-<li><strong>Module.</strong> <code>email_engine/email_sender.py</code>. Single entry point
-  used by every screen that sends email. Wraps <code>smtplib.SMTP_SSL</code>
-  / <code>smtplib.SMTP</code> with STARTTLS depending on port.</li>
-<li><strong>Behaviour.</strong> Loads <code>smtp.*</code> settings, appends the
-  <code>smtp.signature</code> to the body with a <code>---</code> separator, sends, and
-  writes a row to <code>email_log</code> on success (with <code>sent_at=NOW()</code>,
-  <code>is_test=0</code> for production sends, <code>is_test=1</code> for test sends).
-  Also writes a file-line to <code>data/logs/email_sends.log</code> for an
-  offline audit trail.</li>
-<li><strong>Settings keys.</strong></li>
-<li><code>smtp.sender_name</code> — display name on outgoing email</li>
-<li><code>smtp.sender_email</code> — From: address</li>
-<li><code>smtp.host</code> — typically <code>secure.emailsrvr.com</code></li>
-<li><code>smtp.port</code> — <code>587</code></li>
-<li><code>smtp.username</code> — full address; same as IMAP username</li>
-<li><code>smtp.password</code> <em>(base-64 encoded)</em></li>
-<li><code>smtp.delay</code> — pacing label used by the batch sender</li>
-<li><code>smtp.signature</code> — multi-line text appended to every send</li>
-</ul>
-<h2 id="imap-unsubscribe-poller-application-inbox-rackspace">IMAP (unsubscribe poller + application inbox — Rackspace)<a class="headerlink" href="#imap-unsubscribe-poller-application-inbox-rackspace" title="Permanent link">&para;</a></h2>
-<p>The same Rackspace mailbox credentials power <strong>two</strong> distinct
-pollers:</p>
-<h3 id="unsubscribe-poller">Unsubscribe poller<a class="headerlink" href="#unsubscribe-poller" title="Permanent link">&para;</a></h3>
-<ul>
-<li><strong>Module.</strong> <code>email_engine/unsubscribe_poller.py</code>.</li>
-<li><strong>Schedule.</strong> Daemon thread checks at 12:00 and 16:30 local
-  (see <code>CHECK_TIMES</code> in <code>main.py</code>).</li>
-<li><strong>Behaviour.</strong> Searches the inbox for messages containing any of
-  <code>stop</code>, <code>unsubscribe</code>, <code>remove me</code>, <code>opt out</code>,
-  <code>do not contact</code>, <code>do not email</code> in the subject or body, derives
-  the agent email from the reply chain, and <code>INSERT IGNORE</code> into
-  <code>unsubscribe_list</code>. Future drip sends skip any address in that
-  table.</li>
-<li><strong>Settings.</strong> Reuses <code>smtp.username</code> and <code>smtp.password</code>. Host
-  is <code>secure.emailsrvr.com</code>, port 993, TLS.</li>
-</ul>
-<h3 id="application-email-poller-pre-underwriting">Application-email poller (Pre-Underwriting)<a class="headerlink" href="#application-email-poller-pre-underwriting" title="Permanent link">&para;</a></h3>
-<ul>
-<li><strong>Module.</strong> <code>gui/screens/pre_underwriting_screen.py</code> (Step 1
-  <em>Read inbox</em> button).</li>
-<li><strong>Behaviour.</strong> Pulls unread messages from a dedicated mailbox
-  matching the CE application form's <code>From:</code> address, passes each
-  HTML body to <code>core.email_parser.parse_application_email()</code>,
-  encrypts every PII field with <code>core.crypto.encrypt_pii()</code> using
-  the Fernet key in <code>app_settings.pii_encryption_key</code>, and inserts
-  the result into <code>ce_application_dim</code> with the <code>nkey_hash</code> index.</li>
-<li><strong>Settings.</strong> Reuses <code>smtp.username</code> / <code>smtp.password</code>. The
-  dedicated mailbox is typically a sub-folder or a separate
-  Rackspace mailbox; configuration lives in <code>app_settings</code> keys
-  prefixed <code>imap.application_*</code>.</li>
-</ul>
-<h2 id="anthropic-api-claude-haiku-45">Anthropic API (Claude Haiku 4.5)<a class="headerlink" href="#anthropic-api-claude-haiku-45" title="Permanent link">&para;</a></h2>
-<ul>
-<li><strong>Module.</strong> <code>core/llm_scanner.py</code>.</li>
-<li><strong>Purpose.</strong> Two targeted PDF reads used by the gate check:</li>
-<li><strong>Q4</strong> — <code>scan_q4_contingencies(pdf_url)</code> — read a purchase
-    contract for any open/active contingencies that could block
-    closing.</li>
-<li><strong>Q8</strong> — <code>scan_q8_prequal(pdf_url)</code> — read a pre-qual letter
-    or proof-of-funds PDF for buyer-financing readiness.</li>
-<li><strong>Wire.</strong> Standard Messages API call to
-  <code>https://api.anthropic.com/v1/messages</code> with model
-  <code>claude-haiku-4-5</code> and <code>anthropic-beta: pdfs-2024-09-25</code> to send
-  PDFs as <code>document</code> content blocks. 120-second timeout.</li>
-<li><strong>Cost tracking.</strong> Each call returns <code>tokens_in</code>, <code>tokens_out</code>,
-  and <code>cost_usd</code> (priced at $1 / 1M input, $5 / 1M output for
-  Haiku 4.5). Every call is logged to <code>ce_application_api_calls</code>
-  with the raw response.</li>
-<li><strong>Settings.</strong> <code>app_settings.anthropic_api_key</code> <em>(base-64
-  encoded)</em>. If missing, both functions short-circuit and return
-  <code>{status: 'NO_API_KEY', reason: 'API key not configured'}</code> —
-  the rest of the gate check still runs.</li>
-</ul>
-<h2 id="pdf-download-classification">PDF download / classification<a class="headerlink" href="#pdf-download-classification" title="Permanent link">&para;</a></h2>
-<ul>
-<li><strong>Module.</strong> <code>core/pdf_extractor.py</code>.</li>
-<li><strong><code>classify_pdf_url(url)</code></strong> parses the Gravity-Forms
-  <code>?gf-download=...</code> URL parameter, extracts the filename
-  fragment, and maps it via <code>PDF_TYPE_PATTERNS</code> to one of
-  <code>mls</code> / <code>purchase</code> / <code>prequal</code> / <code>compensation</code> / <code>license</code> /
-  <code>misc</code> / <code>unknown</code>. Pure local string work — no network.</li>
-<li><strong><code>fetch_pdf_bytes(url)</code></strong> downloads the PDF body in memory
-  (<code>requests.get</code>). License PDFs are explicitly gated upstream so
-  this function never sees one.</li>
-<li><strong><code>extract_text_from_bytes(b)</code></strong> uses <code>pdfplumber</code> to extract
-  text per page and concatenate, used for the local-only
-  heuristic field parsers in <code>core/field_parsers/</code>.</li>
-</ul>
-<h2 id="license-key-activation-disabled">License key activation <em>(disabled)</em><a class="headerlink" href="#license-key-activation-disabled" title="Permanent link">&para;</a></h2>
-<p><code>gui/license_window.py</code> ships a one-time license-key activation
-screen, currently bypassed for demo. To re-enable: wrap
-<code>_run_login()</code> in <code>main.py</code> with <code>LicenseWindow(on_activate=…)</code>.</p>
+<h3 id="anthropic-api">Anthropic API<a class="headerlink" href="#anthropic-api" title="Permanent link">&para;</a></h3>
+<p>Used only by the <strong>Update Website</strong> tool (<code>update_website.py</code>, prefix
+<code>/api/update-website</code>), model <code>claude-sonnet-4-6</code>. The server proxies the
+FAQ-rewrite call so <code>ANTHROPIC_API_KEY</code> (backend env) never reaches the browser.
+Returns clear errors if the key is unset or the <code>anthropic</code> package is missing.
+Editable answer principles persist to <code>data/rules_faq.json</code> (one locked principle
+always enforced).</p>
+<h2 id="main-api-endpoint-groups">Main API endpoint groups<a class="headerlink" href="#main-api-endpoint-groups" title="Permanent link">&para;</a></h2>
+<p>All under the <code>/api</code> prefix, in <code>backend/app/api.py</code> (plus the separate
+<code>update_website.py</code> router).</p>
+<table>
+<thead>
+<tr>
+<th>Group</th>
+<th>Endpoints (representative)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Auth / env</td>
+<td><code>/auth/login</code>, <code>/auth/me</code>, <code>/environment</code></td>
+</tr>
+<tr>
+<td>Dashboard / engagement</td>
+<td><code>/dashboard</code>, <code>/engagement/summary</code>, <code>/engagement/list</code></td>
+</tr>
+<tr>
+<td>Agents &amp; matching</td>
+<td><code>/agents/match-summary</code>, <code>/agents/matches</code>, <code>/agents/matches/decide</code>, <code>/agents/matches/run</code>, <code>/agents/matches/export</code>, <code>/agents/matching-stats</code>, <code>/agents/unmatched</code> (+ <code>/make-golden</code>, <code>/make-golden-bulk</code>, <code>/link</code>, <code>/skip</code>), <code>/master-list/search</code></td>
+</tr>
+<tr>
+<td>Email queue</td>
+<td><code>/email-queue/filter-options</code>, <code>/buckets</code>, <code>/dtc-buckets</code>, <code>/agents</code>, <code>/templates</code>, <code>/stats</code>, <code>/send-batch</code>, <code>/preview</code>, <code>/_cleanup_test</code>; <code>/sent-history</code></td>
+</tr>
+<tr>
+<td>Properties</td>
+<td><code>/properties</code>, <code>/properties/load-stats</code>, <code>/properties/import</code> (Excel), <code>/properties/import-api</code> (RESO)</td>
+</tr>
+<tr>
+<td>Call tracker</td>
+<td><code>/call-tracker</code> (+ <code>/stats</code>, <code>PUT /{cid}</code>), <code>/cold-call-matches</code> (+ <code>/stats</code>, <code>/import</code>, <code>/{mid}/decision</code>, <code>/{mid}/readd</code>)</td>
+</tr>
+<tr>
+<td>DB query console</td>
+<td><code>/db-query/run</code>, <code>/db-query/tables</code>, <code>/row-counts</code></td>
+</tr>
+<tr>
+<td>Admin — settings</td>
+<td><code>/admin/settings</code> (GET/PUT/bulk), <code>/admin/encryption-status</code>, <code>/admin/reference/{kind}</code>, <code>/admin/templates</code> (+ history, restore), <code>/admin/national-report</code></td>
+</tr>
+<tr>
+<td>Admin — onboarding/logins</td>
+<td><code>/admin/onboard/source</code>, <code>/admin/onboard/copy</code>, <code>/admin/logins</code>, <code>/admin/logins/reset-password</code></td>
+</tr>
+<tr>
+<td>Admin — email infra</td>
+<td><code>/admin/smtp/test</code>, <code>/admin/imap/test</code>, <code>/admin/send-utility/agents</code>, <code>/admin/send-utility/preview</code></td>
+</tr>
+<tr>
+<td>Admin — master list / backup / tests</td>
+<td><code>/admin/master-list</code> (+ stats, import), <code>/admin/backup/list\|run\|download\|restore</code>, <code>/admin/test-suite/list\|run\|report</code></td>
+</tr>
+<tr>
+<td>Unsubscribe / bounces</td>
+<td><code>/unsubscribe</code> (+ <code>/{uid}/readd</code>), <code>/bounces</code>, <code>/admin/unsubscribe/stats\|check\|readd</code></td>
+</tr>
+<tr>
+<td>Applications (intake)</td>
+<td><code>/applications</code> (+ <code>/{app_id}</code>, <code>/verdict</code>, <code>/recompute</code>), <code>/applications/scan/read-inbox\|preview\|parse-run</code></td>
+</tr>
+<tr>
+<td>Update Website</td>
+<td><code>/api/update-website/rules</code> + LLM proxy</td>
+</tr>
+</tbody>
+</table>
+<p>Authentication: every <code>/api/*</code> route requires a valid bearer token except the
+login-gate allowlist (<code>/auth/login</code>, <code>/environment</code>, <code>/auth/me</code>). See
+<a href="../architecture/#authentication">Architecture → Authentication</a>.</p>
 
 
 

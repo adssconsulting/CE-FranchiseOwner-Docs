@@ -6,7 +6,7 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="Help and reference documentation for CE FranchiseOwner — the Commission Express of South Carolina lead-generation desktop app.">
+        <meta name="description" content="Help and reference documentation for CE FranchiseOwner — the Commission Express franchise web app for lead generation, call tracking, and commission-advance pre-underwriting.">
       
       
         <meta name="author" content="Commission Express of South Carolina">
@@ -691,10 +691,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#conventions" class="md-nav__link">
+  <a href="#naming-convention" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Conventions
+        Naming convention
       
     </span>
   </a>
@@ -702,22 +702,44 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#lead-engine-tables" class="md-nav__link">
+  <a href="#row-level-security" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Lead Engine tables
+        Row-Level Security
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Lead Engine tables">
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#desktop-web-rename-mapping" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Desktop → Web rename mapping
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#agentoutreach_-agent-outreach-email-marketing-15-tables" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        agentoutreach_ — Agent outreach / email marketing (15 tables)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="agentoutreach_ — Agent outreach / email marketing (15 tables)">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#raw_scrapes" class="md-nav__link">
+  <a href="#agentoutreach_raw_scrape" class="md-nav__link">
     <span class="md-ellipsis">
       
-        raw_scrapes
+        agentoutreach_raw_scrape
       
     </span>
   </a>
@@ -725,10 +747,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#cleansed_leads" class="md-nav__link">
+  <a href="#agentoutreach_raw_auc_listing" class="md-nav__link">
     <span class="md-ellipsis">
       
-        cleansed_leads
+        agentoutreach_raw_auc_listing
       
     </span>
   </a>
@@ -736,10 +758,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#master_matches-legacy" class="md-nav__link">
+  <a href="#agentoutreach_cleansed_lead" class="md-nav__link">
     <span class="md-ellipsis">
       
-        master_matches (legacy)
+        agentoutreach_cleansed_lead
       
     </span>
   </a>
@@ -747,10 +769,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#agent_match_with_master" class="md-nav__link">
+  <a href="#agentoutreach_property_load_fact" class="md-nav__link">
     <span class="md-ellipsis">
       
-        agent_match_with_master
+        agentoutreach_property_load_fact
       
     </span>
   </a>
@@ -758,10 +780,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#property_loads" class="md-nav__link">
+  <a href="#agentoutreach_load_batch_dim" class="md-nav__link">
     <span class="md-ellipsis">
       
-        property_loads
+        agentoutreach_load_batch_dim
       
     </span>
   </a>
@@ -769,10 +791,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#load_inventory" class="md-nav__link">
+  <a href="#agentoutreach_master_agent_list" class="md-nav__link">
     <span class="md-ellipsis">
       
-        load_inventory
+        agentoutreach_master_agent_list
       
     </span>
   </a>
@@ -780,10 +802,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#master_list" class="md-nav__link">
+  <a href="#agentoutreach_agent_match_fact" class="md-nav__link">
     <span class="md-ellipsis">
       
-        master_list
+        agentoutreach_agent_match_fact
       
     </span>
   </a>
@@ -791,10 +813,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#saved_searches" class="md-nav__link">
+  <a href="#agentoutreach_master_match_fact" class="md-nav__link">
     <span class="md-ellipsis">
       
-        saved_searches
+        agentoutreach_master_match_fact
       
     </span>
   </a>
@@ -802,10 +824,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#email_templates-and-email_template_history" class="md-nav__link">
+  <a href="#agentoutreach_email_template_dim" class="md-nav__link">
     <span class="md-ellipsis">
       
-        email_templates and email_template_history
+        agentoutreach_email_template_dim
       
     </span>
   </a>
@@ -813,10 +835,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#email_log" class="md-nav__link">
+  <a href="#agentoutreach_email_template_history" class="md-nav__link">
     <span class="md-ellipsis">
       
-        email_log
+        agentoutreach_email_template_history
       
     </span>
   </a>
@@ -824,10 +846,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#system_logs" class="md-nav__link">
+  <a href="#agentoutreach_email_send_log" class="md-nav__link">
     <span class="md-ellipsis">
       
-        system_logs
+        agentoutreach_email_send_log
       
     </span>
   </a>
@@ -835,10 +857,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#app_settings" class="md-nav__link">
+  <a href="#agentoutreach_email_bounce" class="md-nav__link">
     <span class="md-ellipsis">
       
-        app_settings
+        agentoutreach_email_bounce
       
     </span>
   </a>
@@ -846,10 +868,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#cold_call_matches" class="md-nav__link">
+  <a href="#agentoutreach_unsubscribe_list" class="md-nav__link">
     <span class="md-ellipsis">
       
-        cold_call_matches
+        agentoutreach_unsubscribe_list
       
     </span>
   </a>
@@ -857,10 +879,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#cold_call_log" class="md-nav__link">
+  <a href="#agentoutreach_suppressed_log" class="md-nav__link">
     <span class="md-ellipsis">
       
-        cold_call_log
+        agentoutreach_suppressed_log
       
     </span>
   </a>
@@ -868,10 +890,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#unsubscribe_list" class="md-nav__link">
+  <a href="#agentoutreach_saved_search" class="md-nav__link">
     <span class="md-ellipsis">
       
-        unsubscribe_list
+        agentoutreach_saved_search
       
     </span>
   </a>
@@ -884,22 +906,22 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#pre-underwriting-tables" class="md-nav__link">
+  <a href="#preunderwriting_-commission-advance-application-processing-8-tables" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Pre-Underwriting tables
+        preunderwriting_ — Commission-advance application processing (8 tables)
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Pre-Underwriting tables">
+    <nav class="md-nav" aria-label="preunderwriting_ — Commission-advance application processing (8 tables)">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#ce_application_dim" class="md-nav__link">
+  <a href="#preunderwriting_application_dim" class="md-nav__link">
     <span class="md-ellipsis">
       
-        ce_application_dim
+        preunderwriting_application_dim
       
     </span>
   </a>
@@ -907,10 +929,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#ce_application_receivables" class="md-nav__link">
+  <a href="#preunderwriting_application_status_dim" class="md-nav__link">
     <span class="md-ellipsis">
       
-        ce_application_receivables
+        preunderwriting_application_status_dim
       
     </span>
   </a>
@@ -918,10 +940,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#ce_application_api_calls" class="md-nav__link">
+  <a href="#preunderwriting_gate_check_fact" class="md-nav__link">
     <span class="md-ellipsis">
       
-        ce_application_api_calls
+        preunderwriting_gate_check_fact
       
     </span>
   </a>
@@ -929,10 +951,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#ce_application_gate_check" class="md-nav__link">
+  <a href="#preunderwriting_gate_check_comment" class="md-nav__link">
     <span class="md-ellipsis">
       
-        ce_application_gate_check
+        preunderwriting_gate_check_comment
       
     </span>
   </a>
@@ -940,10 +962,43 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#ce_application_status" class="md-nav__link">
+  <a href="#preunderwriting_receivable_fact" class="md-nav__link">
     <span class="md-ellipsis">
       
-        ce_application_status
+        preunderwriting_receivable_fact
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#preunderwriting_api_call_log" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        preunderwriting_api_call_log
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#preunderwriting_extraction_log" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        preunderwriting_extraction_log
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#preunderwriting_application_archive" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        preunderwriting_application_archive
       
     </span>
   </a>
@@ -956,13 +1011,230 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#migrations" class="md-nav__link">
+  <a href="#calltracker_-cold-call-tracking-2-tables" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Migrations
+        calltracker_ — Cold-call tracking (2 tables)
       
     </span>
   </a>
+  
+    <nav class="md-nav" aria-label="calltracker_ — Cold-call tracking (2 tables)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#calltracker_log" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        calltracker_log
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#calltracker_match_fact" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        calltracker_match_fact
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#admin_-settings-reference-data-4-tables" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        admin_ — Settings &amp; reference data (4 tables)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="admin_ — Settings &amp; reference data (4 tables)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#admin_app_settings" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        admin_app_settings
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#admin_referencedata_mls_dim" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        admin_referencedata_mls_dim
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#admin_referencedata_prequal_term_dim" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        admin_referencedata_prequal_term_dim
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#admin_referencedata_proof_of_funds_term_dim" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        admin_referencedata_proof_of_funds_term_dim
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#engagement_-agent-engagement-tracking-2-tables" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        engagement_ — Agent engagement tracking (2 tables)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="engagement_ — Agent engagement tracking (2 tables)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#engagement_fact" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        engagement_fact
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#engagement_type_dim" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        engagement_type_dim
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#system_-system-operational-3-tables" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        system_ — System / operational (3 tables)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="system_ — System / operational (3 tables)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#system_log" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        system_log
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#system_db_migration_log" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        system_db_migration_log
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#system_demo_engagement_log" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        system_demo_engagement_log
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#standalone-tables" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Standalone tables
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Standalone tables">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#app_login" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        app_login
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#alembic_version" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        alembic_version
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -1113,181 +1385,2006 @@
 
 
 <h1 id="database-schema">Database Schema<a class="headerlink" href="#database-schema" title="Permanent link">&para;</a></h1>
-<p>The schema is defined imperatively by <code>core.database.init_database()</code>
-(idempotent <code>CREATE TABLE IF NOT EXISTS</code>) and evolved by the
-<code>_migrate_*</code> helpers in the same file. The dev-only <strong>DB Migrations</strong>
-admin tab compares dev's live schema against prod and applies the
-delta on demand.</p>
-<h2 id="conventions">Conventions<a class="headerlink" href="#conventions" title="Permanent link">&para;</a></h2>
+<div class="admonition warning">
+<p class="admonition-title">Internal — for the system administrator</p>
+<p>This page is for the CE FranchiseOwner administrator (the franchise's
+technical owner). If you're a franchise owner just here to learn the app,
+head back to the <a href="../../marketing/feature-guides/">User Guide</a>.</p>
+</div>
+<p>PostgreSQL 16. The app connects as the non-superuser role <code>ce_app</code> so Row-Level
+Security applies; <code>ce_web</code> is the superuser used for migrations. <strong>36 tables</strong>,
+grouped by domain prefix below.</p>
+<h2 id="naming-convention">Naming convention<a class="headerlink" href="#naming-convention" title="Permanent link">&para;</a></h2>
+<p>Web tables follow <code>{domain}_{name}_{type}</code>, where the suffix signals row semantics:</p>
+<ul>
+<li><strong><code>_fact</code></strong> — event / transaction rows (one row per occurrence: an email sent, a
+  match made, a gate-check run).</li>
+<li><strong><code>_dim</code></strong> — reference / lookup / dimension data (applications, templates, status codes).</li>
+<li><strong><code>_log</code></strong> — append-only history (audit / activity trails).</li>
+<li>Tables without a suffix (<code>calltracker_log</code>, <code>system_log</code>, <code>app_login</code>,
+  <code>alembic_version</code>) sit outside the convention.</li>
+</ul>
+<p>The <code>territory</code> column (varchar) is the RLS branch key. On most tables it defaults
+to <code>COALESCE(NULLIF(current_setting('app.territory'),''),'SC')</code>, so the session's
+territory is stamped on insert and falls back to <code>SC</code> (the one real branch).</p>
+<h2 id="row-level-security">Row-Level Security<a class="headerlink" href="#row-level-security" title="Permanent link">&para;</a></h2>
+<p>Per request, the app sets <code>app.territory</code> (branch code) and <code>app.is_admin</code> (<code>'1'</code>
+for the national admin). Two policy shapes exist:</p>
+<ul>
+<li><strong><code>terr_isolation</code></strong> — <code>is_admin='1' OR territory = app.territory</code>. Data tables.
+  The national admin sees all branches.</li>
+<li><strong><code>terr_config</code></strong> — <code>territory = COALESCE(app.territory,'SC')</code>, <strong>no admin bypass</strong>,
+  defaults to SC. The two per-branch config tables, so each branch edits only its own.</li>
+</ul>
 <table>
 <thead>
 <tr>
-<th>Convention</th>
-<th>Meaning</th>
+<th>Table</th>
+<th>Policy</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td><code>curr_rec_ind</code> (CHAR(1), <code>'Y'</code>/<code>'N'</code>)</td>
-<td>Soft-delete flag. Rows are never <code>DELETE</code>'d; the historical row is set to <code>'N'</code> and a new <code>'Y'</code> row is inserted. Active rows are <code>'Y'</code>.</td>
+<td><code>agentoutreach_property_load_fact</code></td>
+<td>terr_isolation</td>
 </tr>
 <tr>
-<td><code>load_batch_id</code> (VARCHAR(50))</td>
-<td>Groups rows by import session. <code>INIT_YYYYMMDD_HHMMSS</code> for property loads, <code>YYYYMMDD_HHMMSS</code> for master-list loads.</td>
+<td><code>agentoutreach_agent_match_fact</code></td>
+<td>terr_isolation</td>
 </tr>
 <tr>
-<td><code>county_id</code> (VARCHAR(50))</td>
-<td><code>SC_&lt;COUNTYNAME&gt;_AUC</code>, e.g. <code>SC_CHARLESTON_AUC</code>. Derived from PropStream export filenames.</td>
+<td><code>agentoutreach_email_send_log</code></td>
+<td>terr_isolation</td>
 </tr>
 <tr>
-<td><code>is_golden</code> (CHAR(1))</td>
-<td>Human-verified match. <code>Y</code> = the canonical "this PropStream listing-name → this master agent" record.</td>
+<td><code>agentoutreach_master_agent_list</code></td>
+<td>terr_isolation</td>
 </tr>
 <tr>
-<td><code>match_status</code> (VARCHAR(20))</td>
-<td><code>PENDING</code> / <code>APPROVED</code> / <code>REJECTED</code>. New source of truth for review state (replaced the older boolean trio).</td>
+<td><code>agentoutreach_load_batch_dim</code></td>
+<td>terr_isolation</td>
 </tr>
 <tr>
-<td>PII columns</td>
-<td><code>VARBINARY(500)</code> — Fernet-encrypted at rest using the key stored in <code>app_settings.pii_encryption_key</code>. Decrypted at read time by <code>core.crypto.decrypt_pii</code>.</td>
+<td><code>agentoutreach_unsubscribe_list</code></td>
+<td>terr_isolation</td>
 </tr>
 <tr>
-<td>Sensitive <code>app_settings</code> values</td>
-<td>Any key whose name contains <code>password</code>, <code>secret</code>, <code>token</code>, or <code>api_key</code> is base-64-encoded at rest by <code>core.settings_manager</code>.</td>
+<td><code>agentoutreach_email_bounce</code></td>
+<td>terr_isolation</td>
+</tr>
+<tr>
+<td><code>calltracker_match_fact</code></td>
+<td>terr_isolation</td>
+</tr>
+<tr>
+<td><code>engagement_fact</code></td>
+<td>terr_isolation</td>
+</tr>
+<tr>
+<td><code>admin_app_settings</code></td>
+<td>terr_config</td>
+</tr>
+<tr>
+<td><code>agentoutreach_email_template_dim</code></td>
+<td>terr_config</td>
 </tr>
 </tbody>
 </table>
-<h2 id="lead-engine-tables">Lead Engine tables<a class="headerlink" href="#lead-engine-tables" title="Permanent link">&para;</a></h2>
-<h3 id="raw_scrapes"><code>raw_scrapes</code><a class="headerlink" href="#raw_scrapes" title="Permanent link">&para;</a></h3>
-<p>Raw rows captured from PropStream scrape runs.
-| Column | Type | Notes |
-|---|---|---|
-| <code>id</code> | INT PK | |
-| <code>county</code> | VARCHAR(100) | |
-| <code>address</code>, <code>city</code>, <code>state</code>, <code>zip</code> | VARCHAR | |
-| <code>list_price</code> | DECIMAL(12,2) | |
-| <code>mls_status</code> | VARCHAR(50) | |
-| <code>status_date</code> | DATE | |
-| <code>days_on_market</code> | INT | |
-| <code>agent_name</code>, <code>agent_email</code>, <code>mls_number</code> | VARCHAR | |
-| <code>scraped_at</code> | TIMESTAMP default <code>NOW()</code> | |</p>
-<h3 id="cleansed_leads"><code>cleansed_leads</code><a class="headerlink" href="#cleansed_leads" title="Permanent link">&para;</a></h3>
-<p>Normalised lead rows derived from <code>raw_scrapes</code>. FK to <code>raw_scrape_id</code>.</p>
-<h3 id="master_matches-legacy"><code>master_matches</code> <em>(legacy)</em><a class="headerlink" href="#master_matches-legacy" title="Permanent link">&para;</a></h3>
-<p>First-generation match table. Kept for backward compat; new code
-writes to <code>agent_match_with_master</code>. A one-time migration in
-<code>_migrate_master_matches_to_amwm</code> populates the new table from this
-one if the new table is empty.</p>
-<h3 id="agent_match_with_master"><code>agent_match_with_master</code><a class="headerlink" href="#agent_match_with_master" title="Permanent link">&para;</a></h3>
-<p><strong>Primary</strong> agent matching table. Every row pairs a PropStream
-listing-agent name with a master-list agent.
-| Column | Type | Notes |
-|---|---|---|
-| <code>id</code> | INT PK | |
-| <code>mls_agent_name</code> | VARCHAR(150) | |
-| <code>mls_brokerage</code> | VARCHAR(200) | |
-| <code>matched_email</code> | VARCHAR(150) | |
-| <code>matched_first</code>, <code>matched_last</code>, <code>matched_office</code> | VARCHAR | |
-| <code>confidence_score</code> | DECIMAL(5,2) | rapidfuzz score |
-| <code>match_type</code> | VARCHAR(20) default <code>AUTO</code> | <code>AUTO</code> / <code>MANUAL_SEARCH</code> / <code>MANUAL_EMAIL</code> / <code>SKIP</code> |
-| <code>match_status</code> | VARCHAR(20) default <code>PENDING</code> | <code>PENDING</code> / <code>APPROVED</code> / <code>REJECTED</code> |
-| <code>is_verified</code>, <code>is_golden</code>, <code>is_rejected</code>, <code>curr_rec_ind</code> | CHAR(1) | |
-| <code>verified_by</code>, <code>verified_dttm</code> | | who flipped the row, when |
-| <code>created_at</code> | TIMESTAMP | |</p>
-<h3 id="property_loads"><code>property_loads</code><a class="headerlink" href="#property_loads" title="Permanent link">&para;</a></h3>
-<p>PropStream property data imported via the Initial Load wizard (18
-PropStream columns, plus <code>county_id</code>, <code>source_file</code>,
-<code>load_batch_id</code>, <code>curr_rec_ind</code>, <code>insrt_dttm</code>).</p>
-<h3 id="load_inventory"><code>load_inventory</code><a class="headerlink" href="#load_inventory" title="Permanent link">&para;</a></h3>
-<p>One row per import file per batch. Tracks <code>county_id</code>, <code>county_name</code>,
-<code>source_filename</code>, <code>record_count</code>, <code>load_status</code> (<code>pending</code> /
-<code>loaded</code> / <code>failed</code>), <code>loaded_at</code>, free-form <code>notes</code>.</p>
-<h3 id="master_list"><code>master_list</code><a class="headerlink" href="#master_list" title="Permanent link">&para;</a></h3>
-<p>SC real-estate agent master list with <code>phone</code> column for cold-call
-workflow.</p>
-<h3 id="saved_searches"><code>saved_searches</code><a class="headerlink" href="#saved_searches" title="Permanent link">&para;</a></h3>
-<p>PropStream saved-search names (one per county) with <code>sort_order</code> for
-the loop order in the Daily Job.</p>
-<h3 id="email_templates-and-email_template_history"><code>email_templates</code> and <code>email_template_history</code><a class="headerlink" href="#email_templates-and-email_template_history" title="Permanent link">&para;</a></h3>
-<ul>
-<li><code>email_templates</code> — current template content with <code>current_version</code>.</li>
-<li><code>email_template_history</code> — append-only audit log; one row per save
-  with the full content snapshot.</li>
-</ul>
-<h3 id="email_log"><code>email_log</code><a class="headerlink" href="#email_log" title="Permanent link">&para;</a></h3>
-<p>Sent email history. Every successful send (<code>ok=True</code>) writes one row
-here with <code>sent_at=NOW()</code>. Test sends (<code>is_test=1</code>) are excluded from
-the Sent History tab's main list but shown in <em>Test Runs</em>.</p>
-<h3 id="system_logs"><code>system_logs</code><a class="headerlink" href="#system_logs" title="Permanent link">&para;</a></h3>
-<p>General audit log. Columns: <code>level</code>, <code>module</code>, <code>message</code>,
-<code>created_at</code>. <code>module</code> values include <code>startup</code>, <code>db_warn</code>,
-<code>backup_manager</code>, <code>batch_progress</code>, <code>migration</code>, <code>ref_data_change</code>,
-<code>doc_engine</code>, plus screen-specific tags.</p>
-<h3 id="app_settings"><code>app_settings</code><a class="headerlink" href="#app_settings" title="Permanent link">&para;</a></h3>
-<p>Key/value config: <code>(setting_key, setting_value, updated_at)</code>. Used
-by every screen's <em>Save</em> button.</p>
-<h3 id="cold_call_matches"><code>cold_call_matches</code><a class="headerlink" href="#cold_call_matches" title="Permanent link">&para;</a></h3>
-<p>Staged cold-call matches awaiting Review Call Matches approval.
-Tracks <code>import_agent_name</code>, <code>match_status</code>, <code>reviewed_by</code>,
-<code>reviewed_at</code>, plus re-add audit columns (<code>readded_by</code>,
-<code>readded_at</code>, <code>readded_reason</code>).</p>
-<h3 id="cold_call_log"><code>cold_call_log</code><a class="headerlink" href="#cold_call_log" title="Permanent link">&para;</a></h3>
-<p>Active call list. Unique key on <code>agent_name</code>. Columns include
-<code>call_status</code>, <code>outcome</code>, <code>notes</code>, <code>followup_date</code>, <code>called_at</code>,
-<code>match_confidence</code>.</p>
-<h3 id="unsubscribe_list"><code>unsubscribe_list</code><a class="headerlink" href="#unsubscribe_list" title="Permanent link">&para;</a></h3>
-<p>Suppression list. Unique key on <code>agent_email</code>. Populated by the
-IMAP poller. Columns: <code>agent_email</code>, <code>agent_name</code>,
-<code>unsubscribed_at</code>, <code>detection_method</code>, <code>keyword_matched</code>,
-<code>email_subject</code>, <code>status</code> (<code>suppressed</code> / <code>re-added</code>),
-<code>readded_at</code>, <code>readded_by</code>, <code>readded_reason</code>.</p>
-<h2 id="pre-underwriting-tables">Pre-Underwriting tables<a class="headerlink" href="#pre-underwriting-tables" title="Permanent link">&para;</a></h2>
-<h3 id="ce_application_dim"><code>ce_application_dim</code><a class="headerlink" href="#ce_application_dim" title="Permanent link">&para;</a></h3>
-<p>The parsed application. Most columns are <code>VARBINARY(500)</code> — Fernet
-ciphertext over UTF-8 plaintext. Indexed by <code>nkey_hash</code> for fast
-lookup; <code>email_received_dttm</code> indexed for chronological browsing.</p>
-<p>Highlights:</p>
-<ul>
-<li>Agent: first/last name, SSN, email, cell phone, home address,
-  city/state/zip — all encrypted.</li>
-<li>Company: name, broker rep name (encrypted), address, phone
-  (encrypted), broker email (encrypted).</li>
-<li>Financial: bank name, routing number, account number, DL number
-  — all encrypted.</li>
-<li>Property: address, city/state/zip, seller/purchaser names,
-  reference number.</li>
-<li>Lender: loan officer (encrypted), lender phone (encrypted), final
-  price, ratification date, projected settlement date.</li>
-<li>Pipeline: <code>num_pending_settlements</code>, <code>num_settled_last_12_months</code>,
-  <code>num_active_listings</code>, <code>prior_year_income</code>.</li>
-<li>PDFs: 7 nullable URL columns (<code>pdf_url_purchase_contract</code>, …),
-  one per known document type.</li>
-<li>Audit: <code>inserted_dttm</code>, <code>updated_dttm</code>,
-  <code>email_received_dttm</code>, <code>raw_email_body</code> (long text, plaintext).</li>
-</ul>
-<h3 id="ce_application_receivables"><code>ce_application_receivables</code><a class="headerlink" href="#ce_application_receivables" title="Permanent link">&para;</a></h3>
-<p>Multiple receivables per application (sequence). FK by
-<code>application_id</code>.</p>
-<h3 id="ce_application_api_calls"><code>ce_application_api_calls</code><a class="headerlink" href="#ce_application_api_calls" title="Permanent link">&para;</a></h3>
-<p>Audit log of every Anthropic call: model, prompt, raw LLM output,
-extracted value, confidence level, token counts, cost in USD,
-override fields. Indexed by <code>application_id</code> and <code>question_ref</code>.</p>
-<h3 id="ce_application_gate_check"><code>ce_application_gate_check</code><a class="headerlink" href="#ce_application_gate_check" title="Permanent link">&para;</a></h3>
-<p>The 12 question scores plus the aggregate verdict. Includes
-modifier fields for Q7 / Q9 (down-payment ratio, deal-type modifier),
-a <code>has_knockout_ind</code>, the <code>knockout_questions</code> (concatenated refs),
-and the final <code>verdict</code> string.</p>
-<h3 id="ce_application_status"><code>ce_application_status</code><a class="headerlink" href="#ce_application_status" title="Permanent link">&para;</a></h3>
-<p>Effectively-dated status history per application. <code>eff_start_dttm</code> /
-<code>eff_end_dttm</code> / <code>curr_rec_ind</code> triplet — the active row (<code>Y</code>) is
-the current status.</p>
-<h2 id="migrations">Migrations<a class="headerlink" href="#migrations" title="Permanent link">&para;</a></h2>
-<p>Schema evolution is handled in-code, not in <code>.sql</code> migration files.
-<code>init_database()</code> ends by calling <code>_migrate_*</code> helpers that
-<code>SHOW COLUMNS</code> and conditionally <code>ALTER TABLE ... ADD COLUMN</code> when
-the live schema is missing a column. The DB Migrations admin tab
-(dev-only) drives operator-confirmed migrations against prod and
-records each apply in <code>ce_franchiseowner.db_migration_log</code>.</p>
+<p>All other tables have no RLS. <code>app_login</code> is deliberately global — authentication
+runs before a territory is known.</p>
+<h2 id="desktop-web-rename-mapping">Desktop → Web rename mapping<a class="headerlink" href="#desktop-web-rename-mapping" title="Permanent link">&para;</a></h2>
+<p>Legacy desktop tables were renamed to the new convention (<code>backend/demo/rename_tables.sql</code>):</p>
+<table>
+<thead>
+<tr>
+<th>Old (desktop)</th>
+<th>New (web)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>agent_match_with_master</code></td>
+<td><code>agentoutreach_agent_match_fact</code></td>
+</tr>
+<tr>
+<td><code>master_list</code></td>
+<td><code>agentoutreach_master_agent_list</code></td>
+</tr>
+<tr>
+<td><code>master_matches</code></td>
+<td><code>agentoutreach_master_match_fact</code></td>
+</tr>
+<tr>
+<td><code>property_loads</code></td>
+<td><code>agentoutreach_property_load_fact</code></td>
+</tr>
+<tr>
+<td><code>load_inventory</code></td>
+<td><code>agentoutreach_load_batch_dim</code></td>
+</tr>
+<tr>
+<td><code>email_templates</code></td>
+<td><code>agentoutreach_email_template_dim</code></td>
+</tr>
+<tr>
+<td><code>email_template_history</code></td>
+<td><code>agentoutreach_email_template_history</code></td>
+</tr>
+<tr>
+<td><code>email_log</code></td>
+<td><code>agentoutreach_email_send_log</code></td>
+</tr>
+<tr>
+<td><code>unsubscribe_list</code></td>
+<td><code>agentoutreach_unsubscribe_list</code></td>
+</tr>
+<tr>
+<td><code>suppressed_log</code></td>
+<td><code>agentoutreach_suppressed_log</code></td>
+</tr>
+<tr>
+<td><code>saved_searches</code></td>
+<td><code>agentoutreach_saved_search</code></td>
+</tr>
+<tr>
+<td><code>cleansed_leads</code></td>
+<td><code>agentoutreach_cleansed_lead</code></td>
+</tr>
+<tr>
+<td><code>raw_auc_listings</code></td>
+<td><code>agentoutreach_raw_auc_listing</code></td>
+</tr>
+<tr>
+<td><code>raw_scrapes</code></td>
+<td><code>agentoutreach_raw_scrape</code></td>
+</tr>
+<tr>
+<td><code>cold_call_log</code></td>
+<td><code>calltracker_log</code></td>
+</tr>
+<tr>
+<td><code>cold_call_matches</code></td>
+<td><code>calltracker_match_fact</code></td>
+</tr>
+<tr>
+<td><code>ce_application_dim</code></td>
+<td><code>preunderwriting_application_dim</code></td>
+</tr>
+<tr>
+<td><code>ce_application_status</code></td>
+<td><code>preunderwriting_application_status_dim</code></td>
+</tr>
+<tr>
+<td><code>ce_application_receivables</code></td>
+<td><code>preunderwriting_receivable_fact</code></td>
+</tr>
+<tr>
+<td><code>ce_application_gate_check</code></td>
+<td><code>preunderwriting_gate_check_fact</code></td>
+</tr>
+<tr>
+<td><code>ce_application_gate_check_comments</code></td>
+<td><code>preunderwriting_gate_check_comment</code></td>
+</tr>
+<tr>
+<td><code>ce_application_api_calls</code></td>
+<td><code>preunderwriting_api_call_log</code></td>
+</tr>
+<tr>
+<td><code>ce_application_archive_json</code></td>
+<td><code>preunderwriting_application_archive</code></td>
+</tr>
+<tr>
+<td><code>ce_application_extraction_log</code></td>
+<td><code>preunderwriting_extraction_log</code></td>
+</tr>
+<tr>
+<td><code>mls_status_dim</code></td>
+<td><code>admin_referencedata_mls_dim</code></td>
+</tr>
+<tr>
+<td><code>prequal_term_dim</code></td>
+<td><code>admin_referencedata_prequal_term_dim</code></td>
+</tr>
+<tr>
+<td><code>proof_of_funds_term_dim</code></td>
+<td><code>admin_referencedata_proof_of_funds_term_dim</code></td>
+</tr>
+<tr>
+<td><code>app_settings</code></td>
+<td><code>admin_app_settings</code></td>
+</tr>
+<tr>
+<td><code>system_logs</code></td>
+<td><code>system_log</code></td>
+</tr>
+<tr>
+<td><code>db_migration_log</code></td>
+<td><code>system_db_migration_log</code></td>
+</tr>
+<tr>
+<td><code>demo_engagement_log</code></td>
+<td><code>system_demo_engagement_log</code></td>
+</tr>
+</tbody>
+</table>
+<p>(Sequence names still carry the old desktop names, e.g. <code>master_list_id_seq</code> —
+only the tables were renamed.)</p>
+<p>Two recurring patterns across the newer domains: <strong>effective-dating</strong>
+(<code>eff_start_dttm</code>/<code>eff_end_dttm</code> + <code>curr_rec_ind</code>) to retain history without
+deleting rows, and the <strong><code>nkey</code> / <code>nkey_hash</code></strong> natural-key pair to link related
+rows across the preunderwriting and engagement tables.</p>
+<hr />
+<h2 id="agentoutreach_-agent-outreach-email-marketing-15-tables"><code>agentoutreach_</code> — Agent outreach / email marketing (15 tables)<a class="headerlink" href="#agentoutreach_-agent-outreach-email-marketing-15-tables" title="Permanent link">&para;</a></h2>
+<p>Scrape/import property listings, match listing agents to a master list, and email them.</p>
+<h3 id="agentoutreach_raw_scrape">agentoutreach_raw_scrape<a class="headerlink" href="#agentoutreach_raw_scrape" title="Permanent link">&para;</a></h3>
+<p>Raw scraped property/agent rows before cleansing.</p>
+<table>
+<thead>
+<tr>
+<th>Column</th>
+<th>Type</th>
+<th>Null</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>id</td>
+<td>integer</td>
+<td>NO</td>
+<td>PK</td>
+</tr>
+<tr>
+<td>county, address, city, state, zip</td>
+<td>varchar</td>
+<td>YES</td>
+<td></td>
+</tr>
+<tr>
+<td>list_price</td>
+<td>numeric</td>
+<td>YES</td>
+<td></td>
+</tr>
+<tr>
+<td>mls_status</td>
+<td>varchar</td>
+<td>YES</td>
+<td></td>
+</tr>
+<tr>
+<td>status_date</td>
+<td>date</td>
+<td>YES</td>
+<td></td>
+</tr>
+<tr>
+<td>days_on_market</td>
+<td>integer</td>
+<td>YES</td>
+<td></td>
+</tr>
+<tr>
+<td>agent_name, agent_email</td>
+<td>varchar</td>
+<td>YES</td>
+<td></td>
+</tr>
+<tr>
+<td>mls_number</td>
+<td>varchar</td>
+<td>YES</td>
+<td></td>
+</tr>
+<tr>
+<td>scraped_at</td>
+<td>timestamp</td>
+<td>YES</td>
+<td>default now</td>
+</tr>
+</tbody>
+</table>
+<h3 id="agentoutreach_raw_auc_listing">agentoutreach_raw_auc_listing<a class="headerlink" href="#agentoutreach_raw_auc_listing" title="Permanent link">&para;</a></h3>
+<p>Raw auction-listing scrape rows.</p>
+<table>
+<thead>
+<tr>
+<th>Column</th>
+<th>Type</th>
+<th>Null</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>id</td>
+<td>integer</td>
+<td>NO</td>
+<td>PK</td>
+</tr>
+<tr>
+<td>county, property_address, status, action, agent, brokerage</td>
+<td>varchar</td>
+<td>YES</td>
+<td></td>
+</tr>
+<tr>
+<td>status_date, listing_date, date_range_start, date_range_end</td>
+<td>date</td>
+<td>YES</td>
+<td></td>
+</tr>
+<tr>
+<td>price, listing_price, avg_sale_price</td>
+<td>numeric</td>
+<td>YES</td>
+<td></td>
+</tr>
+<tr>
+<td>mls_listing_num</td>
+<td>varchar</td>
+<td>YES</td>
+<td></td>
+</tr>
+<tr>
+<td>scraped_at</td>
+<td>timestamp</td>
+<td>YES</td>
+<td>default now</td>
+</tr>
+</tbody>
+</table>
+<h3 id="agentoutreach_cleansed_lead">agentoutreach_cleansed_lead<a class="headerlink" href="#agentoutreach_cleansed_lead" title="Permanent link">&para;</a></h3>
+<p>Cleansed leads derived from raw scrapes.</p>
+<table>
+<thead>
+<tr>
+<th>Column</th>
+<th>Type</th>
+<th>Null</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>id</td>
+<td>integer</td>
+<td>NO</td>
+<td>PK</td>
+</tr>
+<tr>
+<td>raw_scrape_id</td>
+<td>integer</td>
+<td>YES</td>
+<td>FK → raw_scrape</td>
+</tr>
+<tr>
+<td>agent_first_name, agent_last_name, agent_email, address, mls_number</td>
+<td>varchar</td>
+<td>YES</td>
+<td></td>
+</tr>
+<tr>
+<td>list_price</td>
+<td>numeric</td>
+<td>YES</td>
+<td></td>
+</tr>
+<tr>
+<td>days_to_close</td>
+<td>integer</td>
+<td>YES</td>
+<td></td>
+</tr>
+<tr>
+<td>created_at</td>
+<td>timestamp</td>
+<td>YES</td>
+<td>default now</td>
+</tr>
+</tbody>
+</table>
+<h3 id="agentoutreach_property_load_fact">agentoutreach_property_load_fact<a class="headerlink" href="#agentoutreach_property_load_fact" title="Permanent link">&para;</a></h3>
+<p>Loaded property/listing records per import batch — the main working dataset. <strong>RLS: terr_isolation.</strong></p>
+<table>
+<thead>
+<tr>
+<th>Column</th>
+<th>Type</th>
+<th>Null</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>id</td>
+<td>integer</td>
+<td>NO</td>
+<td>PK</td>
+</tr>
+<tr>
+<td>load_batch_id</td>
+<td>varchar</td>
+<td>NO</td>
+<td>batch grouping key</td>
+</tr>
+<tr>
+<td>county_id, county_name</td>
+<td>varchar</td>
+<td>NO</td>
+<td></td>
+</tr>
+<tr>
+<td>address, city, state, zip, property_type</td>
+<td>varchar</td>
+<td>YES</td>
+<td></td>
+</tr>
+<tr>
+<td>est_value, mls_amount, lien_amount</td>
+<td>numeric</td>
+<td>YES</td>
+<td></td>
+</tr>
+<tr>
+<td>mls_status</td>
+<td>varchar</td>
+<td>YES</td>
+<td></td>
+</tr>
+<tr>
+<td>mls_date</td>
+<td>date</td>
+<td>YES</td>
+<td></td>
+</tr>
+<tr>
+<td>mls_agent_name, mls_agent_email</td>
+<td>varchar</td>
+<td>YES</td>
+<td></td>
+</tr>
+<tr>
+<td>mls_brokerage_name, mls_brokerage_phone</td>
+<td>varchar</td>
+<td>YES</td>
+<td></td>
+</tr>
+<tr>
+<td>date_added_to_list</td>
+<td>timestamp</td>
+<td>YES</td>
+<td></td>
+</tr>
+<tr>
+<td>source_file, do_not_mail, property_status, method_of_add</td>
+<td>varchar</td>
+<td>YES</td>
+<td></td>
+</tr>
+<tr>
+<td>curr_rec_ind</td>
+<td>char</td>
+<td>YES</td>
+<td>default 'Y' (soft-delete)</td>
+</tr>
+<tr>
+<td>insrt_dttm</td>
+<td>timestamp</td>
+<td>YES</td>
+<td>default now</td>
+</tr>
+<tr>
+<td>territory</td>
+<td>varchar</td>
+<td>YES</td>
+<td>RLS key, default SC</td>
+</tr>
+</tbody>
+</table>
+<h3 id="agentoutreach_load_batch_dim">agentoutreach_load_batch_dim<a class="headerlink" href="#agentoutreach_load_batch_dim" title="Permanent link">&para;</a></h3>
+<p>Inventory of import batches (one row per file/county load). <strong>RLS: terr_isolation.</strong></p>
+<table>
+<thead>
+<tr>
+<th>Column</th>
+<th>Type</th>
+<th>Null</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>id</td>
+<td>integer</td>
+<td>NO</td>
+<td>PK</td>
+</tr>
+<tr>
+<td>load_batch_id, county_id, county_name</td>
+<td>varchar</td>
+<td>NO</td>
+<td></td>
+</tr>
+<tr>
+<td>source_filename, notes</td>
+<td>varchar</td>
+<td>YES</td>
+<td></td>
+</tr>
+<tr>
+<td>record_count</td>
+<td>integer</td>
+<td>YES</td>
+<td>default 0</td>
+</tr>
+<tr>
+<td>load_status</td>
+<td>varchar</td>
+<td>YES</td>
+<td>default 'pending'</td>
+</tr>
+<tr>
+<td>loaded_at</td>
+<td>timestamp</td>
+<td>YES</td>
+<td>default now</td>
+</tr>
+<tr>
+<td>territory</td>
+<td>varchar</td>
+<td>YES</td>
+<td>RLS key, default SC</td>
+</tr>
+</tbody>
+</table>
+<h3 id="agentoutreach_master_agent_list">agentoutreach_master_agent_list<a class="headerlink" href="#agentoutreach_master_agent_list" title="Permanent link">&para;</a></h3>
+<p>Master list of agents (golden/reference records). <strong>RLS: terr_isolation.</strong></p>
+<table>
+<thead>
+<tr>
+<th>Column</th>
+<th>Type</th>
+<th>Null</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>id</td>
+<td>integer</td>
+<td>NO</td>
+<td>PK</td>
+</tr>
+<tr>
+<td>email, first_name, last_name, phone, office_name, license_number</td>
+<td>varchar</td>
+<td>YES</td>
+<td></td>
+</tr>
+<tr>
+<td>curr_rec_ind</td>
+<td>char</td>
+<td>YES</td>
+<td>default 'Y'</td>
+</tr>
+<tr>
+<td>insrt_dttm</td>
+<td>timestamp</td>
+<td>YES</td>
+<td>default now</td>
+</tr>
+<tr>
+<td>load_batch_id</td>
+<td>varchar</td>
+<td>YES</td>
+<td></td>
+</tr>
+<tr>
+<td>territory</td>
+<td>varchar</td>
+<td>YES</td>
+<td>RLS key, default SC</td>
+</tr>
+</tbody>
+</table>
+<h3 id="agentoutreach_agent_match_fact">agentoutreach_agent_match_fact<a class="headerlink" href="#agentoutreach_agent_match_fact" title="Permanent link">&para;</a></h3>
+<p>Results of matching MLS agents against the master list (golden-record workflow). <strong>RLS: terr_isolation.</strong></p>
+<table>
+<thead>
+<tr>
+<th>Column</th>
+<th>Type</th>
+<th>Null</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>id</td>
+<td>integer</td>
+<td>NO</td>
+<td>PK</td>
+</tr>
+<tr>
+<td>mls_agent_name, mls_brokerage</td>
+<td>varchar</td>
+<td>YES</td>
+<td></td>
+</tr>
+<tr>
+<td>matched_email, matched_first, matched_last, matched_office</td>
+<td>varchar</td>
+<td>YES</td>
+<td></td>
+</tr>
+<tr>
+<td>confidence_score</td>
+<td>numeric</td>
+<td>YES</td>
+<td></td>
+</tr>
+<tr>
+<td>match_type</td>
+<td>varchar</td>
+<td>YES</td>
+<td>default 'AUTO'</td>
+</tr>
+<tr>
+<td>match_status</td>
+<td>varchar</td>
+<td>YES</td>
+<td>default 'PENDING'</td>
+</tr>
+<tr>
+<td>is_verified, is_golden, is_rejected, curr_rec_ind</td>
+<td>char</td>
+<td>YES</td>
+<td>default 'N' / 'Y'</td>
+</tr>
+<tr>
+<td>verified_by</td>
+<td>varchar</td>
+<td>YES</td>
+<td></td>
+</tr>
+<tr>
+<td>verified_dttm, created_at</td>
+<td>timestamp</td>
+<td>YES</td>
+<td></td>
+</tr>
+<tr>
+<td>territory</td>
+<td>varchar</td>
+<td>YES</td>
+<td>RLS key, default SC</td>
+</tr>
+</tbody>
+</table>
+<h3 id="agentoutreach_master_match_fact">agentoutreach_master_match_fact<a class="headerlink" href="#agentoutreach_master_match_fact" title="Permanent link">&para;</a></h3>
+<p>Cleansed-lead → master-agent matches.</p>
+<table>
+<thead>
+<tr>
+<th>Column</th>
+<th>Type</th>
+<th>Null</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>id</td>
+<td>integer</td>
+<td>NO</td>
+<td>PK</td>
+</tr>
+<tr>
+<td>cleansed_lead_id</td>
+<td>integer</td>
+<td>YES</td>
+<td>FK → cleansed_lead</td>
+</tr>
+<tr>
+<td>agent_email, agent_first_name, agent_last_name, office_name</td>
+<td>varchar</td>
+<td>YES</td>
+<td></td>
+</tr>
+<tr>
+<td>confidence_score</td>
+<td>numeric</td>
+<td>YES</td>
+<td></td>
+</tr>
+<tr>
+<td>matched_at</td>
+<td>timestamp</td>
+<td>YES</td>
+<td>default now</td>
+</tr>
+</tbody>
+</table>
+<h3 id="agentoutreach_email_template_dim">agentoutreach_email_template_dim<a class="headerlink" href="#agentoutreach_email_template_dim" title="Permanent link">&para;</a></h3>
+<p>Per-territory email templates (current version). <strong>RLS: terr_config (no admin bypass).</strong> Unique on <code>(template_number, territory)</code>.</p>
+<table>
+<thead>
+<tr>
+<th>Column</th>
+<th>Type</th>
+<th>Null</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>id</td>
+<td>integer</td>
+<td>NO</td>
+<td>PK</td>
+</tr>
+<tr>
+<td>template_number</td>
+<td>integer</td>
+<td>NO</td>
+<td></td>
+</tr>
+<tr>
+<td>template_name, subject_line, last_updated_by</td>
+<td>varchar</td>
+<td>YES</td>
+<td></td>
+</tr>
+<tr>
+<td>opening_line, shared_body</td>
+<td>text</td>
+<td>YES</td>
+<td></td>
+</tr>
+<tr>
+<td>current_version</td>
+<td>integer</td>
+<td>YES</td>
+<td>default 1</td>
+</tr>
+<tr>
+<td>updated_at</td>
+<td>timestamp</td>
+<td>YES</td>
+<td>default now</td>
+</tr>
+<tr>
+<td>territory</td>
+<td>varchar</td>
+<td>YES</td>
+<td>RLS key, default SC</td>
+</tr>
+</tbody>
+</table>
+<h3 id="agentoutreach_email_template_history">agentoutreach_email_template_history<a class="headerlink" href="#agentoutreach_email_template_history" title="Permanent link">&para;</a></h3>
+<p>Append-only version history of templates.</p>
+<table>
+<thead>
+<tr>
+<th>Column</th>
+<th>Type</th>
+<th>Null</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>id</td>
+<td>integer</td>
+<td>NO</td>
+<td>PK</td>
+</tr>
+<tr>
+<td>template_number, version_number</td>
+<td>integer</td>
+<td>NO</td>
+<td></td>
+</tr>
+<tr>
+<td>template_name, subject_line, saved_by, notes</td>
+<td>varchar</td>
+<td>YES</td>
+<td></td>
+</tr>
+<tr>
+<td>opening_line, shared_body</td>
+<td>text</td>
+<td>YES</td>
+<td></td>
+</tr>
+<tr>
+<td>saved_at</td>
+<td>timestamp</td>
+<td>YES</td>
+<td>default now</td>
+</tr>
+</tbody>
+</table>
+<h3 id="agentoutreach_email_send_log">agentoutreach_email_send_log<a class="headerlink" href="#agentoutreach_email_send_log" title="Permanent link">&para;</a></h3>
+<p>Log of every email sent to agents. <strong>RLS: terr_isolation.</strong></p>
+<table>
+<thead>
+<tr>
+<th>Column</th>
+<th>Type</th>
+<th>Null</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>id</td>
+<td>integer</td>
+<td>NO</td>
+<td>PK</td>
+</tr>
+<tr>
+<td>agent_email, sender_email, agent_name, property_address, subject, status, template_name, batch_name, auc_bucket</td>
+<td>varchar</td>
+<td>YES</td>
+<td></td>
+</tr>
+<tr>
+<td>body</td>
+<td>text</td>
+<td>YES</td>
+<td></td>
+</tr>
+<tr>
+<td>template_version, contact_count</td>
+<td>integer</td>
+<td>YES</td>
+<td></td>
+</tr>
+<tr>
+<td>mls_amount</td>
+<td>numeric</td>
+<td>YES</td>
+<td></td>
+</tr>
+<tr>
+<td>is_test</td>
+<td>smallint</td>
+<td>YES</td>
+<td>default 0</td>
+</tr>
+<tr>
+<td>sent_at</td>
+<td>timestamp</td>
+<td>YES</td>
+<td>default now</td>
+</tr>
+<tr>
+<td>territory</td>
+<td>varchar</td>
+<td>YES</td>
+<td>RLS key, default SC</td>
+</tr>
+</tbody>
+</table>
+<h3 id="agentoutreach_email_bounce">agentoutreach_email_bounce<a class="headerlink" href="#agentoutreach_email_bounce" title="Permanent link">&para;</a></h3>
+<p>Hard-bounce detections from the inbox poller. <strong>RLS: terr_isolation.</strong></p>
+<table>
+<thead>
+<tr>
+<th>Column</th>
+<th>Type</th>
+<th>Null</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>id</td>
+<td>integer</td>
+<td>NO</td>
+<td>PK</td>
+</tr>
+<tr>
+<td>agent_email</td>
+<td>varchar</td>
+<td>NO</td>
+<td></td>
+</tr>
+<tr>
+<td>agent_name, bounce_type, email_subject, status, cleared_by</td>
+<td>varchar</td>
+<td>YES</td>
+<td>default type 'hard', status 'bounced'</td>
+</tr>
+<tr>
+<td>diagnostic, cleared_reason</td>
+<td>text</td>
+<td>YES</td>
+<td></td>
+</tr>
+<tr>
+<td>bounced_at, cleared_at, created_at</td>
+<td>timestamp</td>
+<td>YES</td>
+<td></td>
+</tr>
+<tr>
+<td>territory</td>
+<td>varchar</td>
+<td>YES</td>
+<td>RLS key, default SC</td>
+</tr>
+</tbody>
+</table>
+<h3 id="agentoutreach_unsubscribe_list">agentoutreach_unsubscribe_list<a class="headerlink" href="#agentoutreach_unsubscribe_list" title="Permanent link">&para;</a></h3>
+<p>Suppressed / unsubscribed agents. <strong>RLS: terr_isolation.</strong> Unique on <code>(agent_email, territory)</code>.</p>
+<table>
+<thead>
+<tr>
+<th>Column</th>
+<th>Type</th>
+<th>Null</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>id</td>
+<td>integer</td>
+<td>NO</td>
+<td>PK</td>
+</tr>
+<tr>
+<td>agent_email</td>
+<td>varchar</td>
+<td>NO</td>
+<td></td>
+</tr>
+<tr>
+<td>agent_name, detection_method, keyword_matched, email_subject, status, readded_by</td>
+<td>varchar</td>
+<td>YES</td>
+<td></td>
+</tr>
+<tr>
+<td>readded_reason</td>
+<td>text</td>
+<td>YES</td>
+<td></td>
+</tr>
+<tr>
+<td>unsubscribed_at, readded_at, created_at</td>
+<td>timestamp</td>
+<td>YES</td>
+<td></td>
+</tr>
+<tr>
+<td>territory</td>
+<td>varchar</td>
+<td>YES</td>
+<td>RLS key, default SC</td>
+</tr>
+</tbody>
+</table>
+<h3 id="agentoutreach_suppressed_log">agentoutreach_suppressed_log<a class="headerlink" href="#agentoutreach_suppressed_log" title="Permanent link">&para;</a></h3>
+<p>Append-only log of agents suppressed from a send (e.g. no new addresses).</p>
+<table>
+<thead>
+<tr>
+<th>Column</th>
+<th>Type</th>
+<th>Null</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>id</td>
+<td>integer</td>
+<td>NO</td>
+<td>PK</td>
+</tr>
+<tr>
+<td>agent_email, agent_name, reason</td>
+<td>varchar</td>
+<td>YES</td>
+<td>reason default 'no_new_addresses'</td>
+</tr>
+<tr>
+<td>suppressed_at</td>
+<td>timestamp</td>
+<td>YES</td>
+<td>default now</td>
+</tr>
+</tbody>
+</table>
+<h3 id="agentoutreach_saved_search">agentoutreach_saved_search<a class="headerlink" href="#agentoutreach_saved_search" title="Permanent link">&para;</a></h3>
+<p>Named saved searches in the outreach UI.</p>
+<table>
+<thead>
+<tr>
+<th>Column</th>
+<th>Type</th>
+<th>Null</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>id</td>
+<td>integer</td>
+<td>NO</td>
+<td>PK</td>
+</tr>
+<tr>
+<td>search_name</td>
+<td>varchar</td>
+<td>NO</td>
+<td></td>
+</tr>
+<tr>
+<td>sort_order</td>
+<td>integer</td>
+<td>NO</td>
+<td>default 0</td>
+</tr>
+<tr>
+<td>created_at</td>
+<td>timestamp</td>
+<td>YES</td>
+<td>default now</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="preunderwriting_-commission-advance-application-processing-8-tables"><code>preunderwriting_</code> — Commission-advance application processing (8 tables)<a class="headerlink" href="#preunderwriting_-commission-advance-application-processing-8-tables" title="Permanent link">&para;</a></h2>
+<p>Intake and pre-underwriting of commission-advance applications, including the
+automated 12-question gate-check engine and LLM-based document extraction.</p>
+<h3 id="preunderwriting_application_dim">preunderwriting_application_dim<a class="headerlink" href="#preunderwriting_application_dim" title="Permanent link">&para;</a></h3>
+<p>Core application record (agent, company, property, deal, document URLs). Contains
+<strong>sensitive PII</strong> — SSN, bank routing/account, driver's-license — stored encrypted.
+Key columns include: <code>nkey</code> / <code>nkey_hash</code> (natural key + hash), agent and company
+identity fields, bank details, property/deal fields (<code>final_price</code>,
+<code>total_net_commission</code>, <code>cash_advance_requested</code>, <code>ratification_date</code>,
+<code>projected_settlement_date</code>), document URLs (<code>pdf_url_purchase_contract</code>,
+<code>pdf_url_compensation_agreement</code>, <code>pdf_url_prequal_proof_of_funds</code>,
+<code>pdf_url_mls</code>, <code>pdf_url_drivers_license</code>, …), and the originating email
+(<code>email_received_dttm</code>, <code>email_from</code>, <code>raw_email_body</code>). ~70 columns total.</p>
+<h3 id="preunderwriting_application_status_dim">preunderwriting_application_status_dim<a class="headerlink" href="#preunderwriting_application_status_dim" title="Permanent link">&para;</a></h3>
+<p>Application status history (effective-dated; current row flagged <code>curr_rec_ind=1</code>).</p>
+<table>
+<thead>
+<tr>
+<th>Column</th>
+<th>Type</th>
+<th>Null</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>id</td>
+<td>integer</td>
+<td>NO</td>
+<td>PK</td>
+</tr>
+<tr>
+<td>nkey, nkey_hash, status, changed_by</td>
+<td>varchar</td>
+<td>NO/YES</td>
+<td></td>
+</tr>
+<tr>
+<td>application_id</td>
+<td>integer</td>
+<td>NO</td>
+<td>FK → application_dim</td>
+</tr>
+<tr>
+<td>status_notes</td>
+<td>text</td>
+<td>YES</td>
+<td></td>
+</tr>
+<tr>
+<td>eff_start_dttm, eff_end_dttm, inserted_dttm</td>
+<td>timestamp</td>
+<td>YES</td>
+<td></td>
+</tr>
+<tr>
+<td>curr_rec_ind</td>
+<td>integer</td>
+<td>YES</td>
+<td>default 1</td>
+</tr>
+</tbody>
+</table>
+<h3 id="preunderwriting_gate_check_fact">preunderwriting_gate_check_fact<a class="headerlink" href="#preunderwriting_gate_check_fact" title="Permanent link">&para;</a></h3>
+<p>Automated gate-check scoring run. One row holds per-question scores <strong>Q1–Q12</strong>
+(with sources, modifiers, and net scores), knockout flags (<code>has_knockout_ind</code>,
+<code>knockout_questions</code>), <code>total_score</code>, <code>verdict</code>, and a manual override block
+(<code>override_flag</code>, <code>override_verdict</code>, <code>override_comment</code>, <code>override_by</code>,
+<code>override_dttm</code>). ~60 columns. FK <code>application_id</code> → application_dim.</p>
+<h3 id="preunderwriting_gate_check_comment">preunderwriting_gate_check_comment<a class="headerlink" href="#preunderwriting_gate_check_comment" title="Permanent link">&para;</a></h3>
+<p>Manual override comments per gate-check question.</p>
+<table>
+<thead>
+<tr>
+<th>Column</th>
+<th>Type</th>
+<th>Null</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>id</td>
+<td>integer</td>
+<td>NO</td>
+<td>PK</td>
+</tr>
+<tr>
+<td>nkey_hash</td>
+<td>varchar</td>
+<td>NO</td>
+<td></td>
+</tr>
+<tr>
+<td>question_number</td>
+<td>smallint</td>
+<td>NO</td>
+<td></td>
+</tr>
+<tr>
+<td>override_comment</td>
+<td>text</td>
+<td>NO</td>
+<td></td>
+</tr>
+<tr>
+<td>created_by</td>
+<td>varchar</td>
+<td>YES</td>
+<td>default 'sc.manager'</td>
+</tr>
+<tr>
+<td>created_dttm, updated_dttm</td>
+<td>timestamp</td>
+<td>YES</td>
+<td>default now</td>
+</tr>
+</tbody>
+</table>
+<h3 id="preunderwriting_receivable_fact">preunderwriting_receivable_fact<a class="headerlink" href="#preunderwriting_receivable_fact" title="Permanent link">&para;</a></h3>
+<p>Commission receivables / advance requests per application (effective-dated).</p>
+<table>
+<thead>
+<tr>
+<th>Column</th>
+<th>Type</th>
+<th>Null</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>id</td>
+<td>integer</td>
+<td>NO</td>
+<td>PK</td>
+</tr>
+<tr>
+<td>nkey, nkey_hash</td>
+<td>varchar</td>
+<td>NO</td>
+<td></td>
+</tr>
+<tr>
+<td>application_id, receivable_seq</td>
+<td>integer</td>
+<td>NO</td>
+<td>FK → application_dim</td>
+</tr>
+<tr>
+<td>advance_requested, total_net_commission</td>
+<td>numeric</td>
+<td>YES</td>
+<td></td>
+</tr>
+<tr>
+<td>sell_entire_or_partial</td>
+<td>varchar</td>
+<td>YES</td>
+<td></td>
+</tr>
+<tr>
+<td>email_triggered_ind, curr_rec_ind</td>
+<td>integer</td>
+<td>YES</td>
+<td>default 1</td>
+</tr>
+<tr>
+<td>eff_start_dttm, eff_end_dttm, inserted_dttm</td>
+<td>timestamp</td>
+<td>YES</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h3 id="preunderwriting_api_call_log">preunderwriting_api_call_log<a class="headerlink" href="#preunderwriting_api_call_log" title="Permanent link">&para;</a></h3>
+<p>Log of LLM/API extraction calls per application question (prompt, output, tokens, cost, overrides).</p>
+<table>
+<thead>
+<tr>
+<th>Column</th>
+<th>Type</th>
+<th>Null</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>id</td>
+<td>integer</td>
+<td>NO</td>
+<td>PK</td>
+</tr>
+<tr>
+<td>nkey, nkey_hash, question_ref, api_model_called, extracted_value, confidence_level, override_value, override_by, call_status</td>
+<td>varchar</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>application_id, tokens_input, tokens_output</td>
+<td>integer</td>
+<td></td>
+<td>FK → application_dim</td>
+</tr>
+<tr>
+<td>pdf_direct_url, prompt_used, llm_output_raw, error_message</td>
+<td>text</td>
+<td>YES</td>
+<td></td>
+</tr>
+<tr>
+<td>cost_usd</td>
+<td>numeric</td>
+<td>YES</td>
+<td></td>
+</tr>
+<tr>
+<td>human_override_ind, curr_rec_ind</td>
+<td>integer</td>
+<td>YES</td>
+<td></td>
+</tr>
+<tr>
+<td>override_dttm, eff_start_dttm, eff_end_dttm, inserted_dttm</td>
+<td>timestamp</td>
+<td>YES</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h3 id="preunderwriting_extraction_log">preunderwriting_extraction_log<a class="headerlink" href="#preunderwriting_extraction_log" title="Permanent link">&para;</a></h3>
+<p>Append-only log of field-extraction attempts (source, parsed value, confidence).</p>
+<table>
+<thead>
+<tr>
+<th>Column</th>
+<th>Type</th>
+<th>Null</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>id</td>
+<td>integer</td>
+<td>NO</td>
+<td>PK</td>
+</tr>
+<tr>
+<td>application_nkey_hash, extraction_source</td>
+<td>varchar</td>
+<td>NO</td>
+<td></td>
+</tr>
+<tr>
+<td>q_number</td>
+<td>smallint</td>
+<td>NO</td>
+<td></td>
+</tr>
+<tr>
+<td>raw_extracted, parsed_value, bucket, dim_table, confidence, overwritten_by_user, error_message</td>
+<td>varchar</td>
+<td>YES</td>
+<td></td>
+</tr>
+<tr>
+<td>snippet</td>
+<td>text</td>
+<td>YES</td>
+<td></td>
+</tr>
+<tr>
+<td>confidence_score</td>
+<td>numeric</td>
+<td>YES</td>
+<td></td>
+</tr>
+<tr>
+<td>parse_duration_ms, dim_row_id</td>
+<td>integer</td>
+<td>YES</td>
+<td></td>
+</tr>
+<tr>
+<td>curr_rec_ind</td>
+<td>char</td>
+<td>YES</td>
+<td>default 'Y'</td>
+</tr>
+<tr>
+<td>eff_start_dt, eff_end_dt</td>
+<td>timestamp</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h3 id="preunderwriting_application_archive">preunderwriting_application_archive<a class="headerlink" href="#preunderwriting_application_archive" title="Permanent link">&para;</a></h3>
+<p>Archived application snapshots (JSON payload) when an application is archived.</p>
+<table>
+<thead>
+<tr>
+<th>Column</th>
+<th>Type</th>
+<th>Null</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>id</td>
+<td>integer</td>
+<td>NO</td>
+<td>PK</td>
+</tr>
+<tr>
+<td>nkey_hash, archive_reason, archived_by</td>
+<td>varchar</td>
+<td>NO</td>
+<td></td>
+</tr>
+<tr>
+<td>payload</td>
+<td>text</td>
+<td>NO</td>
+<td>JSON snapshot</td>
+</tr>
+<tr>
+<td>archived_at</td>
+<td>timestamp</td>
+<td>YES</td>
+<td>default now</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="calltracker_-cold-call-tracking-2-tables"><code>calltracker_</code> — Cold-call tracking (2 tables)<a class="headerlink" href="#calltracker_-cold-call-tracking-2-tables" title="Permanent link">&para;</a></h2>
+<h3 id="calltracker_log">calltracker_log<a class="headerlink" href="#calltracker_log" title="Permanent link">&para;</a></h3>
+<p>Cold-call activity log (one row per agent being called).</p>
+<table>
+<thead>
+<tr>
+<th>Column</th>
+<th>Type</th>
+<th>Null</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>id</td>
+<td>integer</td>
+<td>NO</td>
+<td>PK</td>
+</tr>
+<tr>
+<td>agent_name</td>
+<td>varchar</td>
+<td>NO</td>
+<td></td>
+</tr>
+<tr>
+<td>email, phone, call_status, outcome</td>
+<td>varchar</td>
+<td>YES</td>
+<td>call_status default 'Not called'</td>
+</tr>
+<tr>
+<td>notes</td>
+<td>text</td>
+<td>YES</td>
+<td></td>
+</tr>
+<tr>
+<td>past_deals, match_confidence</td>
+<td>integer</td>
+<td>YES</td>
+<td></td>
+</tr>
+<tr>
+<td>followup_date</td>
+<td>date</td>
+<td>YES</td>
+<td></td>
+</tr>
+<tr>
+<td>called_at, created_at</td>
+<td>timestamp</td>
+<td>YES</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h3 id="calltracker_match_fact">calltracker_match_fact<a class="headerlink" href="#calltracker_match_fact" title="Permanent link">&para;</a></h3>
+<p>Matches of imported call-list agents to master records. <strong>RLS: terr_isolation.</strong></p>
+<table>
+<thead>
+<tr>
+<th>Column</th>
+<th>Type</th>
+<th>Null</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>id</td>
+<td>integer</td>
+<td>NO</td>
+<td>PK</td>
+</tr>
+<tr>
+<td>import_agent_name</td>
+<td>varchar</td>
+<td>NO</td>
+<td></td>
+</tr>
+<tr>
+<td>import_email, import_phone, master_first, master_last, master_email, master_phone, master_office, match_status, reviewed_by, readded_by, load_batch_id</td>
+<td>varchar</td>
+<td>YES</td>
+<td>match_status default 'PENDING'</td>
+</tr>
+<tr>
+<td>readded_reason</td>
+<td>text</td>
+<td>YES</td>
+<td></td>
+</tr>
+<tr>
+<td>past_deals, confidence_score</td>
+<td>integer</td>
+<td>YES</td>
+<td></td>
+</tr>
+<tr>
+<td>curr_rec_ind</td>
+<td>char</td>
+<td>YES</td>
+<td>default 'Y'</td>
+</tr>
+<tr>
+<td>reviewed_at, readded_at, created_at</td>
+<td>timestamp</td>
+<td>YES</td>
+<td></td>
+</tr>
+<tr>
+<td>territory</td>
+<td>varchar</td>
+<td>YES</td>
+<td>RLS key, default SC</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="admin_-settings-reference-data-4-tables"><code>admin_</code> — Settings &amp; reference data (4 tables)<a class="headerlink" href="#admin_-settings-reference-data-4-tables" title="Permanent link">&para;</a></h2>
+<h3 id="admin_app_settings">admin_app_settings<a class="headerlink" href="#admin_app_settings" title="Permanent link">&para;</a></h3>
+<p>Per-territory application settings (key/value). <strong>RLS: terr_config.</strong> Unique on <code>(setting_key, territory)</code>.</p>
+<table>
+<thead>
+<tr>
+<th>Column</th>
+<th>Type</th>
+<th>Null</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>id</td>
+<td>integer</td>
+<td>NO</td>
+<td>PK</td>
+</tr>
+<tr>
+<td>setting_key</td>
+<td>varchar</td>
+<td>NO</td>
+<td>e.g. <code>smtp.host</code>, <code>mls_api.base_url</code></td>
+</tr>
+<tr>
+<td>setting_value</td>
+<td>text</td>
+<td>YES</td>
+<td>sensitive values encrypted/base64</td>
+</tr>
+<tr>
+<td>updated_at</td>
+<td>timestamp</td>
+<td>YES</td>
+<td>default now</td>
+</tr>
+<tr>
+<td>territory</td>
+<td>varchar</td>
+<td>YES</td>
+<td>RLS key, default SC</td>
+</tr>
+</tbody>
+</table>
+<h3 id="admin_referencedata_mls_dim">admin_referencedata_mls_dim<a class="headerlink" href="#admin_referencedata_mls_dim" title="Permanent link">&para;</a></h3>
+<p>MLS status normalization lookup (raw → normalized, gate-check bucket).</p>
+<table>
+<thead>
+<tr>
+<th>Column</th>
+<th>Type</th>
+<th>Null</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>id</td>
+<td>integer</td>
+<td>NO</td>
+<td>PK</td>
+</tr>
+<tr>
+<td>status_raw, status_normalized, display_label</td>
+<td>varchar</td>
+<td>NO</td>
+<td></td>
+</tr>
+<tr>
+<td>gate_check_bucket</td>
+<td>text</td>
+<td>NO</td>
+<td></td>
+</tr>
+<tr>
+<td>mls_sources, notes</td>
+<td>varchar</td>
+<td>YES</td>
+<td></td>
+</tr>
+<tr>
+<td>curr_rec_ind</td>
+<td>char</td>
+<td>YES</td>
+<td>default 'Y'</td>
+</tr>
+<tr>
+<td>created_at</td>
+<td>timestamp</td>
+<td>YES</td>
+<td>default now</td>
+</tr>
+</tbody>
+</table>
+<h3 id="admin_referencedata_prequal_term_dim">admin_referencedata_prequal_term_dim<a class="headerlink" href="#admin_referencedata_prequal_term_dim" title="Permanent link">&para;</a></h3>
+<p>Pre-qualification term normalization lookup.</p>
+<table>
+<thead>
+<tr>
+<th>Column</th>
+<th>Type</th>
+<th>Null</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>id</td>
+<td>integer</td>
+<td>NO</td>
+<td>PK</td>
+</tr>
+<tr>
+<td>term_normalized, term_display</td>
+<td>varchar</td>
+<td>NO</td>
+<td></td>
+</tr>
+<tr>
+<td>applies_to</td>
+<td>text</td>
+<td>NO</td>
+<td>default 'both'</td>
+</tr>
+<tr>
+<td>curr_rec_ind</td>
+<td>char</td>
+<td>YES</td>
+<td>default 'Y'</td>
+</tr>
+<tr>
+<td>created_at</td>
+<td>timestamp</td>
+<td>YES</td>
+<td>default now</td>
+</tr>
+</tbody>
+</table>
+<h3 id="admin_referencedata_proof_of_funds_term_dim">admin_referencedata_proof_of_funds_term_dim<a class="headerlink" href="#admin_referencedata_proof_of_funds_term_dim" title="Permanent link">&para;</a></h3>
+<p>Proof-of-funds term normalization lookup.</p>
+<table>
+<thead>
+<tr>
+<th>Column</th>
+<th>Type</th>
+<th>Null</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>id</td>
+<td>integer</td>
+<td>NO</td>
+<td>PK</td>
+</tr>
+<tr>
+<td>term_normalized, term_display</td>
+<td>varchar</td>
+<td>NO</td>
+<td></td>
+</tr>
+<tr>
+<td>curr_rec_ind</td>
+<td>char</td>
+<td>YES</td>
+<td>default 'Y'</td>
+</tr>
+<tr>
+<td>created_at</td>
+<td>timestamp</td>
+<td>YES</td>
+<td>default now</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="engagement_-agent-engagement-tracking-2-tables"><code>engagement_</code> — Agent engagement tracking (2 tables)<a class="headerlink" href="#engagement_-agent-engagement-tracking-2-tables" title="Permanent link">&para;</a></h2>
+<h3 id="engagement_fact">engagement_fact<a class="headerlink" href="#engagement_fact" title="Permanent link">&para;</a></h3>
+<p>One row per engagement event (call, email reply, etc.). <strong>RLS: terr_isolation.</strong></p>
+<table>
+<thead>
+<tr>
+<th>Column</th>
+<th>Type</th>
+<th>Null</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>engagement_id</td>
+<td>bigint</td>
+<td>NO</td>
+<td>PK</td>
+</tr>
+<tr>
+<td>engagement_nkey, engagement_nkey_hash, agent_name</td>
+<td>varchar</td>
+<td>NO</td>
+<td></td>
+</tr>
+<tr>
+<td>agent_email, channel, source, source_ref</td>
+<td>varchar</td>
+<td>YES</td>
+<td></td>
+</tr>
+<tr>
+<td>agent_master_id, engagement_type_id</td>
+<td>integer</td>
+<td></td>
+<td>FK → master_agent_list / engagement_type_dim</td>
+</tr>
+<tr>
+<td>details</td>
+<td>text</td>
+<td>YES</td>
+<td></td>
+</tr>
+<tr>
+<td>engagement_date, inserted_dttm</td>
+<td>timestamp</td>
+<td>YES</td>
+<td></td>
+</tr>
+<tr>
+<td>curr_rec_ind</td>
+<td>char</td>
+<td>YES</td>
+<td>default 'Y'</td>
+</tr>
+<tr>
+<td>territory</td>
+<td>varchar</td>
+<td>YES</td>
+<td>RLS key, default SC</td>
+</tr>
+</tbody>
+</table>
+<h3 id="engagement_type_dim">engagement_type_dim<a class="headerlink" href="#engagement_type_dim" title="Permanent link">&para;</a></h3>
+<p>Lookup of engagement types/values.</p>
+<table>
+<thead>
+<tr>
+<th>Column</th>
+<th>Type</th>
+<th>Null</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>engagement_type_id</td>
+<td>integer</td>
+<td>NO</td>
+<td>PK</td>
+</tr>
+<tr>
+<td>utility, engagement_value, code</td>
+<td>varchar</td>
+<td>NO</td>
+<td></td>
+</tr>
+<tr>
+<td>sort_order</td>
+<td>integer</td>
+<td>YES</td>
+<td>default 0</td>
+</tr>
+<tr>
+<td>curr_rec_ind</td>
+<td>char</td>
+<td>YES</td>
+<td>default 'Y'</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="system_-system-operational-3-tables"><code>system_</code> — System / operational (3 tables)<a class="headerlink" href="#system_-system-operational-3-tables" title="Permanent link">&para;</a></h2>
+<h3 id="system_log">system_log<a class="headerlink" href="#system_log" title="Permanent link">&para;</a></h3>
+<p>Application log records.</p>
+<table>
+<thead>
+<tr>
+<th>Column</th>
+<th>Type</th>
+<th>Null</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>id</td>
+<td>integer</td>
+<td>NO</td>
+<td>PK</td>
+</tr>
+<tr>
+<td>level, module</td>
+<td>varchar</td>
+<td>YES</td>
+<td></td>
+</tr>
+<tr>
+<td>message</td>
+<td>text</td>
+<td>YES</td>
+<td></td>
+</tr>
+<tr>
+<td>created_at</td>
+<td>timestamp</td>
+<td>YES</td>
+<td>default now</td>
+</tr>
+</tbody>
+</table>
+<h3 id="system_db_migration_log">system_db_migration_log<a class="headerlink" href="#system_db_migration_log" title="Permanent link">&para;</a></h3>
+<p>Audit trail of applied DB migrations (snapshot of SQL run).</p>
+<table>
+<thead>
+<tr>
+<th>Column</th>
+<th>Type</th>
+<th>Null</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>id</td>
+<td>integer</td>
+<td>NO</td>
+<td>PK</td>
+</tr>
+<tr>
+<td>statements_count</td>
+<td>integer</td>
+<td>YES</td>
+<td></td>
+</tr>
+<tr>
+<td>tables_affected, applied_by</td>
+<td>varchar</td>
+<td>YES</td>
+<td></td>
+</tr>
+<tr>
+<td>sql_snapshot</td>
+<td>text</td>
+<td>YES</td>
+<td></td>
+</tr>
+<tr>
+<td>applied_at</td>
+<td>timestamp</td>
+<td>YES</td>
+<td>default now</td>
+</tr>
+</tbody>
+</table>
+<h3 id="system_demo_engagement_log">system_demo_engagement_log<a class="headerlink" href="#system_demo_engagement_log" title="Permanent link">&para;</a></h3>
+<p>National-report / demo engagement data (created empty in prod so the admin report returns zeros instead of erroring).</p>
+<table>
+<thead>
+<tr>
+<th>Column</th>
+<th>Type</th>
+<th>Null</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>id</td>
+<td>integer</td>
+<td>NO</td>
+<td>PK</td>
+</tr>
+<tr>
+<td>territory, ts, agent, property_trigger, classification, classification_note</td>
+<td>varchar</td>
+<td>YES</td>
+<td>territory default 'SC'</td>
+</tr>
+<tr>
+<td>response</td>
+<td>text</td>
+<td>YES</td>
+<td></td>
+</tr>
+<tr>
+<td>sort_order</td>
+<td>integer</td>
+<td>YES</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="standalone-tables">Standalone tables<a class="headerlink" href="#standalone-tables" title="Permanent link">&para;</a></h2>
+<h3 id="app_login">app_login<a class="headerlink" href="#app_login" title="Permanent link">&para;</a></h3>
+<p>Data-driven franchise logins (one row per username). <strong>Global, NO RLS</strong> —
+authentication happens before a territory is known. Passwords stored only as
+salted PBKDF2 hashes.</p>
+<table>
+<thead>
+<tr>
+<th>Column</th>
+<th>Type</th>
+<th>Null</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>id</td>
+<td>integer</td>
+<td>NO</td>
+<td>PK</td>
+</tr>
+<tr>
+<td>login_id</td>
+<td>varchar</td>
+<td>NO</td>
+<td>username, unique</td>
+</tr>
+<tr>
+<td>franchise_name</td>
+<td>varchar</td>
+<td>YES</td>
+<td>display name</td>
+</tr>
+<tr>
+<td>territory</td>
+<td>varchar</td>
+<td>YES</td>
+<td>branch code; NULL = national admin</td>
+</tr>
+<tr>
+<td>is_admin</td>
+<td>boolean</td>
+<td>YES</td>
+<td>default false</td>
+</tr>
+<tr>
+<td>password_hash</td>
+<td>text</td>
+<td>YES</td>
+<td><code>pbkdf2_sha256:…</code>; NULL = legacy auth path</td>
+</tr>
+<tr>
+<td>curr_rec_ind</td>
+<td>char</td>
+<td>YES</td>
+<td>default 'Y'</td>
+</tr>
+<tr>
+<td>created_at</td>
+<td>timestamp</td>
+<td>YES</td>
+<td>default now</td>
+</tr>
+</tbody>
+</table>
+<h3 id="alembic_version">alembic_version<a class="headerlink" href="#alembic_version" title="Permanent link">&para;</a></h3>
+<p>Alembic migration version tracker.</p>
+<table>
+<thead>
+<tr>
+<th>Column</th>
+<th>Type</th>
+<th>Null</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>version_num</td>
+<td>varchar</td>
+<td>NO</td>
+<td>PK; current migration revision</td>
+</tr>
+</tbody>
+</table>
 
 
 

@@ -6,7 +6,7 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="Help and reference documentation for CE FranchiseOwner — the Commission Express of South Carolina lead-generation desktop app.">
+        <meta name="description" content="Help and reference documentation for CE FranchiseOwner — the Commission Express franchise web app for lead generation, call tracking, and commission-advance pre-underwriting.">
       
       
         <meta name="author" content="Commission Express of South Carolina">
@@ -779,10 +779,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#running-the-test-suite" class="md-nav__link">
+  <a href="#what-it-is" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Running the test suite
+        What it is
       
     </span>
   </a>
@@ -790,10 +790,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#linting" class="md-nav__link">
+  <a href="#coverage" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Linting
+        Coverage
       
     </span>
   </a>
@@ -801,10 +801,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#current-state-of-the-suite" class="md-nav__link">
+  <a href="#how-to-run" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Current state of the suite
+        How to run
       
     </span>
   </a>
@@ -812,74 +812,13 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#manual-qa-checklist-per-release" class="md-nav__link">
+  <a href="#from-the-admin-ui" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Manual QA checklist (per release)
+        From the Admin UI
       
     </span>
   </a>
-  
-    <nav class="md-nav" aria-label="Manual QA checklist (per release)">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#startup" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Startup
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#lead-engine" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Lead Engine
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#pre-underwriting" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Pre-Underwriting
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#admin" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Admin
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#tear-down" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Tear-down
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
@@ -939,92 +878,57 @@
 
 
 <h1 id="qa-testing">QA &amp; Testing<a class="headerlink" href="#qa-testing" title="Permanent link">&para;</a></h1>
-<h2 id="running-the-test-suite">Running the test suite<a class="headerlink" href="#running-the-test-suite" title="Permanent link">&para;</a></h2>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="c"># From the project root, with the venv activated</span>
-<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="n">venv</span><span class="p">\</span><span class="n">Scripts</span><span class="p">\</span><span class="n">activate</span>
-<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="n">pytest</span>
+<div class="admonition warning">
+<p class="admonition-title">Internal — for the system administrator</p>
+<p>This page is for the CE FranchiseOwner administrator (the franchise's
+technical owner). If you're a franchise owner just here to learn the app,
+head back to the <a href="../../marketing/feature-guides/">User Guide</a>.</p>
+</div>
+<h2 id="what-it-is">What it is<a class="headerlink" href="#what-it-is" title="Permanent link">&para;</a></h2>
+<p>The backend test suite (<code>backend/tests/test_suite.py</code>, 34 <code>test_*</code> functions) runs
+end-to-end against a <strong>live FastAPI backend</strong> using <code>httpx.Client</code> — no mocks of the
+app itself. It's designed to run repeatedly against the dev database <strong>without side
+effects</strong>:</p>
+<ul>
+<li>Email sends use <code>simulate=True</code> (no real SMTP, no row writes).</li>
+<li>Every write endpoint round-trips (set → verify → restore).</li>
+<li>A session fixture captures a baseline row count and calls
+  <code>/email-queue/_cleanup_test</code> afterward.</li>
+<li>Assertions are relational/range-based (e.g. "≥30 tables", "&gt;100k rows") rather
+  than brittle magic numbers, so they survive data evolution.</li>
+</ul>
+<p>Each test's docstring is the plain-English "what was tested" line surfaced in the
+Admin → Test Suite view.</p>
+<h2 id="coverage">Coverage<a class="headerlink" href="#coverage" title="Permanent link">&para;</a></h2>
+<ul>
+<li>Health / environment and schema scale (table count, row volume)</li>
+<li>Dashboard and engagement summaries</li>
+<li>Agent matching and the unmatched-agent workflow</li>
+<li>Email-queue buckets, templates, stats, and simulated sends</li>
+<li>Properties / import stats</li>
+<li>Call tracker</li>
+<li>Admin settings round-trips</li>
+<li>Unsubscribe / bounce stats</li>
+<li>DB-query and row-count endpoints</li>
+</ul>
+<h2 id="how-to-run">How to run<a class="headerlink" href="#how-to-run" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="c1"># from the repo root</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>python<span class="w"> </span>-m<span class="w"> </span>pytest<span class="w"> </span>backend/tests/test_suite.py<span class="w"> </span>-v
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="c1"># inside the backend container</span>
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>python<span class="w"> </span>-m<span class="w"> </span>pytest<span class="w"> </span>/app/tests/test_suite.py<span class="w"> </span>-v
 </code></pre></div>
-<p><code>pytest</code> and <code>ruff</code> are both declared in <code>requirements.txt</code>.</p>
-<h2 id="linting">Linting<a class="headerlink" href="#linting" title="Permanent link">&para;</a></h2>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="n">ruff</span> <span class="n">check</span> <span class="p">.</span>
-</code></pre></div>
-<h2 id="current-state-of-the-suite">Current state of the suite<a class="headerlink" href="#current-state-of-the-suite" title="Permanent link">&para;</a></h2>
-<p>The <code>tests/</code> package is scaffolded (<code>__init__.py</code> present) but does
-not yet have implemented test modules in this revision. Two
-concrete priorities for the next sprint:</p>
-<ol>
-<li><strong>Gate-check scoring (pure logic, no I/O).</strong> <code>core/gate_check_engine.py</code>
-   exports a stable public API (<code>calculate_q1</code>,
-   <code>calculate_q3</code>–<code>q12</code>, <code>calculate_total</code>). Every function is a
-   pure transformation over primitive inputs — perfect for table-
-   driven tests. Includes the knockout threshold logic
-   (<code>KNOCKOUT_THRESHOLD = -50</code>, <code>KNOCKOUT_VALUE = -100</code>) which is
-   critical to get right.</li>
-<li><strong>Email parser regression.</strong> <code>core/email_parser.py</code> parses
-   Gravity-Forms application HTML into a flat dict mapped to
-   <code>ce_application_dim</code>. The <code>LABEL_TO_COLUMN</code> dict has dozens of
-   tolerant string variants. A single fixture-driven test with a
-   real-shape application email locks in the mapping.</li>
-</ol>
-<h2 id="manual-qa-checklist-per-release">Manual QA checklist (per release)<a class="headerlink" href="#manual-qa-checklist-per-release" title="Permanent link">&para;</a></h2>
-<p>Until the suite catches up, run this checklist by hand before
-shipping a build:</p>
-<h3 id="startup">Startup<a class="headerlink" href="#startup" title="Permanent link">&para;</a></h3>
+<p>Environment:</p>
 <ul>
-<li>[ ] Source mode + <code>APP_ENV=dev</code> → app launches cleanly.</li>
-<li>[ ] Source mode + <code>APP_ENV=prod</code> → refuses to start with the
-      "REFUSING TO START" banner unless
-      <code>CE_ALLOW_PROD_FROM_SOURCE=1</code> is set.</li>
-<li>[ ] Frozen <code>.exe</code> + <code>APP_ENV=prod</code> → launches; audit row
-      appears in <code>system_logs</code> with <code>module='startup'</code>.</li>
-<li>[ ] Auto-backup runs on prod startup if last backup older than
-      24 h.</li>
+<li><code>API_BASE</code> — backend URL (default <code>http://localhost:8001</code>)</li>
+<li><code>TEST_AUTH_TOKEN</code> — a valid bearer token, required because <code>/api/admin/*</code> is auth-gated</li>
 </ul>
-<h3 id="lead-engine">Lead Engine<a class="headerlink" href="#lead-engine" title="Permanent link">&para;</a></h3>
+<h2 id="from-the-admin-ui">From the Admin UI<a class="headerlink" href="#from-the-admin-ui" title="Permanent link">&para;</a></h2>
+<p>The <strong>Admin → Test Suite</strong> tab runs the same suite in-app:</p>
 <ul>
-<li>[ ] <strong>Run Daily Job</strong> scrapes every saved search and writes new
-      <code>raw_scrapes</code> rows.</li>
-<li>[ ] <strong>Email Queue → AUC bucket</strong> filters update agent counts
-      live; <strong>Search agent</strong> narrows the list.</li>
-<li>[ ] <strong>Send test email</strong> delivers; <strong>Start Batch</strong> unlocks only
-      after a test email succeeds.</li>
-<li>[ ] Batch send writes one row per send to <code>email_log</code> and a
-      <code>batch_progress</code> row to <code>system_logs</code> after each send.</li>
-<li>[ ] Navigating away from the Email Queue mid-batch and back
-      restores the orange in-progress banner; the green
-      "complete" banner shows for 10 minutes after the COMPLETE
-      row is written.</li>
-<li>[ ] Review Matches → Excel round-trip: download → mark Y/N →
-      upload → counters update. Cross-band IDs in the upload
-      are rejected by the band-locked UPDATE.</li>
-</ul>
-<h3 id="pre-underwriting">Pre-Underwriting<a class="headerlink" href="#pre-underwriting" title="Permanent link">&para;</a></h3>
-<ul>
-<li>[ ] <strong>Step 1 — Read inbox</strong> pulls a new application, encrypts
-      PII, inserts <code>ce_application_dim</code> row.</li>
-<li>[ ] <strong>Step 2 — Run extractions</strong> classifies each attached PDF,
-      writes Q4 and Q8 results to <code>ce_application_api_calls</code>.</li>
-<li>[ ] 12-question grid shows scores; knockout questions are
-      flagged; verdict is computed.</li>
-<li>[ ] Override on any single question recalculates the verdict.</li>
-</ul>
-<h3 id="admin">Admin<a class="headerlink" href="#admin" title="Permanent link">&para;</a></h3>
-<ul>
-<li>[ ] Every tab opens without errors.</li>
-<li>[ ] <code>?</code> help button on every tab opens the correct doc page.</li>
-<li>[ ] <strong>Docs Engine → Copy Prompt</strong> writes to clipboard; the
-      tooltip "Prompt copied" appears.</li>
-<li>[ ] <strong>Backup &amp; Restore → Run Backup Now</strong> produces a fresh
-      <code>.zip</code> in <code>Documents\CommissionExpress\Backups\</code> and rows
-      appear in the <em>Backup history</em> table.</li>
-<li>[ ] <strong>DB Migrations</strong> (dev only) compares dev vs prod schema
-      and the <em>Apply all to PROD</em> button runs without errors on
-      an in-sync database.</li>
-</ul>
-<h3 id="tear-down">Tear-down<a class="headerlink" href="#tear-down" title="Permanent link">&para;</a></h3>
-<ul>
-<li>[ ] App exit calls <code>mysqladmin shutdown</code> cleanly (no orphan
-      <code>mysqld.exe</code> left running).</li>
+<li><code>POST /api/admin/test-suite/run</code> — runs it (passing a valid SC token as <code>TEST_AUTH_TOKEN</code>)</li>
+<li><code>GET /api/admin/test-suite/list</code> — lists the tests and their docstrings</li>
+<li><code>GET /api/admin/test-suite/report</code> — an HTML pass/fail report</li>
 </ul>
 
 

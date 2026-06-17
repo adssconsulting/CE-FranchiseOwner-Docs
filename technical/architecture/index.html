@@ -6,7 +6,7 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="Help and reference documentation for CE FranchiseOwner — the Commission Express of South Carolina lead-generation desktop app.">
+        <meta name="description" content="Help and reference documentation for CE FranchiseOwner — the Commission Express franchise web app for lead generation, call tracking, and commission-advance pre-underwriting.">
       
       
         <meta name="author" content="Commission Express of South Carolina">
@@ -663,17 +663,6 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#folder-structure" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Folder structure
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
   <a href="#tech-stack" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -685,10 +674,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#application-startup-flow" class="md-nav__link">
+  <a href="#folder-structure" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Application startup flow
+        Folder structure
       
     </span>
   </a>
@@ -696,10 +685,43 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#key-design-decisions" class="md-nav__link">
+  <a href="#how-it-starts" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Key design decisions
+        How it starts
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#authentication" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Authentication
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#multi-territory-row-level-security-rls" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Multi-territory Row-Level Security (RLS)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-two-docker-stacks" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The two Docker stacks
       
     </span>
   </a>
@@ -881,181 +903,161 @@
 
 
 <h1 id="architecture">Architecture<a class="headerlink" href="#architecture" title="Permanent link">&para;</a></h1>
-<h2 id="folder-structure">Folder structure<a class="headerlink" href="#folder-structure" title="Permanent link">&para;</a></h2>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>CE-FranchiseOwner/
-<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>├── main.py                # App entry point. Guards prod-from-source.
-<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>├── config.py              # Loads .env, exposes APP_ENV + ACTIVE_DB.
-<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>├── requirements.txt
-<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>├── CE-FranchiseOwner.spec # PyInstaller spec (Windows .exe build).
-<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>│
-<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>├── core/                  # Business logic, DB, lifecycle
-<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>│   ├── database.py        # init_database() + per-table migrations
-<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>│   ├── db_server.py       # Bundled MariaDB lifecycle + auto-backup
-<a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>│   ├── settings_manager.py# app_settings get/save (with PII encoding)
-<a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a>│   ├── backup_manager.py  # mysqldump + zip + restore + rotation
-<a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a>│   ├── crypto.py          # Fernet PII encryption helpers
-<a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a>│   ├── email_parser.py    # Application-email HTML → ce_application_dim
-<a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a>│   ├── pdf_extractor.py   # PDF classify + fetch + pdfplumber text
-<a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a>│   ├── llm_scanner.py     # Anthropic API client (Q4, Q8 scans)
-<a id="__codelineno-0-16" name="__codelineno-0-16" href="#__codelineno-0-16"></a>│   ├── gate_check_engine.py # 12-question scoring + knockout logic
-<a id="__codelineno-0-17" name="__codelineno-0-17" href="#__codelineno-0-17"></a>│   └── field_parsers/     # Per-question heuristic extractors
-<a id="__codelineno-0-18" name="__codelineno-0-18" href="#__codelineno-0-18"></a>│
-<a id="__codelineno-0-19" name="__codelineno-0-19" href="#__codelineno-0-19"></a>├── gui/                   # Tkinter UI
-<a id="__codelineno-0-20" name="__codelineno-0-20" href="#__codelineno-0-20"></a>│   ├── splash.py
-<a id="__codelineno-0-21" name="__codelineno-0-21" href="#__codelineno-0-21"></a>│   ├── login_window.py
-<a id="__codelineno-0-22" name="__codelineno-0-22" href="#__codelineno-0-22"></a>│   ├── landing_page.py    # Lead Engine / Call Tracker chooser
-<a id="__codelineno-0-23" name="__codelineno-0-23" href="#__codelineno-0-23"></a>│   ├── main_window.py     # Lead Engine main window + sidebar
-<a id="__codelineno-0-24" name="__codelineno-0-24" href="#__codelineno-0-24"></a>│   ├── admin_window.py    # Thin wrapper that mounts AdminScreen
-<a id="__codelineno-0-25" name="__codelineno-0-25" href="#__codelineno-0-25"></a>│   ├── call_tracker_window.py
-<a id="__codelineno-0-26" name="__codelineno-0-26" href="#__codelineno-0-26"></a>│   ├── docs_tab.py        # Admin → Docs Engine tab
-<a id="__codelineno-0-27" name="__codelineno-0-27" href="#__codelineno-0-27"></a>│   ├── components/        # Sidebar, Header, dev banner
-<a id="__codelineno-0-28" name="__codelineno-0-28" href="#__codelineno-0-28"></a>│   └── screens/
-<a id="__codelineno-0-29" name="__codelineno-0-29" href="#__codelineno-0-29"></a>│       ├── admin_screen.py            # 5200-line tabbed Admin
-<a id="__codelineno-0-30" name="__codelineno-0-30" href="#__codelineno-0-30"></a>│       ├── email_queue_screen.py      # AUC bucket picker → batch send
-<a id="__codelineno-0-31" name="__codelineno-0-31" href="#__codelineno-0-31"></a>│       ├── review_matches_screen.py   # Excel round-trip review
-<a id="__codelineno-0-32" name="__codelineno-0-32" href="#__codelineno-0-32"></a>│       ├── run_daily_job_screen.py    # Daily scrape trigger
-<a id="__codelineno-0-33" name="__codelineno-0-33" href="#__codelineno-0-33"></a>│       ├── sent_history_screen.py     # email_log viewer
-<a id="__codelineno-0-34" name="__codelineno-0-34" href="#__codelineno-0-34"></a>│       ├── upload_history.py          # Property import landing
-<a id="__codelineno-0-35" name="__codelineno-0-35" href="#__codelineno-0-35"></a>│       ├── pre_underwriting_screen.py # Application gate check
-<a id="__codelineno-0-36" name="__codelineno-0-36" href="#__codelineno-0-36"></a>│       ├── cold_call_tab.py
-<a id="__codelineno-0-37" name="__codelineno-0-37" href="#__codelineno-0-37"></a>│       ├── cold_call_matching_screen.py
-<a id="__codelineno-0-38" name="__codelineno-0-38" href="#__codelineno-0-38"></a>│       ├── review_cold_call_matches_screen.py
-<a id="__codelineno-0-39" name="__codelineno-0-39" href="#__codelineno-0-39"></a>│       ├── agent_matching_screen.py
-<a id="__codelineno-0-40" name="__codelineno-0-40" href="#__codelineno-0-40"></a>│       ├── manual_match_screen.py
-<a id="__codelineno-0-41" name="__codelineno-0-41" href="#__codelineno-0-41"></a>│       └── db_query_screen.py
-<a id="__codelineno-0-42" name="__codelineno-0-42" href="#__codelineno-0-42"></a>│
-<a id="__codelineno-0-43" name="__codelineno-0-43" href="#__codelineno-0-43"></a>├── scraper/               # PropStream scraping
-<a id="__codelineno-0-44" name="__codelineno-0-44" href="#__codelineno-0-44"></a>│   ├── propstream_scraper.py            # Selenium (current)
-<a id="__codelineno-0-45" name="__codelineno-0-45" href="#__codelineno-0-45"></a>│   ├── propstream_scraper_playwright.py # Playwright (experimental)
-<a id="__codelineno-0-46" name="__codelineno-0-46" href="#__codelineno-0-46"></a>│   └── agent_matcher.py                 # rapidfuzz matching
-<a id="__codelineno-0-47" name="__codelineno-0-47" href="#__codelineno-0-47"></a>│
-<a id="__codelineno-0-48" name="__codelineno-0-48" href="#__codelineno-0-48"></a>├── email_engine/          # Email send + IMAP poll
-<a id="__codelineno-0-49" name="__codelineno-0-49" href="#__codelineno-0-49"></a>│   ├── email_sender.py    # Single SMTP send entry point
-<a id="__codelineno-0-50" name="__codelineno-0-50" href="#__codelineno-0-50"></a>│   └── unsubscribe_poller.py # IMAP poll, 12:00 and 16:30 local
-<a id="__codelineno-0-51" name="__codelineno-0-51" href="#__codelineno-0-51"></a>│
-<a id="__codelineno-0-52" name="__codelineno-0-52" href="#__codelineno-0-52"></a>├── utils/                 # Cross-cutting helpers
-<a id="__codelineno-0-53" name="__codelineno-0-53" href="#__codelineno-0-53"></a>│   └── help_links.py      # Docs URL registry + open_help()
-<a id="__codelineno-0-54" name="__codelineno-0-54" href="#__codelineno-0-54"></a>│
-<a id="__codelineno-0-55" name="__codelineno-0-55" href="#__codelineno-0-55"></a>├── tools/                 # One-off operator scripts
-<a id="__codelineno-0-56" name="__codelineno-0-56" href="#__codelineno-0-56"></a>│   ├── setup_prod_db.py   # Copy schema/seeds DEV → PROD
-<a id="__codelineno-0-57" name="__codelineno-0-57" href="#__codelineno-0-57"></a>│   └── reset_dev_db.py    # Truncate transaction tables in DEV
-<a id="__codelineno-0-58" name="__codelineno-0-58" href="#__codelineno-0-58"></a>│
-<a id="__codelineno-0-59" name="__codelineno-0-59" href="#__codelineno-0-59"></a>├── tests/                 # pytest suite (currently scaffolded)
-<a id="__codelineno-0-60" name="__codelineno-0-60" href="#__codelineno-0-60"></a>├── assets/                # Icons, logos
-<a id="__codelineno-0-61" name="__codelineno-0-61" href="#__codelineno-0-61"></a>├── data/                  # Bundled MariaDB + master-list xlsx
-<a id="__codelineno-0-62" name="__codelineno-0-62" href="#__codelineno-0-62"></a>└── logs/                  # App + scrape + email + doc-run logs
-</code></pre></div>
+<div class="admonition warning">
+<p class="admonition-title">Internal — for the system administrator</p>
+<p>This page is for the CE FranchiseOwner administrator (the franchise's
+technical owner). If you're a franchise owner just here to learn the app,
+head back to the <a href="../../marketing/feature-guides/">User Guide</a>.</p>
+</div>
+<p>CE FranchiseOwner is a <strong>web application</strong>: a FastAPI + Postgres backend and a
+React/Vite single-page frontend, run as two Docker Compose stacks (development
+and production) on one machine.</p>
 <h2 id="tech-stack">Tech stack<a class="headerlink" href="#tech-stack" title="Permanent link">&para;</a></h2>
+<p><strong>Backend</strong></p>
+<ul>
+<li>FastAPI 0.115 + Uvicorn 0.34 (single worker, no auto-reload)</li>
+<li>SQLAlchemy 2.0 (tables reflected via automap — no hand-written ORM that can
+  drift from the DB), psycopg2-binary 2.9</li>
+<li>Pydantic 2.10 / pydantic-settings 2.7 for config</li>
+<li>Alembic 1.14 for migration tracking</li>
+<li>rapidfuzz 3.10 (fuzzy agent matching), openpyxl 3.1 (Excel), pdfplumber 0.11 +
+  beautifulsoup4 (document/email parsing), anthropic 0.10x (LLM proxy),
+  cryptography 44 (field encryption), pytest 8.3 (tests)</li>
+</ul>
+<p><strong>Database:</strong> PostgreSQL 16.</p>
+<p><strong>Frontend:</strong> React 18.3, react-router-dom 6.28, react-window (virtualized lists),
+built with Vite 6. Plain JavaScript/JSX — no TypeScript.</p>
+<h2 id="folder-structure">Folder structure<a class="headerlink" href="#folder-structure" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>backend/
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>  app/
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>    main.py            # FastAPI app: CORS, login-gate middleware, startup hooks, /health
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>    config.py          # Settings (env vars only); derives env/is_prod from the DB name
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>    db.py              # Engine/session; automap reflection; get_db sets per-request RLS vars
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>    demo_auth.py       # Auth: HMAC tokens, PBKDF2 hashing, app_login accounts, territory scoping
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>    api.py             # Main API router (~3,600 lines) — all endpoint groups
+<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>    update_website.py  # Separate router for the Update Website FAQ tool (Anthropic proxy)
+<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>    queries.py         # SQL helper utilities (q.rows, q.val)
+<a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>    email_parser.py / pdf_extractor.py / field_parsers.py / gate_check.py
+<a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a>                       # Application-intake parsing + pre-underwriting gate checks
+<a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a>    crypto.py          # Field-level encryption helpers
+<a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a>  demo/                # Ordered SQL bootstrap/migration scripts (00..07, rename_tables.sql)
+<a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a>  alembic/             # Migration scaffolding (0001_baseline = no-op stamp of the prod dump)
+<a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a>  tests/test_suite.py  # pytest suite run end-to-end against the live backend
+<a id="__codelineno-0-16" name="__codelineno-0-16" href="#__codelineno-0-16"></a>frontend/
+<a id="__codelineno-0-17" name="__codelineno-0-17" href="#__codelineno-0-17"></a>  src/
+<a id="__codelineno-0-18" name="__codelineno-0-18" href="#__codelineno-0-18"></a>    main.jsx           # entry      App.jsx  # router shell      auth.jsx  # auth context
+<a id="__codelineno-0-19" name="__codelineno-0-19" href="#__codelineno-0-19"></a>    pages/             # one component per screen (Dashboard, EmailQueue, ReviewMatches, …)
+<a id="__codelineno-0-20" name="__codelineno-0-20" href="#__codelineno-0-20"></a>seed/ce_pg.sql         # (prod) production dump used to materialize the schema
+<a id="__codelineno-0-21" name="__codelineno-0-21" href="#__codelineno-0-21"></a>docker-compose.yml     # parameterized by each folder&#39;s .env
+<a id="__codelineno-0-22" name="__codelineno-0-22" href="#__codelineno-0-22"></a>deploy.ps1             # (prod) deploy script
+</code></pre></div>
+<h2 id="how-it-starts">How it starts<a class="headerlink" href="#how-it-starts" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong>Backend</strong> runs under one Uvicorn worker (port 8000 in-container). On
+  <code>@app.on_event("startup")</code> it (1) calls <code>seed_logins()</code> to upsert the hardcoded
+  <code>demo_*</code> and <code>*_manager</code> accounts into <code>app_login</code> (never overwriting an existing
+  password hash), and (2) starts the background unsubscribe/bounce inbox poller if
+  enabled.</li>
+<li><strong>Frontend</strong> runs the Vite dev server with hot-module reload; <code>VITE_API_BASE</code>
+  points it at the backend.</li>
+</ul>
+<h2 id="authentication">Authentication<a class="headerlink" href="#authentication" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong>Tokens</strong> are HMAC-SHA256–signed usernames: <code>username|&lt;hmac(secret, username)&gt;</code>.
+  Auth is a bearer token in the <code>Authorization</code> header (not cookies); CORS runs
+  with <code>allow_credentials=False</code>. The signing secret is <code>DEMO_TOKEN_SECRET</code>.</li>
+<li><strong>Passwords</strong> use salted PBKDF2-HMAC-SHA256 (200,000 iterations), stored as
+  <code>pbkdf2_sha256:&lt;iters&gt;:&lt;salt_b64&gt;:&lt;hash_b64&gt;</code> — colon-delimited on purpose so a
+  <code>$</code> never triggers docker-compose interpolation. Verified with <code>hmac.compare_digest</code>.</li>
+<li><strong>Account sources</strong> are merged in <code>_accounts()</code>: hardcoded <code>DEMO_ACCOUNTS</code> (shared
+  password <code>demo2026!</code>), hardcoded <code>PROD_ACCOUNTS</code> (<code>*_manager</code>, hashes from env),
+  and the data-driven <strong><code>app_login</code></strong> table (cached ~20s). A DB password hash wins
+  over a code/env hash, so onboarded franchises and admin password resets take effect.</li>
+<li><strong>Demo vs manager:</strong> <code>demo_*</code> accounts authenticate with the shared <code>demo2026!</code>
+  password; <code>*_manager</code> accounts authenticate against a stored hash. In <strong>dev</strong>, a
+  hashless <code>*_manager</code> falls back to the shared demo password (fake data); in
+  <strong>prod</strong>, a hashless <code>*_manager</code> is inert.</li>
+<li><strong>National admin</strong> is <strong><code>demo_admin</code> in dev only</strong> (the auth layer refuses the demo
+  admin via the shared password when <code>is_prod</code>), and <strong><code>national_manager</code> in prod</strong>
+  (a real hashed password). This keeps the most-privileged account unreachable with
+  the demo password on real data.</li>
+<li>A <strong>login-gate middleware</strong> returns 401 for any <code>/api/*</code> request without a valid
+  identity, except an allowlist (<code>/api/auth/login</code>, <code>/api/environment</code>,
+  <code>/api/auth/me</code>, and OPTIONS preflight).</li>
+</ul>
+<h2 id="multi-territory-row-level-security-rls">Multi-territory Row-Level Security (RLS)<a class="headerlink" href="#multi-territory-row-level-security-rls" title="Permanent link">&para;</a></h2>
+<p>Branch isolation is enforced by Postgres itself, not just application code.</p>
+<ul>
+<li>The app connects as the <strong>non-superuser role <code>ce_app</code></strong> (<code>NOSUPERUSER NOBYPASSRLS</code>)
+  so policies apply. The <code>ce_web</code>/<code>postgres</code> superusers (used for migrations/admin)
+  bypass RLS.</li>
+<li><code>get_db</code> derives <code>{territory, is_admin}</code> from the bearer token, sanitizes the
+  territory, and sets the session variables <code>app.territory</code> and <code>app.is_admin</code> for
+  the request. Every query is then auto-filtered.</li>
+<li>Two policy families:<ul>
+<li><strong><code>terr_isolation</code></strong> (data tables — property loads, agent matches, email send
+  log, master agent list, load batches, unsubscribe list, bounces, call-tracker
+  matches, engagement): rows are visible when <code>is_admin='1'</code> <strong>OR</strong>
+  <code>territory = app.territory</code>. The national admin sees all branches.</li>
+<li><strong><code>terr_config</code></strong> (the two config tables — <code>admin_app_settings</code>,
+  <code>agentoutreach_email_template_dim</code>): rows require
+  <code>territory = COALESCE(app.territory,'SC')</code>, with <strong>no admin bypass</strong>, so each
+  branch edits only its own config. Unique keys are <code>(setting_key, territory)</code>
+  and <code>(template_number, territory)</code>.</li>
+</ul>
+</li>
+<li><strong><code>app_login</code> is global with no RLS</strong> — authentication happens before a territory
+  is known, so the lookup must see every row.</li>
+</ul>
+<p>See the <a href="../database-schema/">Database Schema</a> for the per-table policy map.</p>
+<h2 id="the-two-docker-stacks">The two Docker stacks<a class="headerlink" href="#the-two-docker-stacks" title="Permanent link">&para;</a></h2>
+<p>The same <code>docker-compose.yml</code> runs twice, parameterized by each folder's <code>.env</code>.
+The project name namespaces containers and volumes so both stacks run side by side.</p>
 <table>
 <thead>
 <tr>
-<th>Layer</th>
-<th>Technology</th>
+<th></th>
+<th>Dev (<code>CE-FranchiseOwner-WEB-DEV</code>)</th>
+<th>Prod (<code>CE-FranchiseOwner-WEB</code>)</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>Language</td>
-<td>Python 3.14</td>
+<td><code>APP_ENV</code></td>
+<td><code>dev</code></td>
+<td><code>prod</code></td>
 </tr>
 <tr>
-<td>GUI</td>
-<td>tkinter / ttk (PySide6 migration planned for large tables)</td>
+<td>Backend port</td>
+<td>8001</td>
+<td>8002</td>
 </tr>
 <tr>
-<td>Browser automation</td>
-<td>Selenium with a persistent Chrome user profile, plus a Playwright variant under <code>scraper/propstream_scraper_playwright.py</code></td>
+<td>Frontend port</td>
+<td>5173</td>
+<td>5174</td>
+</tr>
+<tr>
+<td>Postgres port</td>
+<td>5433</td>
+<td>5432</td>
 </tr>
 <tr>
 <td>Database</td>
-<td>MariaDB 11.x embedded; the <code>mysqld.exe</code> is shipped inside <code>data/mariadb/bin/</code></td>
+<td><code>ce_franchiseowner_web_dev</code></td>
+<td><code>ce_franchiseowner</code></td>
 </tr>
 <tr>
-<td>Email</td>
-<td><code>smtplib</code> (outgoing) + <code>imaplib</code> (inbox polling), both over Rackspace</td>
-</tr>
-<tr>
-<td>Fuzzy matching</td>
-<td><code>rapidfuzz.fuzz.token_sort_ratio</code></td>
-</tr>
-<tr>
-<td>Excel I/O</td>
-<td><code>openpyxl</code> + <code>pandas</code></td>
-</tr>
-<tr>
-<td>PII encryption</td>
-<td><code>cryptography.Fernet</code> (AES-128-CBC + HMAC-SHA256)</td>
-</tr>
-<tr>
-<td>PDF extraction</td>
-<td><code>pdfplumber</code> for local text, Anthropic API for LLM scans</td>
-</tr>
-<tr>
-<td>LLM</td>
-<td><code>claude-haiku-4-5</code> via the Anthropic Messages API, with the <code>pdfs-2024-09-25</code> beta header to support PDF document blocks</td>
-</tr>
-<tr>
-<td>Packaging</td>
-<td>PyInstaller (Windows .exe via <code>CE-FranchiseOwner.spec</code>)</td>
+<td>Data</td>
+<td>fake demo / multi-branch</td>
+<td>real South Carolina data</td>
 </tr>
 </tbody>
 </table>
-<h2 id="application-startup-flow">Application startup flow<a class="headerlink" href="#application-startup-flow" title="Permanent link">&para;</a></h2>
-<ol>
-<li><code>python main.py</code> (or the frozen <code>.exe</code>) calls <code>start()</code>.</li>
-<li><strong>Safety guard.</strong> If running from source AND <code>.env</code> says
-   <code>APP_ENV=prod</code>, refuse to launch unless
-   <code>CE_ALLOW_PROD_FROM_SOURCE=1</code> is set. This prevents an accidental
-   dev session from writing to the production database.</li>
-<li><strong>Splash + MariaDB.</strong> A <code>SplashScreen</code> shows "Starting database…".
-   <code>core.db_server.start_mariadb()</code> spawns the bundled <code>mysqld.exe</code>
-   on <code>127.0.0.1:3307</code>, initialising
-   <code>data/mariadb_data/</code> on first run.</li>
-<li><strong>Schema.</strong> <code>core.database.init_database()</code> runs every <code>CREATE
-   TABLE IF NOT EXISTS</code> plus migration helpers (<code>_migrate_*</code>). Safe
-   to call on every boot.</li>
-<li><strong>Audit row.</strong> A <code>startup</code> row is inserted into <code>system_logs</code> with
-   <code>ENV</code> and <code>DATABASE()</code> so we can always answer "which DB was this
-   process pointed at when X was sent?"</li>
-<li><strong>Auto-backup.</strong> If <code>APP_ENV=prod</code> and no <code>backup_manager</code> row
-   exists in <code>system_logs</code> from the last 24 hours, a daemon thread
-   runs a <code>mysqldump</code> of the live DB into the user's
-   <code>Documents\CommissionExpress\Backups\</code> folder.</li>
-<li><strong>Unsubscribe scheduler.</strong> A daemon thread schedules
-   <code>UnsubscribePoller.run_check_thread()</code> at 12:00 and 16:30 local.</li>
-<li><strong>Login → Landing.</strong> <code>LoginWindow</code> accepts a username/password;
-   on success, <code>LandingPage</code> lets the user pick Lead Engine or Call
-   Tracker. (License key activation is wired up but disabled for
-   demo — re-enable by wrapping <code>_run_login()</code> in <code>LicenseWindow</code>.)</li>
-</ol>
-<h2 id="key-design-decisions">Key design decisions<a class="headerlink" href="#key-design-decisions" title="Permanent link">&para;</a></h2>
-<ul>
-<li><strong>Embedded database.</strong> MariaDB ships inside the install folder.
-  No external DB to provision, no PII leaving the machine. Pairs
-  with Fernet at-rest encryption for double-defence on applicant
-  personal data.</li>
-<li><strong><code>curr_rec_ind</code> soft-delete pattern.</strong> Used on <code>property_loads</code>,
-  <code>master_list</code>, <code>agent_match_with_master</code>, and the
-  <code>ce_application_*</code> tables. Rows are never <code>DELETE</code>'d; the
-  historical row is set to <code>'N'</code> and a new <code>'Y'</code> row is inserted.
-  Pairs with <code>load_batch_id</code> for time-series queryability.</li>
-<li><strong><code>app_settings</code> as KV store.</strong> Single <code>(setting_key, setting_value)</code>
-  table holds every configurable value. Sensitive keys (matching
-  <code>password</code>, <code>secret</code>, <code>token</code>, <code>api_key</code>) are base-64-encoded at
-  rest. The DB Query screen masks them on display.</li>
-<li><strong><code>system_logs</code> as the audit log.</strong> App startup, DB warnings,
-  reference-data CRUD, migration applies, backup runs, batch sends,
-  and doc-engine runs all funnel here. Querying by <code>module</code> filter
-  retrieves the relevant subset.</li>
-<li><strong>Two-window navigation.</strong> The <code>LandingPage</code> after login chooses
-  between <code>MainWindow</code> (Lead Engine) and <code>CallTrackerWindow</code>. Each
-  top-level window has its own header and sidebar so context never
-  spills across products.</li>
-<li><strong>GUI ↔ business logic isolation.</strong> Every screen calls into the
-  <code>core/</code>, <code>scraper/</code>, and <code>email_engine/</code> modules; none of the
-  business logic imports tkinter. A future Qt rewrite swaps only
-  the <code>gui/</code> layer.</li>
-</ul>
+<p>Each stack has three services: <code>postgres</code> (postgres:16 with a named volume +
+healthcheck), <code>backend</code> (bind-mounts <code>./backend:/app</code>, connects as <code>ce_app</code>), and
+<code>frontend</code> (bind-mounts <code>./frontend:/app</code> with Vite HMR). See
+<a href="../deployment/">Deployment</a> for the release flow.</p>
 
 
 
